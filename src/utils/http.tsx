@@ -8,7 +8,7 @@ import { clearToken } from '../store/modules/user';
 
 // 创建实例
 const instance = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'https://zcmu.vxpage.top/',
   timeout: 5000
 });
 

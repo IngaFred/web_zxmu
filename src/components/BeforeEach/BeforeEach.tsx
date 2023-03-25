@@ -27,7 +27,6 @@ export default function BeforeEach(props: BeforeEachProps) {
   // 通过useAppDispacth 获取dispatch
   const dispatch = useAppDispatch();
 
-  // console.log(matchs);
   // 先判断matchs列表组，是否为空
   if (Array.isArray(matchs)) {
     // 不为空，将matchs中最后一个路由的meta保存
@@ -52,8 +51,8 @@ export default function BeforeEach(props: BeforeEachProps) {
     }
   }
   // 当登录成功 再进行登录 进入首页
-  if (token && location.pathname === "/login") {
-    return <Navigate to="/" />;
-  }
+  // if (token && location.pathname === "/login") {
+  //   return <Navigate to="/" />;
+  // }
   return <>{props.children}</>;
 }

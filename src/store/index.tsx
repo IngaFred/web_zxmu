@@ -1,15 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import usersReduser from "./modules/user";
-// 对ruducer下的user进行断言，引入所需类型
 import type { Reducer, AnyAction} from "@reduxjs/toolkit"
 import type { UsersState } from "./modules/user";
 import type { PersistPartial } from "redux-persist/es/persistReducer";
-
-// 持节化处理
 import {
   persistStore,
   persistReducer,
-
   // FLUSH,
   // REHYDRATE,
   // PAUSE,
@@ -18,7 +14,6 @@ import {
   // REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-// 引入默认的useDispatch
 import { useDispatch } from "react-redux";
 
 // 配置文件

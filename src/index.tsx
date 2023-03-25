@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import './index.css';
 // 不引入自带的index样式，引入自定义的assets下自己配置的全局样式
 import './assets/styles/reset.scss';
 import './assets/styles/iconfont.scss';
@@ -24,8 +23,6 @@ root.render(
   // 严格模式 提供友好提示
   // <React.StrictMode>
     <Suspense>
-      {/* <App /> */}
-      {/* 状态管理添加 */}
       <Provider store={store}>
         <RouterProvider router={router}></RouterProvider>
       </Provider>
@@ -33,7 +30,4 @@ root.render(
   // </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

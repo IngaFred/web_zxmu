@@ -17,8 +17,8 @@ export type UsersState= {
 }
 // 指定传来的login类型
 type login = {
-    email: string,
-    pass: string
+    account: string,
+    password: string
 }
 
 const usersSlice = createSlice({
@@ -43,14 +43,21 @@ const usersSlice = createSlice({
     }
 })
 // 导出异步方法 
-export const loginAction = createAsyncThunk('users/loginAction',async (payload: login) => {
-    // 对应后端接口了
-    const ret = await http.post('/users/login', payload);
+export const loginAction = createAsyncThunk('user/loginAction',async (payload: login) => {  
+    let params = new URLSearchParams();
+    params.append("account", payload.account);
+    params.append("password", payload.password);
+    const ret = await http.post('/user/login', params, {
+        // 设置headers的Content-Type为application/x-www-form-urlencoded
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    });
     return ret;
 })
 // 获取用户信息的方法
-export const infosAction = createAsyncThunk('/users/infosAction',async () => {
-    const ret = await http.get('/users/infos');
+export const infosAction = createAsyncThunk('/user/infosAction',async () => {
+    const ret = await http.get('/user/infos');
     return ret;
 })
 
