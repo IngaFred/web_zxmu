@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('../images/iconfont.ttf?t=1650441273810') format('truetype');
+  // ../ 目前未配置@符号 先使用相对路径
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vue:before {
+  content: "\e799";
+}
+
+.icon-typescript:before {
+  content: "\e6a3";
+}
+
+.icon-react:before {
+  content: "\f21a";
+}
+
+.icon-icon-test:before {
+  content: "\e600";
+}
+
+.icon-qiehuan:before {
+  content: "\e741";
+}

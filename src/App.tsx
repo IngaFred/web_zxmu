@@ -1,25 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        <React.Fragment>
+          <h3>Hello React</h3>
+          <hr />
+      </React.Fragment>
+        <h3>Study start</h3>
+        {/* <p>这是注释 脚手架快捷方式 shift+alt+a</p> */}
+        
+      </div>
+    </>
   );
 }
 

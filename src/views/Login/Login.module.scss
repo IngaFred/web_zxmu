@@ -1,0 +1,59 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/images/login-bg.svg") no-repeat center 110px;
+  background-size: 100%;
+  .header {
+    height: 44px;
+    line-height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+    padding-top: 100px;
+    .header-logo {
+      .icon-react,
+      .icon-icon-test,
+      .icon-typescript {
+        margin-right: 5px;
+        font-size: inherit;
+      }
+      .icon-react {
+        color: #61dafb;
+      }
+      .icon-icon-test {
+        color: #deb887;
+      }
+      .icon-typescript {
+        color: blue;
+      }
+    }
+    .header-title {
+      margin-left: 30px;
+      font-weight: 700;
+      font-size: 30px;
+    }
+  }
+  .desc {
+    text-align: center;
+    padding-top: 30px;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 16px;
+  }
+  .main {
+    width: 500px;
+    margin: 0 auto;
+    padding-top: 50px;
+  }
+  .test-users {
+    width: 500px;
+    margin: 60px auto;
+    color: rgba(0, 0, 0, 0.65);
+    h3 {
+      font-size: 16px;
+    }
+    p {
+      margin: 20px;
+    }
+  }
+}
