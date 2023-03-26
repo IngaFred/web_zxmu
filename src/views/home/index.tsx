@@ -1,15 +1,15 @@
-import React from "react";
-import styles from "./Home.module.scss";
+import React from 'react';
+import styles from './Home.module.scss';
 // 进行二级路由测试<Outlet />
 // import { Outlet } from "react-router-dom";
 // import WelcomeIIIIrcc from "../../components/test/WelcomeIIIIrcc";
 // 引入拆分组件
-import HomeHeader from "./components/HomeHeader";
-import HomeAside from "./components/HomeAside";
-import HomeBreadcrumb from "./components/HomeBreadcrumb";
-import HomeMain from "./components/HomeMain";
+import HomeHeader from './components/home-header';
+import HomeAside from './components/home-aside';
+import HomeBreadcrumb from './components/home-breadcrumb';
+import HomeMain from './components/home-main';
 // antd
-import { Layout } from "antd";
+import { Layout } from 'antd';
 const { Header, Content, Sider } = Layout;
 
 export default function Home() {
@@ -19,12 +19,12 @@ export default function Home() {
         <HomeHeader />
       </Header>
       <Layout>
-        <Sider width={240} theme={"light"}>
+        <Sider width={240} theme={'light'}>
           <HomeAside />
         </Sider>
-        <Layout style={{ padding: "20px" }}>
+        <Layout style={{ padding: '20px' }}>
           <HomeBreadcrumb />
-          <Content className={styles["home-main"]}>
+          <Content className={styles['home-main']}>
             <HomeMain />
           </Content>
         </Layout>

@@ -13,10 +13,10 @@ import {
 } from '@ant-design/icons';
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
 // 使用lazy中的回调函数导入页面路径
-const Home = lazy(() => import('../views/Home/Home'));
-const Sign = lazy(() => import('../views/Sign/Sign'));
-const Check = lazy(() => import('../views/Check/Check'));
-const Login = lazy(() => import('../views/Login/Login'));
+const Home = lazy(() => import('../views/home'));
+const Sign = lazy(() => import('../views/sign'));
+const Check = lazy(() => import('../views/check'));
+const Login = lazy(() => import('../views/login'));
 // 懒加载的形式引入
 const BeforeEach = lazy(() => import('../components/BeforeEach/BeforeEach'));
 // 扩展d.ts文件中 react-router 中RouteObject的（IndexRouteObject || NonIndexRouteObject）两个接口
