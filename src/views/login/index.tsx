@@ -36,23 +36,32 @@ export default function Login() {
       password: '123456',
     },
   ];
+  
   // antd 方法
   const onFinish = (values: User) => {
     loginAction(values).then((res) => {
-      const { success, token } = res?.data || {};
-
-      if (success && typeof token === 'string') {
+      const { success, data, errorMsg } = res?.data || {};
+      if (success && typeof data === "string") {
         //类型正确，且token更新成功
-        dispatch(updateToken(token));
-        message.success('登录成功');
+        dispatch(updateToken(data));
+        message.success(errorMsg);
         navigate('/');
       }
     });
   };
+
   // 已经知道errorInfo的类型，将它解出
   const onFinishFailed = ({ values }: { values: User }) => {
-    message.error('登录失败');
-    console.log('Failed:', values);
+    // 去除字符串两端的空白字符，然后检查字符串的长度是否为零,避免用户输入空白字符或其他非字符串类型的值
+    if(typeof values.account !== 'string' && typeof values.password !== 'string') {
+      message.error('请输入账号和密码！');
+    }
+    else if(values.account.trim().length === 0) {
+      message.error('请输入账号！');
+    }
+    else if(values.password.trim().length === 0) {
+      message.error('请输入密码！');
+    }
   };
   // 测试使用的自动登录
   const autoLogin = (values: User) => {
@@ -87,7 +96,7 @@ export default function Login() {
               )}
             ></i>
           </span>
-          <span className={styles['header-title']}>在线系统</span>
+          <span className={styles['header-title']}>在线教育系统</span>
         </div>
         <div className={styles.desc}>React18 + TypeScript4</div>
         <Form

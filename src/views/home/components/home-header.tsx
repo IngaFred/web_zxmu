@@ -70,7 +70,7 @@ export default function HomeHeader() {
         ></i>
       </span>
       {/* name */}
-      <span className={styles['home-header-title']}>在线系统</span>
+      <span className={styles['home-header-title']}>在线教育系统</span>
       {/* Dropdown下拉菜单1 Bell */}
       <Dropdown menu={{ items: items1 }} arrow placement="bottom">
         {/* Badge 徽标数 */}

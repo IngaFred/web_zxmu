@@ -11,5 +11,6 @@ export const loginAction = async (payload: Login) => {
     account: payload.account,
     password: payload.password,
   });
+  console.log(ret);
   return ret;
 };
