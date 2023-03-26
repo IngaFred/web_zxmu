@@ -49,6 +49,7 @@ export const loginAction = createAsyncThunk(
     let params = new URLSearchParams();
     params.append('account', payload.account);
     params.append('password', payload.password);
+    console.log(params.toString());
     // @ts-ignore
     const ret = await http.post('/user/login', params, {
       // 设置headers的Content-Type为application/x-www-form-urlencoded
@@ -56,6 +57,7 @@ export const loginAction = createAsyncThunk(
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
+    console.log(ret)
     return ret;
   }
 );

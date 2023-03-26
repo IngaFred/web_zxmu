@@ -16,7 +16,7 @@ export default function Login() {
   // const token = useSelector((state: RootState) => state.user.token);
   const dispatch = useAppDispatch();
 
-  // formd的表单对象拿到 使用Form.useForm() 然后绑定到已写form中 将对象绑定到组件
+  // form的表单对象拿到 使用Form.useForm() 然后绑定到已写form中 将对象绑定到组件
   const [form] = Form.useForm();
   // 编写登录测试用例
   interface User {

@@ -3,8 +3,10 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 // 引入store
 import store from '../store';
 import { message } from 'antd';
-// 引入定义好的clearstore
+// 引入定义好的clearToken
 import { clearToken } from '../store/modules/user';
+
+axios.defaults.withCredentials = true;
 
 // 创建实例
 const instance = axios.create({
