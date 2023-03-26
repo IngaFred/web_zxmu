@@ -1,8 +1,6 @@
-import React from 'react'
-import styles from './Sign.module.scss'
+import React from 'react';
+import styles from './index.module.scss';
 
 export default function Sign() {
-  return (
-    <div>Sign</div>
-  )
+  return <div>Sign</div>;
 }

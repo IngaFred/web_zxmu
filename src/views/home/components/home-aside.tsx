@@ -1,23 +1,27 @@
-import React from "react";
-import { Menu } from "antd";
-import type { MenuProps } from "antd";
-import styles from "../Home.module.scss";
+import React from 'react';
+import { Menu } from 'antd';
+import type { MenuProps } from 'antd';
+import styles from '../index.module.scss';
 // 拿到infos
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../store";
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store';
 // 得到路由
-import { routes } from "../../../router";
+import { routes } from '../../../router';
 // 克隆过滤路由
-import _ from "lodash";
-import { useLocation, matchRoutes, Link } from "react-router-dom";
+import _ from 'lodash';
+import { useLocation, matchRoutes, Link } from 'react-router-dom';
 
 export default function HomeAside() {
+  const location = useLocation();
+
   // 得到infos下的permission 可能为空
   // 现在已经获得了permission 要进行筛选
   // 不要直接对路由表操作，防止出现 互相引用的问题 使用lodash进行克隆 深拷贝 过滤
   const permission = useSelector(
     (state: RootState) => state.user.infos.permission
   ) as unknown[];
+  if (!permission) return null;
+
   const menus = _.cloneDeep(routes).filter((v) => {
     v.children = v.children?.filter((v) => {
       return permission.includes(v.name) && v.meta?.menu;
@@ -25,7 +29,7 @@ export default function HomeAside() {
     return permission.includes(v.name) && v.meta?.menu;
   });
   // 变成具备动态菜单渲染的路由menu 转圜成菜单栏
-  const items: MenuProps["items"] = menus.map((v1) => {
+  const items: MenuProps['items'] = menus.map((v1) => {
     const children = v1.children?.map((v2) => {
       return {
         key: v1.path! + v2.path!,
@@ -43,12 +47,11 @@ export default function HomeAside() {
     };
   });
   // 获取路径 存在matchs中
-  const location = useLocation();
   const matchs = matchRoutes(routes, location);
   // console.log(matchs)
   // 非空判定 !.
-  const subpath = matchs![0].pathnameBase || "";
-  const path = matchs![1].pathnameBase || "";
+  const subpath = matchs![0].pathnameBase || '';
+  const path = matchs![1].pathnameBase || '';
 
   return (
     <>
@@ -60,7 +63,7 @@ export default function HomeAside() {
         openKeys={[subpath]}
         mode="inline"
         items={items}
-        className={styles["home-aside"]}
+        className={styles['home-aside']}
       />
     </>
   );

@@ -1,14 +1,14 @@
-import React from "react";
-import styles from "./Login.module.scss";
-import { Button, Form, Input, message, Row, Col } from "antd";
+import React from 'react';
+import styles from './index.module.scss';
+import { Button, Form, Input, message, Row, Col } from 'antd';
 // token
-import { useAppDispatch } from "../../store";
+import { useAppDispatch } from '../../store';
 // 引入登录接口
-import { loginAction, updateToken } from "../../store/modules/user";
+import { loginAction, updateToken } from '../../store/modules/user';
 // 引入第三方模块 classnames
-import classNames from "classnames";
+import classNames from 'classnames';
 // 引入编程式 路由跳转
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -26,13 +26,13 @@ export default function Login() {
   const testUsers: User[] = [
     // 测试1 学生
     {
-      account: "202112211203007",
-      password: "123456",
+      account: '202112211203007',
+      password: '123456',
     },
     // 测试2 教师
     {
-      account: "202112211203007",
-      password: "123456",
+      account: '202112211203007',
+      password: '123456',
     },
   ];
   // antd 方法
@@ -42,20 +42,20 @@ export default function Login() {
       const { success, token } = (
         action.payload as { [index: string]: unknown }
       ).data as { [index: string]: unknown };
-      if (success && typeof token === "string") {
+      if (success && typeof token === 'string') {
         //类型正确，且token更新成功
         dispatch(updateToken(token));
-        message.success("登录成功");
-        navigate("/");
+        message.success('登录成功');
+        navigate('/');
       } else {
-        message.error("登录失败");
+        message.error('登录失败');
       }
     });
   };
   // 已经知道errorInfo的类型，将它解出
   const onFinishFailed = ({ values }: { values: User }) => {
-    message.error("登录失败");
-    console.log("Failed:", values);
+    message.error('登录失败');
+    console.log('Failed:', values);
   };
   // 测试使用的自动登录
   const autoLogin = (values: User) => {
@@ -70,27 +70,27 @@ export default function Login() {
     <div>
       <div className={styles.login}>
         <div className={styles.header}>
-          <span className={styles["header-logo"]}>
+          <span className={styles['header-logo']}>
             <i
               className={classNames(
-                "iconfont icon-react",
-                styles["icon-react"]
+                'iconfont icon-react',
+                styles['icon-react']
               )}
             ></i>
             <i
               className={classNames(
-                "iconfont icon-icon-test",
-                styles["icon-icon-test"]
+                'iconfont icon-icon-test',
+                styles['icon-icon-test']
               )}
             ></i>
             <i
               className={classNames(
-                "iconfont icon-typescript",
-                styles["icon-typescript"]
+                'iconfont icon-typescript',
+                styles['icon-typescript']
               )}
             ></i>
           </span>
-          <span className={styles["header-title"]}>在线系统</span>
+          <span className={styles['header-title']}>在线系统</span>
         </div>
         <div className={styles.desc}>React18 + TypeScript4</div>
         <Form
@@ -109,7 +109,7 @@ export default function Login() {
           <Form.Item
             label="账号"
             name="account"
-            rules={[{ required: true, message: "请输入账号！" }]}
+            rules={[{ required: true, message: '请输入账号！' }]}
           >
             <Input placeholder="请输入账号" />
           </Form.Item>
@@ -117,7 +117,7 @@ export default function Login() {
           <Form.Item
             label="密码"
             name="password"
-            rules={[{ required: true, message: "请输入密码！" }]}
+            rules={[{ required: true, message: '请输入密码！' }]}
           >
             <Input.Password placeholder="请输入密码" />
           </Form.Item>
@@ -137,7 +137,7 @@ export default function Login() {
           </Form.Item>
         </Form>
 
-        <div className={styles["test-users"]}>
+        <div className={styles['test-users']}>
           <Row gutter={20}>
             {testUsers.map((v) => (
               <Col key={v.account} span={12} push={5}>
