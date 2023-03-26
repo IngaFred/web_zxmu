@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 // import { useDispatch } from "react-redux";
-import { useLocation, matchRoutes, Navigate } from "react-router-dom";
+import { useLocation, matchRoutes, Navigate } from 'react-router-dom';
 // 引入routers表
-import { routes } from "../../router";
+import { routes } from '../../router';
 // 获取dispacth
-import { useAppDispatch } from "../../store";
+import { useAppDispatch } from '../../store';
 // 引入 获取用户信息的infosAction方法 update 更新
-import { infosAction, updateInfos } from "../../store/modules/user";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store";
-import type { Infos } from "../../store/modules/user";
+import { infosAction, updateInfos } from '../../store/modules/user';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store';
+import type { Infos } from '../../store/modules/user';
 // 判断对象是否为空 ts引入js 要引入对应的d.ts文件
-import _ from "lodash";
+import _ from 'lodash';
 
 interface BeforeEachProps {
   children?: React.ReactNode;

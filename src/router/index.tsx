@@ -7,8 +7,6 @@ import { lazy } from 'react';
 import {
   CopyOutlined,
   CalendarOutlined,
-  WarningOutlined,
-  FileAddOutlined,
   ScheduleOutlined,
 } from '@ant-design/icons';
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
@@ -18,7 +16,7 @@ const Sign = lazy(() => import('../views/sign'));
 const Check = lazy(() => import('../views/check'));
 const Login = lazy(() => import('../views/login'));
 // 懒加载的形式引入
-const BeforeEach = lazy(() => import('../components/BeforeEach/BeforeEach'));
+const BeforeEach = lazy(() => import('../components/before-each'));
 // 扩展d.ts文件中 react-router 中RouteObject的（IndexRouteObject || NonIndexRouteObject）两个接口
 declare module 'react-router' {
   interface IndexRouteObject {
