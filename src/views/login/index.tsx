@@ -31,7 +31,7 @@ export default function Login() {
     },
     // 测试2 教师
     {
-      account: '202112211203007',
+      account: '19841015',
       password: '123456',
     },
   ];
