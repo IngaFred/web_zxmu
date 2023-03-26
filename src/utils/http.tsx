@@ -6,8 +6,6 @@ import { message } from 'antd';
 // 引入定义好的clearToken
 import { clearToken } from '../store/modules/user';
 
-axios.defaults.withCredentials = true;
-
 // 创建实例
 const instance = axios.create({
   baseURL: 'https://zcmu.vxpage.top/',
@@ -89,7 +87,23 @@ const http: Http = {
     });
   },
   post(url, data, config) {
-    return instance.post(url, data, config);
+    if (!data) {
+      return instance.post(url, data, config);
+    }
+    // 注入参数
+    let params = new URLSearchParams();
+    Object.keys(data).forEach((key) => {
+      params.append(key, data?.[key]?.toString() || '');
+    });
+
+    return instance.post(url, params, config).then((res) => {
+      // 接口统一报错处理
+      if (res && res.status === 200 && res.data && res.data.success) {
+        return res;
+      }
+      message.error(res?.data?.errorMsg || '请求失败');
+      return res;
+    });
   },
   put(url, data, config) {
     return instance.put(url, data, config);

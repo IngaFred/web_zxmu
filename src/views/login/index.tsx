@@ -4,11 +4,12 @@ import { Button, Form, Input, message, Row, Col } from 'antd';
 // token
 import { useAppDispatch } from '../../store';
 // 引入登录接口
-import { loginAction, updateToken } from '../../store/modules/user';
+import { updateToken } from '../../store/modules/user';
 // 引入第三方模块 classnames
 import classNames from 'classnames';
 // 引入编程式 路由跳转
 import { useNavigate } from 'react-router-dom';
+import { loginAction } from '../../service/login';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -37,18 +38,14 @@ export default function Login() {
   ];
   // antd 方法
   const onFinish = (values: User) => {
-    dispatch(loginAction(values)).then((action) => {
-      // 对action.payload和其下的数据类型，进行断言
-      const { success, token } = (
-        action.payload as { [index: string]: unknown }
-      ).data as { [index: string]: unknown };
+    loginAction(values).then((res) => {
+      const { success, token } = res?.data || {};
+
       if (success && typeof token === 'string') {
         //类型正确，且token更新成功
         dispatch(updateToken(token));
         message.success('登录成功');
         navigate('/');
-      } else {
-        message.error('登录失败');
       }
     });
   };
