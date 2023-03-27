@@ -3,8 +3,11 @@
         "Antd",
         "Dispath",
         "errmsg",
+        "headle",
         "iconfont",
+        "matchs",
         "Reduser",
-        "reduxjs"
+        "reduxjs",
+        "Sider"
     ]
 }

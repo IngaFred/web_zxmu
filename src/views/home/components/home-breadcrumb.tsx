@@ -14,11 +14,11 @@ export default function HomeBreadcrumb() {
     <Breadcrumb className={styles['home-breadcrumb']}>
       {
         // 遍历路由输出
-        matchs?.map((v) => (
-          <Breadcrumb.Item key={v.pathnameBase}>
-            {v.route.meta?.title}
-          </Breadcrumb.Item>
-        ))
+        // matchs?.map((v) => (
+        //   <Breadcrumb.Item key={v.pathnameBase}>
+        //     {v.route.meta?.title}
+        //   </Breadcrumb.Item>
+        // ))
       }
     </Breadcrumb>
   );

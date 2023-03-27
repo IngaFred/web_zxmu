@@ -1,6 +1,6 @@
 // 引入ajax
 import http from '../../utils/http';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 // action中payload类型为any，要指定为token
 import { PayloadAction } from '@reduxjs/toolkit';
 
@@ -38,11 +38,6 @@ const usersSlice = createSlice({
   },
 });
 
-// 获取用户信息的方法
-export const infosAction = createAsyncThunk('/user/infosAction', async () => {
-  const ret = await http.get('/user/infos');
-  return ret;
-});
 
 // 将同步方法给从reducers中解构出来
 export const { updateToken, updateInfos, clearToken } = usersSlice.actions;

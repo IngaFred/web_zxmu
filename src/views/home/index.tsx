@@ -1,8 +1,5 @@
 import React from 'react';
 import styles from './index.module.scss';
-// 进行二级路由测试<Outlet />
-// import { Outlet } from "react-router-dom";
-// import WelcomeIIIIrcc from "../../components/test/WelcomeIIIIrcc";
 // 引入拆分组件
 import HomeHeader from './components/home-header';
 import HomeAside from './components/home-aside';

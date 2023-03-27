@@ -11,6 +11,12 @@ export const loginAction = async (payload: Login) => {
     account: payload.account,
     password: payload.password,
   });
-  console.log(ret);
+  // console.log(ret);
+  return ret;
+};
+// 获取用户信息的方法
+export const infosAction =  async () => {
+  const ret = await http.get('/user/session');
+  // console.log(ret.data);
   return ret;
 };

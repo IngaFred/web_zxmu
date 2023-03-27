@@ -15,10 +15,10 @@ import { clearToken } from '../../../store/modules/user';
 export default function HomeHeader() {
   // infos,获取用户name,head
   const name = useSelector(
-    (state: RootState) => state.user.infos.name
+    (state: RootState) => state.user.infos.userName
   ) as string;
   const head = useSelector(
-    (state: RootState) => state.user.infos.head
+    (state: RootState) => state.user.infos.picUrl
   ) as string;
   const dispatch = useAppDispatch();
 
