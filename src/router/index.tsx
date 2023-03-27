@@ -7,7 +7,6 @@ import { lazy } from 'react';
 import {
   CopyOutlined,
   CalendarOutlined,
-  ScheduleOutlined,
 } from '@ant-design/icons';
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
 

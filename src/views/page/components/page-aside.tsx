@@ -23,9 +23,14 @@ export default function HomeAside() {
   //     return permission.includes(v.name) && v.meta?.menu;
   //   });
   //   return permission.includes(v.name) && v.meta?.menu;
-  // });
+  // });v
 
-  const menus = _.cloneDeep(routes)
+  const menus = _.cloneDeep(routes).filter((v) => {
+    v.children = v.children?.filter((v) => {
+      return (v.name !== '/');
+    });
+    return (v.name !== '/');
+  });
   // 变成具备动态菜单渲染的路由menu 转圜成菜单栏
   const items: MenuProps['items'] = menus.map((v1) => {
     const children = v1.children?.map((v2) => {

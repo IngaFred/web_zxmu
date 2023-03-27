@@ -11,7 +11,8 @@ export default function HomeBreadcrumb() {
 
   return (
     /* Breadcrumb面包屑 */
-    <Breadcrumb className={styles['home-breadcrumb']}>
+    <Breadcrumb className={styles['home-breadcrumb']}
+      items = 
       {
         // 遍历路由输出
         matchs?.map((v) => (
@@ -20,6 +21,6 @@ export default function HomeBreadcrumb() {
           </Breadcrumb.Item>
         ))
       }
-    </Breadcrumb>
+    />
   );
 }
