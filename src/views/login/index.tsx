@@ -1,15 +1,15 @@
-import React from 'react';
-import styles from './index.module.scss';
-import { Button, Form, Input, message, Row, Col } from 'antd';
+import React from "react";
+import styles from "./index.module.scss";
+import { Button, Form, Input, message, Row, Col } from "antd";
 // token
-import { useAppDispatch } from '../../store';
+import { useAppDispatch } from "../../store";
 // 引入登录接口
-import { updateToken } from '../../store/modules/user';
+import { updateToken } from "../../store/modules/user";
 // 引入第三方模块 classnames
-import classNames from 'classnames';
+import classNames from "classnames";
 // 引入编程式 路由跳转
-import { useNavigate } from 'react-router-dom';
-import { loginAction } from '../../service/login';
+import { useNavigate } from "react-router-dom";
+import { loginAction } from "../../service/login";
 
 // 登录页面
 // 邱致彬
@@ -30,16 +30,16 @@ export default function Login() {
   const testUsers: User[] = [
     // 测试1 学生
     {
-      account: '202112211203007',
-      password: '123456',
+      account: "202112211203007",
+      password: "123456",
     },
     // 测试2 教师
     {
-      account: '19841015',
-      password: '123456',
+      account: "19841015",
+      password: "123456",
     },
   ];
-  
+
   // antd 方法
   const onFinish = (values: User) => {
     loginAction(values).then((res) => {
@@ -48,7 +48,7 @@ export default function Login() {
         //类型正确，且token更新成功
         dispatch(updateToken(data));
         message.success(errorMsg);
-        navigate('/');
+        navigate("/");
       }
     });
   };
@@ -56,14 +56,15 @@ export default function Login() {
   // 已经知道errorInfo的类型，将它解出
   const onFinishFailed = ({ values }: { values: User }) => {
     // 去除字符串两端的空白字符，然后检查字符串的长度是否为零,避免用户输入空白字符或其他非字符串类型的值
-    if(typeof values.account !== 'string' && typeof values.password !== 'string') {
-      message.error('请输入账号和密码！');
-    }
-    else if(values.account.trim().length === 0) {
-      message.error('请输入账号！');
-    }
-    else if(values.password.trim().length === 0) {
-      message.error('请输入密码！');
+    if (
+      typeof values.account !== "string" &&
+      typeof values.password !== "string"
+    ) {
+      message.error("请输入账号和密码！");
+    } else if (values.account.trim().length === 0) {
+      message.error("请输入账号！");
+    } else if (values.password.trim().length === 0) {
+      message.error("请输入密码！");
     }
   };
   // 测试使用的自动登录
@@ -79,27 +80,27 @@ export default function Login() {
     <div>
       <div className={styles.login}>
         <div className={styles.header}>
-          <span className={styles['header-logo']}>
+          <span className={styles["header-logo"]}>
             <i
               className={classNames(
-                'iconfont icon-react',
-                styles['icon-react']
+                "iconfont icon-react",
+                styles["icon-react"]
               )}
             ></i>
             <i
               className={classNames(
-                'iconfont icon-icon-test',
-                styles['icon-icon-test']
+                "iconfont icon-icon-test",
+                styles["icon-icon-test"]
               )}
             ></i>
             <i
               className={classNames(
-                'iconfont icon-typescript',
-                styles['icon-typescript']
+                "iconfont icon-typescript",
+                styles["icon-typescript"]
               )}
             ></i>
           </span>
-          <span className={styles['header-title']}>在线教育系统</span>
+          <span className={styles["header-title"]}>在线教育系统</span>
         </div>
         <div className={styles.desc}>React18 + TypeScript4</div>
         <Form
@@ -118,7 +119,7 @@ export default function Login() {
           <Form.Item
             label="账号"
             name="account"
-            rules={[{ required: true, message: '请输入账号！' }]}
+            rules={[{ required: true, message: "请输入账号！" }]}
           >
             <Input placeholder="请输入账号" />
           </Form.Item>
@@ -126,7 +127,7 @@ export default function Login() {
           <Form.Item
             label="密码"
             name="password"
-            rules={[{ required: true, message: '请输入密码！' }]}
+            rules={[{ required: true, message: "请输入密码！" }]}
           >
             <Input.Password placeholder="请输入密码" />
           </Form.Item>
@@ -146,7 +147,7 @@ export default function Login() {
           </Form.Item>
         </Form>
 
-        <div className={styles['test-users']}>
+        <div className={styles["test-users"]}>
           <Row gutter={20}>
             {testUsers.map((v) => (
               <Col key={v.account} span={12} push={5}>
