@@ -22,6 +22,9 @@ export default function HomeAside() {
   ) as unknown[];
   if (!permission) return null;
 
+  console.log(permission);
+  
+
   const menus = _.cloneDeep(routes).filter((v) => {
     v.children = v.children?.filter((v) => {
       return permission.includes(v.name) && v.meta?.menu;

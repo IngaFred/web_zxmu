@@ -11,7 +11,8 @@ export const loginAction = async (payload: Login) => {
     account: payload.account,
     password: payload.password,
   });
-  // console.log(ret);
+  console.log('token:');
+  console.log(ret.data.data);
   return ret;
 };
 // 获取用户信息的方法
