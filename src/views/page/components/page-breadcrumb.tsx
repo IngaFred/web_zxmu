@@ -1,26 +1,20 @@
-import React from 'react';
-import { Breadcrumb } from 'antd';
-import styles from '../index.module.scss';
-// 获取matchs
-import { matchRoutes, useLocation } from 'react-router-dom';
-import { routes } from '../../../router';
+import React from "react";
+import { Breadcrumb } from "antd";
+import styles from "../index.module.scss";
+// 获取matches
+import { matchRoutes, useLocation } from "react-router-dom";
+import { routes } from "../../../router";
 
 export default function HomeBreadcrumb() {
   const location = useLocation();
-  const matchs = matchRoutes(routes, location);
-
+  const matches = matchRoutes(routes, location);
+  // items内部值是key+title
+  const items = (matches ?? []).map((v) => ({
+    key: v.pathnameBase,
+    title: v.route.meta?.title
+  }));
   return (
     /* Breadcrumb面包屑 */
-    <Breadcrumb className={styles['home-breadcrumb']}
-      items = 
-      {
-        // 遍历路由输出
-        matchs?.map((v) => (
-          <Breadcrumb.Item key={v.pathnameBase}>
-            {v.route.meta?.title}
-          </Breadcrumb.Item>
-        ))
-      }
-    />
+    <Breadcrumb className={styles["home-breadcrumb"]} items={items} />
   );
 }
