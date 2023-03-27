@@ -65,6 +65,15 @@ export const routes: RouteObject[] = [
     name: '/',
   },
   {
+    path: '/login',
+    element: (
+      <BeforeEach>
+        <Login />
+      </BeforeEach>
+    ),
+    name: 'login',
+  },
+  {
     path: '/',
     element: (
       <BeforeEach>
@@ -229,16 +238,7 @@ export const routes: RouteObject[] = [
         name: 'information',
       },
     ]
-  },
-  {
-    path: '/login',
-    element: (
-      <BeforeEach>
-        <Login />
-      </BeforeEach>
-    ),
-    name: 'login',
-  },
+  }
 ];
 // 使用 createHashRouter 函数来创建一个 HashRouter 路由器
 const router = createHashRouter(routes);
