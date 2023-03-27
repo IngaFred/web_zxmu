@@ -54,8 +54,6 @@ export default function HomeAside() {
   const subpath = matchs![0].pathnameBase || "";
   const path = matchs![1].pathnameBase || "";
 
-  console.log(items);
-
   return (
     <Menu
       selectedKeys={[path]}
