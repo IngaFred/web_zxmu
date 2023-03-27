@@ -13,6 +13,7 @@ import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
 
 // 使用lazy中的回调函数导入页面路径
 const Login = lazy(() => import('../views/login'));
+const Page = lazy(() => import('../views/page'));
 const Home = lazy(() => import('../views/home'));
 const Personal = lazy(() => import('../views/personal'));
 const Information = lazy(() => import('../views/information'));
@@ -61,25 +62,36 @@ export const routes: RouteObject[] = [
     // 首页重定向到第一个二级路由
   {
     path: '/',
-    element: <Navigate to="/personal" />,
+    element: <Navigate to="/home" />,
     name: '/',
   },
   {
     path: '/',
     element: (
       <BeforeEach>
-        <Home />
+        <Page />
       </BeforeEach>
     ),
     name: 'home',
     meta: {
       menu: true,
-      title: '首页',
+      title: '页面',
       icon: <CopyOutlined />,
       auth: true,
     },
     children: [
       // main
+      {
+        path: 'home',
+        element: <Home />,
+        meta: {
+          menu: true,
+          title: '主页',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'home',
+      },
       {
         path: 'personal',
         element: <Personal />,
@@ -91,17 +103,7 @@ export const routes: RouteObject[] = [
         },
         name: 'personal',
       },
-      {
-        path: 'information',
-        element: <Information />,
-        meta: {
-          menu: true,
-          title: '教师团队信息',
-          icon: <CalendarOutlined />,
-          auth: true,
-        },
-        name: 'information',
-      },
+      
 
       // student
       {
@@ -116,17 +118,6 @@ export const routes: RouteObject[] = [
         name: 'course',
       },
       {
-        path: 'detail',
-        element: <Detail />,
-        meta: {
-          menu: true,
-          title: '作业详情',
-          icon: <CalendarOutlined />,
-          auth: true,
-        },
-        name: 'detail',
-      },
-      {
         path: 'list',
         element: <List />,
         meta: {
@@ -136,6 +127,17 @@ export const routes: RouteObject[] = [
           auth: true,
         },
         name: 'list',
+      },
+      {
+        path: 'detail',
+        element: <Detail />,
+        meta: {
+          menu: true,
+          title: '作业详情',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'detail',
       },
       {
         path: 'show',
@@ -216,7 +218,17 @@ export const routes: RouteObject[] = [
       //   },
       //   name: 'newTeacher',
       // },
-      
+      {
+        path: 'information',
+        element: <Information />,
+        meta: {
+          menu: true,
+          title: '教师团队信息',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'information',
+      },
     ]
   },
   {
