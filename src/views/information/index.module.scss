@@ -1,0 +1,28 @@
+
+h3{
+    font-size: 30px;
+    margin-top: 15px;
+    margin-left: 5%;
+}
+.inf{
+    width: 90%;
+    height: 300px;
+    background-color: silver;
+    margin: auto;
+    margin-top: 15px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    >*{
+        margin-left: 2%;
+    }
+}
+
+.picture{
+    width: 20%;
+    height: 270px;
+    // background-color: gray;
+    
+}
+
