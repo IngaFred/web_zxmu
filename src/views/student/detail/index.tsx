@@ -8,12 +8,9 @@ import styles from "./index.module.scss";
 export default function Detail() {
   return (
     <div className={styles.detailALL}>
-      <Row
-        justify={"space-between"}
-        className={styles.detailHeader}
-      >
+      <Row justify={"space-between"} className={styles.detailHeader}>
         <h1>作业作答</h1>
-        <Space>
+        <Space size={'middle'}>
           <Button>保存</Button>
           <Button type="primary">提交</Button>
         </Space>
@@ -21,8 +18,9 @@ export default function Detail() {
 
       <Row gutter={24}>
         <Col span={20}>
-          <h1>《计算机作业详情》</h1>
-
+          <Row>
+            <h2>《计算机作业详情》</h2>
+          </Row>
           <Row className={styles.infoHead}>
             <span>题量: 1/</span>
             <span>满分: 100.0/</span>
@@ -31,8 +29,12 @@ export default function Detail() {
               作答时间: <time>03-25 20:36</time>至<time>04-07 23:55</time>
             </p>
           </Row>
-          <h3>一. 作业类型（共1题，100分）</h3>
-          <p className={styles.infoHead}>作业介绍</p>
+          <Row>
+            <h3>一. 作业类型（共1题，100分）</h3>
+          </Row>
+          <Row className={styles.infoHead}>
+            <p>作业介绍</p>
+          </Row>
           <MyEditor />
         </Col>
 
