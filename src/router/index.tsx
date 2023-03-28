@@ -1,40 +1,36 @@
-import { createHashRouter, Navigate } from 'react-router-dom';
-import type { RouteObject } from 'react-router-dom';
-import React from 'react';
+import { createHashRouter, Navigate } from "react-router-dom";
+import type { RouteObject } from "react-router-dom";
+import React from "react";
 // 懒加载的方式引入对应页面 配置suspense在index.tsx
-import { lazy } from 'react';
+import { lazy } from "react";
 // icons
-import {
-  CopyOutlined,
-  CalendarOutlined,
-} from '@ant-design/icons';
-import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
+import { CopyOutlined, CalendarOutlined } from "@ant-design/icons";
+import { AntdIconProps } from "@ant-design/icons/lib/components/AntdIcon";
 
 // 使用lazy中的回调函数导入页面路径
-const Login = lazy(() => import('../views/login'));
-const Page = lazy(() => import('../views/page'));
-const Home = lazy(() => import('../views/home'));
-const Personal = lazy(() => import('../views/personal'));
-const Information = lazy(() => import('../views/information'));
+const Login = lazy(() => import("../views/login"));
+const Page = lazy(() => import("../views/page"));
+const Home = lazy(() => import("../views/home"));
+const Personal = lazy(() => import("../views/personal"));
+const Information = lazy(() => import("../views/information"));
 // student端
-const Course = lazy(() => import('../views/student/course'));
-const Detail = lazy(() => import('../views/student/detail'));
-const List = lazy(() => import('../views/student/list'));
-const Show = lazy(() => import('../views/student/show'));
+const Course = lazy(() => import("../views/student/course"));
+const Detail = lazy(() => import("../views/student/detail"));
+const List = lazy(() => import("../views/student/list"));
+const Show = lazy(() => import("../views/student/show"));
 
 // teacher端
-const CourseTeacher = lazy(() => import('../views/teacher/course'));
-const DetailTeacher = lazy(() => import('../views/teacher/detail'));
-const ListTeacher = lazy(() => import('../views/teacher/list'));
-const ShowTeacher = lazy(() => import('../views/teacher/show'));
-const NewTeacher = lazy(() => import('../views/teacher/new'));
-const ScoringTeacher = lazy(() => import('../views/teacher/scoring'));
-
+const CourseTeacher = lazy(() => import("../views/teacher/course"));
+const DetailTeacher = lazy(() => import("../views/teacher/detail"));
+const ListTeacher = lazy(() => import("../views/teacher/list"));
+const ShowTeacher = lazy(() => import("../views/teacher/show"));
+const NewTeacher = lazy(() => import("../views/teacher/new"));
+const ScoringTeacher = lazy(() => import("../views/teacher/scoring"));
 
 // 懒加载的形式引入
-const BeforeEach = lazy(() => import('../components/before-each'));
+const BeforeEach = lazy(() => import("../components/before-each"));
 // 扩展d.ts文件中 react-router 中RouteObject的（IndexRouteObject || NonIndexRouteObject）两个接口
-declare module 'react-router' {
+declare module "react-router" {
   interface IndexRouteObject {
     meta?: {
       menu?: boolean;
@@ -58,105 +54,104 @@ declare module 'react-router' {
 }
 // 定义路由表组及类型
 export const routes: RouteObject[] = [
-    // 首页重定向到第一个二级路由
+  // 首页重定向到第一个二级路由
   {
-    path: '/',
+    path: "/",
     element: <Navigate to="/home" />,
-    name: '/',
+    name: "/",
   },
   {
-    path: '/login',
+    path: "/login",
     element: (
       <BeforeEach>
         <Login />
       </BeforeEach>
     ),
-    name: 'login',
+    name: "login",
   },
   {
-    path: '/',
+    path: "/",
     element: (
       <BeforeEach>
         <Page />
       </BeforeEach>
     ),
-    name: 'home',
+    name: "home",
     meta: {
       menu: true,
-      title: '页面',
+      title: "页面",
       icon: <CopyOutlined />,
       auth: true,
     },
     children: [
       // main
       {
-        path: 'home',
+        path: "home",
         element: <Home />,
         meta: {
           menu: true,
-          title: '主页',
+          title: "主页",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'home',
+        name: "home",
       },
       {
-        path: 'personal',
+        path: "personal",
         element: <Personal />,
         meta: {
           menu: true,
-          title: '个人',
+          title: "个人",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'personal',
+        name: "personal",
       },
-      
 
       // student
       {
-        path: 'course',
+        path: "course",
         element: <Course />,
         meta: {
           menu: true,
-          title: '课程详情',
+          title: "课程详情",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'course',
+        name: "course",
       },
       {
-        path: 'list',
+        path: "list",
         element: <List />,
         meta: {
           menu: true,
-          title: '作业列表',
+          title: "作业列表",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'list',
+        name: "list",
       },
       {
-        path: 'detail',
+        path: "detail",
         element: <Detail />,
         meta: {
           menu: true,
-          title: '作业详情',
+          title: "作业详情",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'detail',
+        name: "detail",
       },
       {
-        path: 'show',
+        path: "show",
         element: <Show />,
         meta: {
           menu: true,
-          title: '优秀成果展示',
+          title: "优秀成果展示",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'show',
+        name: "show",
       },
 
       // teacher
@@ -227,18 +222,18 @@ export const routes: RouteObject[] = [
       //   name: 'newTeacher',
       // },
       {
-        path: 'information',
+        path: "information",
         element: <Information />,
         meta: {
           menu: true,
-          title: '教师团队信息',
+          title: "教师团队信息",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'information',
+        name: "information",
       },
-    ]
-  }
+    ],
+  },
 ];
 // 使用 createHashRouter 函数来创建一个 HashRouter 路由器
 const router = createHashRouter(routes);
