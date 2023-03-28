@@ -9,7 +9,7 @@ function MyEditor() {
     const [editor, setEditor] = useState<IDomEditor | null>(null)   // TS 语法
 
     // 编辑器内容
-    const [html, setHtml] = useState('<p>hello</p>')
+    const [html, setHtml] = useState('')
 
     // 工具栏配置
     const toolbarConfig: Partial<IToolbarConfig> = { }  // TS 语法
@@ -43,12 +43,12 @@ function MyEditor() {
                     onCreated={setEditor}
                     onChange={editor => setHtml(editor.getHtml())}
                     mode="default"
-                    style={{ height: '500px', overflowY: 'hidden' }}
+                    style={{ height: '200px', overflowY: 'hidden' }}
                 />
             </div>
-            <div style={{ marginTop: '15px' }}>
+            {/* <div style={{ marginTop: '15px' }}>
                 {html}
-            </div>
+            </div> */}
         </>
     )
 }
