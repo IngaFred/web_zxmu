@@ -54,7 +54,12 @@ export default function Course() {
         </div>
         <div className={styles.box}>
           <Image
-            style={{ width: "450px", height: "320px", borderRadius: "5px" }}
+            preview={false}
+            style={{
+              width: "450px",
+              height: "320px",
+              borderRadius: "5px",
+            }}
             src={testLessonInfo.picFile as string}
           />
           <Card className={styles.card}>

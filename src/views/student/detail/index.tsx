@@ -1,6 +1,7 @@
 import { Button, Card, Col, Row, Space } from "antd";
 import React from "react";
 import MyEditor from "./components/myEditor";
+import MyUpload from "./components/myUpload";
 import styles from "./index.module.scss";
 // 作业详情（查看作业，修改作业，提交作业，成果展示列表）
 // 邱致彬
@@ -9,7 +10,6 @@ export default function Detail() {
     <div className={styles.detailALL}>
       <Row
         justify={"space-between"}
-        align="middle"
         className={styles.detailHeader}
       >
         <h1>作业作答</h1>
@@ -37,11 +37,14 @@ export default function Detail() {
         </Col>
 
         <Col span={4}>
-          <Card size="small" title="选题">
-            <Space direction={'vertical'} align={'center'}>
+          <Card size="small" title="作业选题">
+            <Space direction={"vertical"} align={"center"}>
               <Button>第一题</Button>
               <Button>第二题</Button>
             </Space>
+          </Card>
+          <Card size="small" title="文件选择" className={styles.upload}>
+            <MyUpload />
           </Card>
         </Col>
       </Row>
