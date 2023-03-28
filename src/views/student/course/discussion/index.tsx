@@ -75,7 +75,9 @@ const CommentCard: React.FC<CommentCardProps> = ({
     setReplyContent([]);
   };
   //修改回复内容时调用
-  const handleReplyContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleReplyContentChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setReplyContent([
       {
         userAvatar: "",
@@ -101,69 +103,75 @@ const CommentCard: React.FC<CommentCardProps> = ({
 
   return (
     <div className={styles.discussion}>
+      {/* 标题 */}
       <h1>评论</h1>
 
+      {/* 无评论时展示 */}
       <div
         className={styles.discussionUser}
         style={{ display: testComment.length === 0 ? "inline" : "none" }}
       >
-        <img src={testComment[0].userAvatar} alt="未登录时图片" />
         <span>暂无评论，留个言再走吧！</span>
       </div>
 
+      {/* 有评论时展示 */}
       <div style={{ display: testComment.length > 0 ? "inline" : "none" }}>
+        {/* 热评标题 */}
         <div className={styles.discussionHot}>
           <h1>热门评论</h1>
         </div>
 
+        {/* 评论内容 */}
         <div className={styles.commentCard}>
-          <Avatar size={48} src={testComment[0].userAvatar} />
-          <div>
-            <div>
-              <span>{testComment[0].userName}</span>
-              <span>
-                <Tooltip title={liked ? "取消点赞" : "点赞"}>
-                  <Button
-                    type="text"
-                    icon={liked ? <HeartFilled /> : <HeartOutlined />}
-                    onClick={handleLike}
-                  />
-                </Tooltip>
-                <span>{testComment[0].likes}</span>
-                <Tooltip title="回复">
-                  <Button
-                    type="text"
-                    icon={<CommentOutlined />}
-                    onClick={handleReply}
-                  />
-                </Tooltip>
-                <span>{testComment[0].replyCount}</span>
-              </span>
-            </div>
-            <div>{testComment[0].content}</div>
-            <div>
-              {replyInputVisible && (
-                <div>
-                  <Input.TextArea
-                    value={[]}
-                    // onChange={handleReplyContentChange}
-                    rows={4}
-                  />
-                  <div>
-                    <Button type="primary" onClick={handleCancelReply}>
-                      取消
-                    </Button>
-                    <Button
-                      type="primary"
-                      onClick={() => message.success("评论成功")}
-                    >
-                      发送
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
+          {/* 评论头部 */}
+          <div className={styles.commentCardHeader}>
+            <Avatar size={48} src={testComment[0].userAvatar} />
+            <span>{testComment[0].userName}</span>
           </div>
+          {/* 评论内容 */}
+          <div className={styles.comment}>{testComment[0].content}</div>
+        </div>
+        {/* 点赞回复 */}
+        <div className={styles.likedAndReplay}>
+          <Tooltip title={liked ? "取消点赞" : "点赞"}>
+            <Button
+              type="text"
+              icon={liked ? <HeartFilled /> : <HeartOutlined />}
+              onClick={handleLike}
+            />
+          </Tooltip>
+          <span>{testComment[0].likes}</span>
+          <Tooltip title="回复">
+            <Button
+              type="text"
+              icon={<CommentOutlined />}
+              onClick={handleReply}
+            />
+          </Tooltip>
+          <span>{testComment[0].replyCount}</span>
+        </div>
+        <div>
+          {/* {condition && expression} replyInputVisible为true执行 */}
+          {replyInputVisible && (
+            <div>
+              <Input.TextArea
+                value={replyContent[0].content}
+                onChange={handleReplyContentChange}
+                rows={4}
+              />
+              <div>
+                <Button type="primary" onClick={handleCancelReply}>
+                  取消
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={() => message.success("评论成功")}
+                >
+                  发送
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
