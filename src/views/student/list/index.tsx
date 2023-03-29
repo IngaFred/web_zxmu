@@ -44,13 +44,12 @@ export default function ClassList() {
               </List.Item>
             )}
           /> */}
-            <Card  className={styles.rr} style={{backgroundImage:item.picUrl}} >
+            <Card  className={styles.rr} style={{backgroundImage:item.picUrl}} title={item.lessonName}>
               <div>
-              <div>{item.lessonName}</div>
               <div>{item.info}</div>
               </div>
               <div>
-                <img src={item.picUrl} alt="" style={{width:'250px',height:'100px'}}/>
+                <img src={item.picUrl} alt="" style={{width:'150px',height:'50px'}}/>
               </div>
               
             </Card>
