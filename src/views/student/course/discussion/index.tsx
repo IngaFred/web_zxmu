@@ -1,7 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Avatar, Button, Input, message, Tooltip } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
+import {
+  //请求创建主题帖方法
+  postThemeInvitation,
+  //请求发表帖子评论的方法
+  postInvitation,
+  //删除一个主题帖
+  deleteInvitation,
+  //用户修改主题帖标题
+  putThemeTitle,
+  //用户获取自己发布的主题帖
+  getMyTheme,
+} from "../../../../service/course";
 //评论卡片接口
 interface CommentCardProps {
   //用户头像
@@ -41,13 +53,7 @@ const testComment: CommentCardProps[] = [
   },
 ];
 
-const CommentCard: React.FC<CommentCardProps> = ({
-  userAvatar,
-  userName,
-  content,
-  likes,
-  replyCount,
-}) => {
+const CommentCard: React.FC<CommentCardProps> = () => {
   //是否有评论逻辑
   const [isHaveComment, setIsHaveComment] = useState({
     //无评论
@@ -99,14 +105,23 @@ const CommentCard: React.FC<CommentCardProps> = ({
   const handleLike = () => {
     if (liked) {
       setLiked(false);
-      setLikes(likes - 1);
       message.warning("取消点赞");
     } else {
       setLiked(true);
-      setLikes(likes + 1);
       message.success("点赞成功");
     }
   };
+  //获取我自己创建的主题帖
+  const [myTheme, setMyTheme] = useState<any[]>([]);
+  useEffect(() => {
+    getMyTheme().then((res) => {
+      if (res.data.success) {
+        setMyTheme(res.data.data);
+      } else {
+        message.error(res.data.errorMsg);
+      }
+    });
+  }, []);
 
   return (
     <div className={styles.discussion}>
@@ -130,16 +145,16 @@ const CommentCard: React.FC<CommentCardProps> = ({
 
         {/* 评论内容 */}
 
-        {testComment.map((comment) => (
-          <div>
+        {myTheme.map((comment, index) => (
+          <div key={index}>
             <div className={styles.commentCard}>
               {/* 评论头部 */}
               <div className={styles.commentCardHeader}>
-                <Avatar size={48} src={comment.userAvatar} />
-                <span>{comment.userName}</span>
+                <Avatar size={48} src={comment.appUserInfoBO.picUrl} />
+                <span>{comment.appUserInfoBO.userName}</span>
               </div>
               {/* 评论内容 */}
-              <div className={styles.comment}>{comment.content}</div>
+              <div className={styles.comment}>111</div>
             </div>
             {/* 点赞回复 */}
             <div className={styles.likedAndReplay}>
@@ -150,7 +165,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
                   onClick={handleLike}
                 />
               </Tooltip>
-              <span>{comment.likes}</span>
+              <span>{comment.hot}</span>
               <Tooltip title="回复">
                 <Button
                   type="text"
@@ -158,7 +173,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
                   onClick={handleReply}
                 />
               </Tooltip>
-              <span>{comment.replyCount}</span>
+              <span>{comment.commentNum}</span>
             </div>
             <div>
               {/* {condition && expression} replyInputVisible为true执行 */}

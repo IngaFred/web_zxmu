@@ -1,7 +1,7 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
 import React, { useState, useEffect } from "react";
-import { Layout, Image, Card } from "antd";
+import { Layout, Image, Card, message } from "antd";
 import styles from "./index.module.scss";
 import Discussion from "./discussion";
 import { getLessonInfo } from "../../../service/course";
@@ -23,10 +23,15 @@ export default function Course() {
     //实例化一个便于测试
     const testLessonId: LessonId = {
       classId: "1635659994380824576",
+      // classId: "1",
     };
     getLessonInfo(testLessonId).then((res) => {
-      setLessonInfo(res.data.data);
-      setLessonPassageBOList(res.data.data.lessonPassageBOList);
+      if (res.data.success) {
+        setLessonInfo(res.data.data);
+        setLessonPassageBOList(res.data.data.lessonPassageBOList);
+      } else {
+        message.warning(res.data.errorMsg);
+      }
       // console.log(res);
       // console.log(res.data.data.lessonPassageBOList);
       // console.log(setLessonPassageBOList(res.data.data.lessonPassageBOList));
