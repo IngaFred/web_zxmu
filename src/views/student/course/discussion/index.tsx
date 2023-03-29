@@ -102,15 +102,31 @@ const CommentCard: React.FC<CommentCardProps> = () => {
     ]);
   };
   //点赞功能
-  const handleLike = () => {
+  const handleLike = (commentId: string) => {
     if (liked) {
       setLiked(false);
       message.warning("取消点赞");
     } else {
+      setCommentId(commentId);
       setLiked(true);
+      setNewTheme(
+        myTheme.map((item) => {
+          if (commentId === item.comment.commentId) {
+            const hots = item.hot + 1;
+            item.hot = hots;
+          }
+          console.log(commentId);
+          console.log(item.comment.commentId);
+
+          return item;
+        })
+      );
       message.success("点赞成功");
     }
   };
+  //控制点赞数
+  const [commentId, setCommentId] = useState("");
+  const [newTheme, setNewTheme] = useState<any[]>([]);
   //获取我自己创建的主题帖
   const [myTheme, setMyTheme] = useState<any[]>([]);
   useEffect(() => {
@@ -122,6 +138,9 @@ const CommentCard: React.FC<CommentCardProps> = () => {
       }
     });
   }, []);
+  useEffect(() => {
+    setMyTheme(newTheme);
+  }, [newTheme]);
 
   return (
     <div className={styles.discussion}>
@@ -150,31 +169,36 @@ const CommentCard: React.FC<CommentCardProps> = () => {
             <div className={styles.commentCard}>
               {/* 评论头部 */}
               <div className={styles.commentCardHeader}>
-                <Avatar size={48} src={comment.appUserInfoBO.picUrl} />
+                <Avatar size={48} src={comment.comment.userInfo.picUrl} />
                 <span>{comment.appUserInfoBO.userName}</span>
               </div>
               {/* 评论内容 */}
-              <div className={styles.comment}>111</div>
+              <div className={styles.themeName}>主题：{comment.themeName}</div>
+              <div className={styles.comment}>
+                <div>{comment.comment.content}</div>
+                <div className={styles.likedAndReplay}>
+                  <Tooltip title={liked ? "取消点赞" : "点赞"}>
+                    <Button
+                      type="text"
+                      icon={liked ? <HeartFilled /> : <HeartOutlined />}
+                      value={comment.commentId}
+                      onClick={() => handleLike(comment.comment.commentId)}
+                    />
+                  </Tooltip>
+                  <span>{comment.hot}</span>
+                  <Tooltip title="回复">
+                    <Button
+                      type="text"
+                      icon={<CommentOutlined />}
+                      onClick={handleReply}
+                    />
+                  </Tooltip>
+                  <span>{comment.commentNum}</span>
+                </div>
+              </div>
             </div>
             {/* 点赞回复 */}
-            <div className={styles.likedAndReplay}>
-              <Tooltip title={liked ? "取消点赞" : "点赞"}>
-                <Button
-                  type="text"
-                  icon={liked ? <HeartFilled /> : <HeartOutlined />}
-                  onClick={handleLike}
-                />
-              </Tooltip>
-              <span>{comment.hot}</span>
-              <Tooltip title="回复">
-                <Button
-                  type="text"
-                  icon={<CommentOutlined />}
-                  onClick={handleReply}
-                />
-              </Tooltip>
-              <span>{comment.commentNum}</span>
-            </div>
+
             <div>
               {/* {condition && expression} replyInputVisible为true执行 */}
               {replyInputVisible && (

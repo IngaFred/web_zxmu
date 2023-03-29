@@ -6,7 +6,7 @@ type LessonId = {
 };
 export const getLessonInfo = async (id: LessonId) => {
   const ret = await http.get("/lesson?lessonId=" + id.classId);
-  // console.log(ret);
+  console.log(ret);
   return ret;
 };
 //请求创建主题帖方法
@@ -79,6 +79,6 @@ export const putThemeTitle = async (updateThemeTitle: updateThemeTitle) => {
 //用户获取自己发布的主题帖
 export const getMyTheme = async () => {
   const ret = await http.get("/comment/theme/own");
-  console.log(ret);
+  // console.log(ret);
   return ret;
 };
