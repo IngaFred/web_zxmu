@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.headerItem {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .headerImg {
+    border: 1px solid #000;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: aliceblue;
+    display: block;
+  }
+  
+  .wrap {
+    align-items: center;
+    display: flex;
+
+  }
+  
+ 
+ 
