@@ -97,32 +97,38 @@ export default function Course() {
               <h1>其他资源</h1>
             </div>
             <Card className={styles.outlineCard}>
-              <div className={styles.resoursListTitle}></div>
               <div className={styles.outlineCardContent}>
-                {resoursBOList.map((item, index) => (
-                  <Tooltip
-                    className={styles.resoursTooltip}
-                    key={index}
-                    title={"Download   " + item.name}
-                  >
-                    <a href={item.url} download={item.name}>
-                      <ContainerTwoTone style={{ fontSize: "40px" }} />
-                    </a>
-                  </Tooltip>
-                ))}
+                <div
+                  style={{
+                    display: resoursBOList.length === 0 ? "inline" : "none",
+                  }}
+                >
+                  暂无资源
+                </div>
+                <div
+                  style={{
+                    display: resoursBOList.length > 0 ? "inline" : "none",
+                  }}
+                >
+                  {resoursBOList.map((item, index) => (
+                    <Tooltip
+                      className={styles.resoursTooltip}
+                      key={index}
+                      title={"Download   " + item.name}
+                    >
+                      <a href={item.url} download={item.name}>
+                        <ContainerTwoTone style={{ fontSize: "40px" }} />
+                      </a>
+                    </Tooltip>
+                  ))}
+                </div>
               </div>
             </Card>
           </div>
         </div>
       </Content>
       <Footer className={styles.footer}>
-        <Discussion
-          userAvatar={""}
-          userName={""}
-          content={""}
-          likes={0}
-          replyCount={0}
-        ></Discussion>
+        <Discussion></Discussion>
       </Footer>
     </Layout>
   );

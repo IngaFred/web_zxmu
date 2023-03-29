@@ -1,8 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, Button, Input, message, Tooltip } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import {
+  //提升热度
+  putHot,
   //请求创建主题帖方法
   postThemeInvitation,
   //请求发表帖子评论的方法
@@ -14,69 +16,20 @@ import {
   //用户获取自己发布的主题帖
   getMyTheme,
 } from "../../../../service/course";
-//评论卡片接口
-interface CommentCardProps {
-  //用户头像
-  userAvatar: string;
-  //用户昵称
-  userName: string;
-  //评论内容
-  content: string;
-  //点赞数
-  likes: number;
-  //回复数量
-  replyCount: number;
-}
-// const testComment: CommentCardProps = {
-//   userAvatar: "",
-//   userName: "",
-//   content: "",
-//   likes: 0,
-//   replyCount: 0,
-// };
-const testComment: CommentCardProps[] = [
-  {
-    userAvatar:
-      "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
-    userName: "曲丽丽",
-    content: "希望是一个好东西，也许是最好的，好东西是不会消亡的",
-    likes: 12,
-    replyCount: 10,
-  },
-  {
-    userAvatar:
-      "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
-    userName: "曲丽丽",
-    content: "希望是一个好东西，也许是最好的，好东西是不会消亡的",
-    likes: 12,
-    replyCount: 10,
-  },
-];
 
-const CommentCard: React.FC<CommentCardProps> = () => {
+const CommentCard: React.FC = () => {
   //是否有评论逻辑
   const [isHaveComment, setIsHaveComment] = useState({
     //无评论
     isHaveComment: false,
   });
-  const flag = useRef<HTMLDivElement>(null)!;
-  const flag2 = useRef<HTMLDivElement>(null)!;
   //定义是否点赞，默认不点赞
   const [liked, setLiked] = useState(false);
   const [like, setLikes] = useState(0);
   //定义回复框是否可见，默认不可见
   const [replyInputVisible, setReplyInputVisible] = useState(false);
   //定义回复内柔，默认为空
-  const [replyContent, setReplyContent] = useState<CommentCardProps[]>([
-    {
-      userAvatar:
-        "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
-      userName: "曲丽丽",
-      content: "希望是一个好东西，也许是最好的，好东西是不会消亡的",
-      likes: 12,
-      replyCount: 0,
-    },
-  ]);
+  const [replyContent, setReplyContent] = useState<[]>([]);
 
   //显示回复输入框
   const handleReply = () => {
@@ -91,15 +44,7 @@ const CommentCard: React.FC<CommentCardProps> = () => {
   const handleReplyContentChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setReplyContent([
-      {
-        userAvatar: "",
-        userName: "",
-        content: e.target.value,
-        likes: 0,
-        replyCount: 0,
-      },
-    ]);
+    setReplyContent([]);
   };
   //点赞功能
   const handleLike = (commentId: string) => {
@@ -150,13 +95,13 @@ const CommentCard: React.FC<CommentCardProps> = () => {
       {/* 无评论时展示 */}
       <div
         className={styles.discussionUser}
-        style={{ display: testComment.length === 0 ? "inline" : "none" }}
+        style={{ display: myTheme.length === 0 ? "inline" : "none" }}
       >
         <span>暂无评论，留个言再走吧！</span>
       </div>
 
       {/* 有评论时展示 */}
-      <div style={{ display: testComment.length > 0 ? "inline" : "none" }}>
+      <div style={{ display: myTheme.length > 0 ? "inline" : "none" }}>
         {/* 热评标题 */}
         <div className={styles.discussionHot}>
           <h1>热门评论</h1>
@@ -170,7 +115,7 @@ const CommentCard: React.FC<CommentCardProps> = () => {
               {/* 评论头部 */}
               <div className={styles.commentCardHeader}>
                 <Avatar size={48} src={comment.comment.userInfo.picUrl} />
-                <span>{comment.appUserInfoBO.userName}</span>
+                <span>{comment.comment.userInfo.userName}</span>
               </div>
               {/* 评论内容 */}
               <div className={styles.themeName}>主题：{comment.themeName}</div>
@@ -204,7 +149,7 @@ const CommentCard: React.FC<CommentCardProps> = () => {
               {replyInputVisible && (
                 <div>
                   <Input.TextArea
-                    value={replyContent[0].content}
+                    // value={replyContent[0].content}
                     onChange={handleReplyContentChange}
                     rows={4}
                   />

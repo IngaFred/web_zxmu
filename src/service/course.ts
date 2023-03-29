@@ -6,7 +6,7 @@ type LessonId = {
 };
 export const getLessonInfo = async (id: LessonId) => {
   const ret = await http.get("/lesson?lessonId=" + id.classId);
-  console.log(ret);
+  // console.log(ret);
   return ret;
 };
 //请求创建主题帖方法
@@ -27,7 +27,18 @@ export const postThemeInvitation = async (themeInvitation: themeInvitation) => {
   return ret;
 };
 //提升帖子热度
-
+type putHot = {
+  themeId: string;
+  hot: string;
+};
+export const putHot = async (putHot: putHot) => {
+  const ret = await http.post("/comment/theme/create", {
+    themeId: putHot.themeId,
+    hot: putHot.hot,
+  });
+  //   console.log(ret);
+  return ret;
+};
 //请求发表帖子评论的方法
 type Invitation = {
   themeId: string;
@@ -79,6 +90,6 @@ export const putThemeTitle = async (updateThemeTitle: updateThemeTitle) => {
 //用户获取自己发布的主题帖
 export const getMyTheme = async () => {
   const ret = await http.get("/comment/theme/own");
-  // console.log(ret);
+  console.log(ret);
   return ret;
 };
