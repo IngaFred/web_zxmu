@@ -44,7 +44,6 @@ export default function Personal() {
 
       <button className={styles.fixmima} onClick={()=> handleOpenModal} >
         {"修改密码"}
-        Open Modal
       </button>
       <ModalComponent
         title="Modal Title"
