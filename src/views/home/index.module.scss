@@ -7,14 +7,14 @@
    
     align-items: center;
     flex-wrap: wrap;
-    display: block;
+    display: inline;
 }
 .headerItem {
     margin-top: 30px;
     display: flex;
     align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
+    //flex-direction: row;
+    //justify-content: space-between;
     padding: 10px;
     display: block;
   }
