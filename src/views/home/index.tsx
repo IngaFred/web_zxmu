@@ -105,5 +105,5 @@ function HeaderItem(props) {
     </div>
   );
 }
-export default Home;
+
  
