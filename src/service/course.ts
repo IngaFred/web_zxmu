@@ -6,7 +6,7 @@ type LessonId = {
 };
 export const getLessonInfo = async (id: LessonId) => {
   const ret = await http.get("/lesson?lessonId=" + id.classId);
-  // console.log(ret);
+  console.log(ret);
   return ret;
 };
 //请求创建主题帖方法
