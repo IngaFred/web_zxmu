@@ -104,6 +104,7 @@ export default function Home() {
   );
 }
 function HeaderItem(props) {
+  
   return (
     <div className="w">
  <div
@@ -113,13 +114,13 @@ function HeaderItem(props) {
         height: '150px',
         borderRadius: '8px',
       }}
-      className="headerItem"
+      className={styles['headerItem']}
     >
-      <div className="wrap">
-         <img className="headerImg" src={props.img} alt="tipian" />
-        <div className="name">{props.name}</div>
-        <div className="name">{props.title} </div>
-        <div className='name'>{props.teacher}</div>
+      <div className={styles['warp']}>
+         <img className={styles['headerImg']} src={props.img} alt="tipian" />
+        <div className={styles['name']}>{props.name}</div>
+        <div className={styles['name']}>{props.title} </div>
+        <div className={styles['name']}>{props.teacher}</div>
       </div>
       </div>
     </div>
