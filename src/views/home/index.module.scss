@@ -4,7 +4,7 @@
 }
 .w{
   display: flex;
-    flex-direction: row;
+   
     align-items: center;
     flex-wrap: wrap;
     display: block;
@@ -13,13 +13,14 @@
     margin-top: 30px;
     display: flex;
     align-items: center;
+    flex-direction: row;
     justify-content: space-between;
     padding: 10px;
     display: block;
   }
   h2{
    color: black;
-   margin-top: 20;
+   margin-top: 10px;
   }
   
   .headerImg {
@@ -28,10 +29,10 @@
     height: 60px;
     border-radius: 50%;
     background-color: rgb(15, 125, 222);
-    display: block;
+   
   }
   .name {
-    font-size: 24px;
+    font-size: 10px;
     margin-left: 10px;
   }
  .warp{

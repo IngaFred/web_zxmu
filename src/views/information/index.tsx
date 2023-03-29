@@ -72,7 +72,9 @@ export default function Information() {
             {/* <List.Item.Meta 
             description={Item.description}/> */}
             <div className={styles['itemstyle']}>
-              <Image style={{ width: '160px', height: '200px' }} alt={Item.name}  src={Item.url} />
+              <div style={{display:'flex',alignItems:'center'}}>
+              <Image style={{ width: '160px', height: '200px'}} alt={Item.name}  src={Item.url} />
+              </div>
               <div style={{padding:'30px' }} >
                 <h2 style={{fontSize:'20px'}}>{Item.name}</h2>
                 <p className={styles['pstyle']}>{Item.description}</p>
