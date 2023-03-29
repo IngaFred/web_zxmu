@@ -97,7 +97,7 @@ function HeaderItem(props) {
       className="headerItem"
     >
       <div className="wrap">
-        <img className="headerImg" src={props.img} alt="我是头像" />
+        <img className="headerImg" src={props.img} alt="tipian" />
         <div className="name">{props.name}</div>
         <div className="name">{props.nextName}</div>
       </div>
