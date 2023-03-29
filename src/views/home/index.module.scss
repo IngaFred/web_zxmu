@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.w{
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    display: block;
+}
+.headerItem {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    display: block;
+  }
+  h2{
+   color: black;
+   margin-top: 20;
+  }
+  
+  .headerImg {
+    border: 1px solid #000;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgb(15, 125, 222);
+    display: block;
+  }
+  .name {
+    font-size: 24px;
+    margin-left: 10px;
+  }
+ .warp{
+ display: flex;
+ align-items: center;
+ align-content: center;
+
+ }
+ div{
+  flex:1;
+ }
