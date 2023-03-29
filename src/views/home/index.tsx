@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React from "react";
-import styles from "./index.module.scss";
+import React from 'react';
+import styles from './index.module.scss';
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 // 洪浩然，章徐松
 import { Carousel } from 'antd';
@@ -11,30 +11,13 @@ const contentStyle = {
   textAlign: 'center',
   background: '#364d79',
 };
-const App = () => (
-  <Carousel autoplay>
-    <div>
-      <h3 style={contentStyle}>公告1</h3>
-    </div>
-    <div>
-      <h3 style={contentStyle}>公告2</h3>
-    </div>
-    <div>
-      <h3 style={contentStyle}>公告3</h3>
-    </div>
-    <div>
-      <h3 style={contentStyle}>公告4</h3>
-    </div>
-  </Carousel>
-);
-export default App;
 
- function Home() {
+export default function Home() {
   const list1 = [
     {
-        src: '#',
-        title: '高等数学',
-        teacher: '老师王老师',
+      src: '#',
+      title: '高等数学',
+      teacher: '老师王老师',
     },
     {
       src: '#',
@@ -61,29 +44,44 @@ export default App;
       title: '高等数学',
       teacher: '老师王老师',
     },
-  ]
+  ];
 
-for (let i = 0; i < list1.length; i++) {
-  console.log(list1[i]);
-}
-list1.map((item) => {
-  console.log(item);
-});
-return (
-  <div>
-    {/* map的for循环在react中的使用 */}
-    {list1.map((item) => {
-      
-      return (
-        <HeaderItem
-          img={item.img}
-          teacher={item.teacher}
-          title={item.title}
-        />
-      );
-    })}
-  </div>
-);
+  for (let i = 0; i < list1.length; i++) {
+    console.log(list1[i]);
+  }
+  list1.map((item) => {
+    console.log(item);
+  });
+  return (
+    <div>
+      {/* 公告栏 */}
+      <Carousel autoplay>
+        <div>
+          <h3 style={contentStyle}>公告1</h3>
+        </div>
+        <div>
+          <h3 style={contentStyle}>公告2</h3>
+        </div>
+        <div>
+          <h3 style={contentStyle}>公告3</h3>
+        </div>
+        <div>
+          <h3 style={contentStyle}>公告4</h3>
+        </div>
+      </Carousel>
+      {/* 课程主题 */}
+      {/* map的for循环在react中的使用 */}
+      {list1.map((item) => {
+        return (
+          <HeaderItem
+            img={item.img}
+            teacher={item.teacher}
+            title={item.title}
+          />
+        );
+      })}
+    </div>
+  );
 }
 function HeaderItem(props) {
   return (
@@ -101,9 +99,6 @@ function HeaderItem(props) {
         <div className="name">{props.name}</div>
         <div className="name">{props.nextName}</div>
       </div>
-     
     </div>
   );
 }
-
- 
