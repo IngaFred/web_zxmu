@@ -1,8 +1,8 @@
 
-h3{
+.h1style{
     font-size: 30px;
     margin-top: 15px;
-    margin-left: 5%;
+    margin-left: 6%;
 }
 // .inf{
 //     width: 90%;
@@ -29,4 +29,13 @@ h3{
 .liststyle{
     width: 90%;
     margin-left: 5%;
+}
+
+.itemstyle{
+    display: flex;
+}
+
+.pstyle{
+    color: rgba(0, 0, 0, 0.45);
+    
 }

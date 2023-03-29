@@ -1,7 +1,8 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
 import React, { useState, useEffect } from "react";
-import { Layout, Image, Card, message } from "antd";
+import { Layout, Image, Card, message, Tooltip, Button } from "antd";
+import { ContainerTwoTone } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Discussion from "./discussion";
 import { getLessonInfo } from "../../../service/course";
@@ -19,6 +20,8 @@ interface LessonId {
 export default function Course() {
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [lessonPassageBOList, setLessonPassageBOList] = useState<any[]>([]);
+  const [resoursBOList, setresoursBOList] = useState<any[]>([]);
+
   useEffect(() => {
     //实例化一个便于测试
     const testLessonId: LessonId = {
@@ -29,6 +32,7 @@ export default function Course() {
       if (res.data.success) {
         setLessonInfo(res.data.data);
         setLessonPassageBOList(res.data.data.lessonPassageBOList);
+        setresoursBOList(res.data.data.resoursBOList);
       } else {
         message.warning(res.data.errorMsg);
       }
@@ -88,6 +92,27 @@ export default function Course() {
               </div>
             </Card>
           ))}
+          <div>
+            <div className={styles.resoursListTitle}>
+              <h1>其他资源</h1>
+            </div>
+            <Card className={styles.outlineCard}>
+              <div className={styles.resoursListTitle}></div>
+              <div className={styles.outlineCardContent}>
+                {resoursBOList.map((item, index) => (
+                  <Tooltip
+                    className={styles.resoursTooltip}
+                    key={index}
+                    title={"Download   " + item.name}
+                  >
+                    <a href={item.url} download={item.name}>
+                      <ContainerTwoTone style={{ fontSize: "40px" }} />
+                    </a>
+                  </Tooltip>
+                ))}
+              </div>
+            </Card>
+          </div>
         </div>
       </Content>
       <Footer className={styles.footer}>
