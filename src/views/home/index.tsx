@@ -3,7 +3,10 @@ import React from 'react';
 import styles from './index.module.scss';
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 // 洪浩然，章徐松
-import { Carousel } from 'antd';
+import { Divider } from 'antd';
+import { Carousel } from 'antd'
+
+
 const contentStyle = {
   height: '160px',
   color: '#fff',
@@ -11,6 +14,15 @@ const contentStyle = {
   textAlign: 'center',
   background: '#364d79',
 };
+
+const App: React.FC = () => (
+  <>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista
+      probare, quae sunt a te dicta? Refert tamen, quo modo.
+    </p>
+    </>
+);
 
 export default function Home() {
   const list1 = [
@@ -70,11 +82,19 @@ export default function Home() {
         </div>
       </Carousel>
       {/* 课程主题 */}
+      <div>
+      <>
+    <h2>
+     主题一
+    </h2>
+    <Divider />
+  </>
+      </div>
       {/* map的for循环在react中的使用 */}
       {list1.map((item) => {
         return (
           <HeaderItem
-            img={item.img}
+            img={item.src}
             teacher={item.teacher}
             title={item.title}
           />
@@ -84,21 +104,27 @@ export default function Home() {
   );
 }
 function HeaderItem(props) {
+  
   return (
-    <div
+    <div className="w">
+ <div
       style={{
-        width: '60px',
+        width: '150px',
         border: '1px solid #000',
-        height: '100px',
-        borderRadius: '10px',
+        height: '150px',
+        borderRadius: '8px',
       }}
-      className="headerItem"
+      className={styles['headerItem']}
     >
-      <div className="wrap">
-        <img className="headerImg" src={props.img} alt="tipian" />
-        <div className="name">{props.name}</div>
-        <div className="name">{props.nextName}</div>
+      <div className={styles['warp']}>
+         <img className={styles['headerImg']} src={props.img} alt="tipian" />
+        <div className={styles['name']}>{props.name}</div>
+        <div className={styles['name']}>{props.title} </div>
+        <div className={styles['name']}>{props.teacher}</div>
+      </div>
       </div>
     </div>
+    
+   
   );
 }
