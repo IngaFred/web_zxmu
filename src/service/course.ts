@@ -79,6 +79,6 @@ export const putThemeTitle = async (updateThemeTitle: updateThemeTitle) => {
 //用户获取自己发布的主题帖
 export const getMyTheme = async () => {
   const ret = await http.get("/comment/theme/own");
-  console.log(ret);
+  // console.log(ret);
   return ret;
 };
