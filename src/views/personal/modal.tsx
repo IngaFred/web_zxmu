@@ -41,7 +41,7 @@ const LocalizedModal = () => {
         修改密码
       </Button>
       <Modal
-        title="Modal"
+        title="修改密码"
         open={open}
         onOk={hideModal}
         onCancel={hideModal}
@@ -60,7 +60,7 @@ const LocalizedModal = () => {
         >
           <Form.Item
             name="password"
-            label="Password"
+            label="新的密码"
             rules={[
               {
                 required: true,
@@ -74,7 +74,7 @@ const LocalizedModal = () => {
 
           <Form.Item
             name="confirm"
-            label="Confirm Password"
+            label="确认密码"
             dependencies={["password"]}
             hasFeedback
             rules={[
