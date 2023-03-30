@@ -3,18 +3,28 @@ import { Avatar, Button, Input, message, Tooltip } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import {
-  //提升热度
-  putHot,
+  //拉取所有存在的主题
+  getThemeList,
   //请求创建主题帖方法
   postThemeInvitation,
-  //请求发表帖子评论的方法
-  postInvitation,
   //删除一个主题帖
   deleteInvitation,
   //用户修改主题帖标题
   putThemeTitle,
   //用户获取自己发布的主题帖
   getMyTheme,
+  //用户订阅一个主题
+  subscribeTheme,
+  //用户取消订阅一个主题
+  unsubscribeTheme,
+  //用户查看自己订阅的主题
+  getMySubscribeTheme,
+  //拉取单个主题下包含的详细评论
+  getThemeCommentList,
+  //请求发表帖子评论的方法
+  postInvitation,
+  //提升热度
+  putHot,
 } from "../../../../service/course";
 
 const CommentCard: React.FC = () => {
@@ -54,38 +64,66 @@ const CommentCard: React.FC = () => {
     } else {
       setCommentId(commentId);
       setLiked(true);
-      setNewTheme(
-        myTheme.map((item) => {
-          if (commentId === item.comment.commentId) {
-            const hots = item.hot + 1;
-            item.hot = hots;
-          }
-          console.log(commentId);
-          console.log(item.comment.commentId);
-
-          return item;
-        })
-      );
       message.success("点赞成功");
     }
+  };
+  //存在的主题
+  const [themeList, setThemeList] = useState<any[]>([]);
+  //主题下的详细评论
+  const DISPLAY_COUNT = 5;
+  const [displayedComments, setDisplayedComments] = useState(DISPLAY_COUNT);
+  const [themeComment, setThemeComment] = useState<any>({});
+  const [themeCommentList, setThemeCommentList] = useState<any[]>([]);
+  const [displayCommentList, setDisplayCommentList] = useState<any[]>([]);
+  const handleMoreComments = () => {
+    setDisplayedComments(displayedComments + DISPLAY_COUNT);
   };
   //控制点赞数
   const [commentId, setCommentId] = useState("");
   const [newTheme, setNewTheme] = useState<any[]>([]);
   //获取我自己创建的主题帖
-  const [myTheme, setMyTheme] = useState<any[]>([]);
+  // const [myTheme, setMyTheme] = useState<any[]>([]);
   useEffect(() => {
-    getMyTheme().then((res) => {
-      if (res.data.success) {
-        setMyTheme(res.data.data);
+    //获取设置存在的主题
+    // getThemeList().then((res) => {
+    //   if (res.status === 200) {
+    //     if (res.data.success) {
+    //       setThemeList(res.data.data);
+    //     } else {
+    //       message.error(res.data.data.errorMsg);
+    //     }
+    //   } else {
+    //     message.error("请求失败");
+    //   }
+    // });
+    //主题下详细的评论
+    interface themeId {
+      themeId: string;
+    }
+    // const themeId = localStorage.getItem("themeId");
+    const testThemeId: themeId = {
+      themeId: "1635354389891915776",
+    };
+    getThemeCommentList(testThemeId).then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          setThemeComment(res.data.data);
+          setThemeCommentList(res.data.data.commentList);
+          setDisplayCommentList(
+            res.data.data.commentList.slice(0, DISPLAY_COUNT)
+          );
+        } else {
+          message.error(res.data.data.errorMsg);
+        }
       } else {
-        message.error(res.data.errorMsg);
+        message.error("请求失败");
       }
     });
   }, []);
   useEffect(() => {
-    setMyTheme(newTheme);
-  }, [newTheme]);
+    setDisplayCommentList(themeCommentList.slice(0, displayedComments));
+    console.log(themeCommentList);
+  }, [displayedComments, themeCommentList]);
 
   return (
     <div className={styles.discussion}>
@@ -95,42 +133,42 @@ const CommentCard: React.FC = () => {
       {/* 无评论时展示 */}
       <div
         className={styles.discussionUser}
-        style={{ display: myTheme.length === 0 ? "inline" : "none" }}
+        style={{ display: themeCommentList.length === 0 ? "inline" : "none" }}
       >
         <span>暂无评论，留个言再走吧！</span>
       </div>
 
       {/* 有评论时展示 */}
-      <div style={{ display: myTheme.length > 0 ? "inline" : "none" }}>
+      <div style={{ display: themeCommentList.length > 0 ? "inline" : "none" }}>
         {/* 热评标题 */}
         <div className={styles.discussionHot}>
           <h1>热门评论</h1>
         </div>
 
         {/* 评论内容 */}
-
-        {myTheme.map((comment, index) => (
-          <div key={index}>
-            <div className={styles.commentCard}>
+        <div className={styles.commentCard}>
+          {/* 评论内容 */}
+          <div className={styles.themeName}>主题：{themeComment.themeName}</div>
+          {displayCommentList.map((comment, index) => (
+            <div key={index}>
               {/* 评论头部 */}
               <div className={styles.commentCardHeader}>
-                <Avatar size={48} src={comment.comment.userInfo.picUrl} />
-                <span>{comment.comment.userInfo.userName}</span>
+                <Avatar size={48} src={comment.userInfo.picUrl} />
+                <span>{comment.userInfo.userName}</span>
               </div>
-              {/* 评论内容 */}
-              <div className={styles.themeName}>主题：{comment.themeName}</div>
+              {/* 点赞回复 */}
               <div className={styles.comment}>
-                <div>{comment.comment.content}</div>
+                <div>{comment.content}</div>
                 <div className={styles.likedAndReplay}>
                   <Tooltip title={liked ? "取消点赞" : "点赞"}>
                     <Button
                       type="text"
                       icon={liked ? <HeartFilled /> : <HeartOutlined />}
-                      value={comment.commentId}
-                      onClick={() => handleLike(comment.comment.commentId)}
+                      // value={item.commentId}
+                      // onClick={() => handleLike(item.commentId)}
                     />
                   </Tooltip>
-                  <span>{comment.hot}</span>
+                  {/* <span>{item.hot}</span> */}
                   <Tooltip title="回复">
                     <Button
                       type="text"
@@ -138,37 +176,38 @@ const CommentCard: React.FC = () => {
                       onClick={handleReply}
                     />
                   </Tooltip>
-                  <span>{comment.commentNum}</span>
+                  {/* <span>{item.commentNum}</span> */}
                 </div>
               </div>
-            </div>
-            {/* 点赞回复 */}
-
-            <div>
-              {/* {condition && expression} replyInputVisible为true执行 */}
-              {replyInputVisible && (
-                <div>
-                  <Input.TextArea
-                    // value={replyContent[0].content}
-                    onChange={handleReplyContentChange}
-                    rows={4}
-                  />
+              <div>
+                {/* {condition && expression} replyInputVisible为true执行 */}
+                {replyInputVisible && (
                   <div>
-                    <Button type="primary" onClick={handleCancelReply}>
-                      取消
-                    </Button>
-                    <Button
-                      type="primary"
-                      onClick={() => message.success("评论成功")}
-                    >
-                      发送
-                    </Button>
+                    <Input.TextArea
+                      // value={replyContent[0].content}
+                      onChange={handleReplyContentChange}
+                      rows={4}
+                    />
+                    <div>
+                      <Button type="primary" onClick={handleCancelReply}>
+                        取消
+                      </Button>
+                      <Button
+                        type="primary"
+                        onClick={() => message.success("评论成功")}
+                      >
+                        发送
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
+          ))}
+          <div className={styles.moreReplay} onClick={handleMoreComments}>
+            更多回复
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
