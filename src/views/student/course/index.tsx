@@ -50,7 +50,7 @@ export default function Course() {
   // }, [lessonPassageBOList]);
 
   return (
-    <Layout>
+    <Layout className={styles.courseAll}>
       <Header className={styles.header}>
         <div>
           {lessonInfo.length > 0 ? (
