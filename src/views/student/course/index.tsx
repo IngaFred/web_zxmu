@@ -1,11 +1,12 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
 import React, { useState, useEffect } from "react";
-import { Layout, Image, Card, message, Tooltip, Button } from "antd";
+import { Layout, Image, Card, message, Tooltip, Button, Empty } from "antd";
 import { ContainerTwoTone } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Discussion from "./discussion";
 import { getLessonInfo } from "../../../service/course";
+import { useLocation } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
 //接受参数接口
@@ -14,21 +15,23 @@ const { Header, Content, Footer } = Layout;
 // }
 
 //请求课程Id接口
-interface LessonId {
-  classId: string;
-}
+type LessonId = {
+  e: string;
+};
 export default function Course() {
+  const location = useLocation();
+  const lessonId: LessonId = location.state?.lessonId;
+
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [lessonPassageBOList, setLessonPassageBOList] = useState<any[]>([]);
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
     //实例化一个便于测试
-    const testLessonId: LessonId = {
-      classId: "1635659994380824576",
-      // classId: "1",
-    };
-    getLessonInfo(testLessonId).then((res) => {
+    // const testLessonId: LessonId = {
+    //   classId: "1635659994380824576",
+    // };
+    getLessonInfo(lessonId).then((res) => {
       if (res.data.success) {
         setLessonInfo(res.data.data);
         setLessonPassageBOList(res.data.data.lessonPassageBOList);
@@ -47,34 +50,40 @@ export default function Course() {
   // }, [lessonPassageBOList]);
 
   return (
-    <Layout>
+    <Layout className={styles.courseAll}>
       <Header className={styles.header}>
         <div>
-          <div className={styles.title}>
+          {lessonInfo.length > 0 ? (
             <div>
-              <h1>课程名：{lessonInfo.lessonName}</h1>
+              <div className={styles.title}>
+                <div>
+                  <h1>课程名：{lessonInfo.lessonName}</h1>
+                </div>
+                <div>
+                  <h1>
+                    任课教师：
+                    {lessonInfo.creater ? lessonInfo.creater.userName : ""}
+                  </h1>
+                </div>
+              </div>
+              <div className={styles.box}>
+                <Image
+                  preview={false}
+                  style={{
+                    width: "450px",
+                    height: "320px",
+                    borderRadius: "5px",
+                  }}
+                  src={lessonInfo.picUrl}
+                />
+                <Card className={styles.card}>
+                  <p>{lessonInfo.info}</p>
+                </Card>
+              </div>
             </div>
-            <div>
-              <h1>
-                任课教师：
-                {lessonInfo.creater ? lessonInfo.creater.userName : ""}
-              </h1>
-            </div>
-          </div>
-          <div className={styles.box}>
-            <Image
-              preview={false}
-              style={{
-                width: "450px",
-                height: "320px",
-                borderRadius: "5px",
-              }}
-              src={lessonInfo.picUrl}
-            />
-            <Card className={styles.card}>
-              <p>{lessonInfo.info}</p>
-            </Card>
-          </div>
+          ) : (
+            <Empty description="没有对应的课程，暂无课程详情" />
+          )}
         </div>
       </Header>
       <Content>
