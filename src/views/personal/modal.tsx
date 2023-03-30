@@ -1,37 +1,107 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'antd';
+import React, { useState } from "react";
+import { Modal, Button, Form, Input } from "antd";
+import styles from "./index.module.scss";
 
-interface ModalProps {
-  title: string;
-  content: string;
-  visible: boolean;
-  onOk: () => void;
-  onCancel: () => void;
-}
-
-const ModalComponent: React.FC<ModalProps> = ({ title, content, visible, onOk, onCancel }) => {
-  const [modalVisible, setModalVisible] = useState(visible);
-
-  const handleOk = () => {
-    onOk();
-    setModalVisible(false);
+//用open取代了visible
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const LocalizedModal = () => {
+  const [open, setOpen] = useState(false);
+  const showModal = () => {
+    setOpen(true);
+  };
+  const hideModal = () => {
+    setOpen(false);
   };
 
-  const handleCancel = () => {
-    onCancel();
-    setModalVisible(false);
+  const [form] = Form.useForm();
+  const onFinish = (values:any) => {
+    console.log("Received values of form: ", values);
   };
 
   return (
-    <Modal
-      title={title}
-      visible={modalVisible}
-      onOk={handleOk}
-      onCancel={handleCancel}
-    >
-      <p>{content}</p>
-    </Modal>
+    <>
+      <Button type="primary" className={styles.fixmima} onClick={showModal}>
+        修改密码
+      </Button>
+      <Modal
+        title="Modal"
+        open={open}
+        onOk={hideModal}
+        onCancel={hideModal}
+        okText="确认"
+        cancelText="取消"
+      >
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          style={{
+            maxWidth: 600,
+          }}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm"
+            label="Confirm Password"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Please confirm your password!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error(
+                      "The two passwords that you entered do not match!"
+                    )
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
   );
 };
 
-export default ModalComponent;
+export default LocalizedModal;
