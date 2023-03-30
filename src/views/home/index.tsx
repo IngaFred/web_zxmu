@@ -139,7 +139,7 @@ const themeList = [
         lessonId: 1,
         teacherName: '老师一',
         info: '课程简介',
-        picUrl: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.pn  g',
+        picUrl: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
         isSelected: true,
       },
       {
@@ -242,20 +242,25 @@ const ThemeItem = ({ themeName, courses, handleMyCourse, handleMyDetail }) => {
         {courses.map((item, index) => (
           <Col span={6}>
             <Card
+            style={{
+              width: 300,
+              margin: 10,
+              textAlign: 'center',
+            }}
               key={index}
               size="small"
               className={styles.card}
               cover={
                 <img
                   src={item.picUrl}
-                  alt=""
-                  style={{ width: '260px', height: '180px', padding: '10px' }}
+                  alt="网络不好"
+                  style={{ width: '280px', height: '180px', padding: '10px' }}
                 />
               }
               actions={[
                 <Row justify={'space-between'}>
                   <Button
-                    className={styles.rowBtn}
+                    className={styles.rowBtn2}
                     onClick={(e) => handleMyCourse(item.lessonId, e)}
                   >
                     课程详情
