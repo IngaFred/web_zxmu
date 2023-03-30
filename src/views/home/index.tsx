@@ -10,7 +10,7 @@ import Meta from "antd/es/card/Meta";
 // 洪浩然，章徐松
 
 const contentStyle = {
-  height: "160px",
+  height: "200px",
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
@@ -25,6 +25,8 @@ export default function Home() {
       if (ret.data.success) {
         message.success(ret.data.errorMsg);
         setCourse(ret.data.data);
+        //显示回参
+        console.log(Courses)
       } else {
         message.error("获取课程失败");
       }
@@ -58,9 +60,9 @@ export default function Home() {
       <h1>某主题下所有课程</h1>
       <Divider />
 
-      <Row gutter={24}>
+      <Row gutter={24,8}>
         {Courses.map((item, index) => (
-          <Col span={8}>
+          <Col span={6}>
             <Card
               key={index}
               size="small"
@@ -69,7 +71,7 @@ export default function Home() {
                 <img
                   src={item.picUrl}
                   alt=""
-                  style={{ width: "300px", height: "180px", padding: "10px" }}
+                  style={{ width: "260px", height: "180px", padding: "10px" }}
                 />
               }
               actions={[
@@ -98,6 +100,10 @@ export default function Home() {
           </Col>
         ))}
       </Row>
+      <h1>主题二</h1>
+      <Divider />
     </div>
+ 
   );
+  
 }
