@@ -16,17 +16,12 @@ export default function ClassList() {
         message.success(ret.data.errorMsg);
         setLessonAll(ret.data.data);
       } else {
-        message.error("获取课程失败");
+        message.error("获取作业列表失败");
       }
     });
-    return () => {};
   }, []);
 
   const navigate = useNavigate();
-  const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
-    navigate("/course");
-  };
   const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(e);
     navigate("/detail");
@@ -50,17 +45,12 @@ export default function ClassList() {
               }
               actions={[
                 <Row justify={"space-between"}>
-                  <Button
-                    className={styles.rowBtn}
-                    onClick={(e) => handleMyCourse(item.lessonId, e)}
-                  >
-                    课程详情
-                  </Button>
+                  
                   <Button
                     className={styles.rowBtn}
                     onClick={(e) => handleMyDetail(item.lessonId, e)}
                   >
-                    我的作业
+                    我的作业详情
                   </Button>
                 </Row>,
               ]}
