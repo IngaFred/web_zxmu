@@ -38,7 +38,7 @@ export default function Home() {
   };
   const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(e);
-    navigate("/list");
+    navigate("/list", { state: { lessonId: {e} } });
   };
 
   return (
