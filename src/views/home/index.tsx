@@ -1,9 +1,13 @@
-// @ts-nocheck
-import React from "react";
+//@ts-nocheck
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
+import { Divider, Carousel, Card, Row, message, Col, Button } from "antd";
+import { getCourses } from "../../service/home";
+import { useNavigate } from "react-router-dom";
+import Meta from "antd/es/card/Meta";
+
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 // 洪浩然，章徐松
-import { Divider, Carousel, Card, Row } from "antd";
 
 const contentStyle = {
   height: "160px",
@@ -14,29 +18,31 @@ const contentStyle = {
 };
 
 export default function Home() {
-  const list1 = [
-    {
-      index: 0,
-      src: "#",
-      title: "高等数学1",
-      teacher: "老师王老师1",
-    },
-    {
-      index: 1,
-      src: "#",
-      title: "高等数学2",
-      teacher: "老师王老师2",
-    },
-    {
-      index: 2,
-      src: "#",
-      title: "高等数学3",
-      teacher: "老师王老师3",
-    },
-  ];
+  const [Courses, setCourse] = useState([]);
+
+  useEffect(() => {
+    getCourses().then((ret) => {
+      if (ret.data.success) {
+        message.success(ret.data.errorMsg);
+        setCourse(ret.data.data);
+      } else {
+        message.error("获取课程失败");
+      }
+    });
+  }, []);
+
+  const navigate = useNavigate();
+  const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e);
+    navigate("/course");
+  };
+  const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e);
+    navigate("/list", { state: { lessonId: {e} } });
+  };
 
   return (
-    <div>
+    <div className={styles.homeAll}>
       {/* 公告栏 */}
       <Carousel autoplay>
         <div>
@@ -49,67 +55,51 @@ export default function Home() {
           <h3 style={contentStyle}>公告3</h3>
         </div>
       </Carousel>
-      <Row>
-        {/* 课程主题 */}
-        <div>
-          <h2>主题一</h2>
-        </div>
-        <Divider />
-        {list1.map((item, index) => (
-          <div key={index}>
+
+      {/* 课程主题 */}
+      <h1>某主题下所有课程</h1>
+      <Divider />
+
+      <Row gutter={24}>
+        {Courses.map((item, index) => (
+          <Col span={8}>
             <Card
-              style={{ backgroundImage: item.picUrl }}
+              key={index}
               size="small"
+              className={styles.card}
+              cover={
+                <img
+                  src={item.picUrl}
+                  alt=""
+                  style={{ width: "300px", height: "180px", padding: "10px" }}
+                />
+              }
+              actions={[
+                <Row justify={"space-between"}>
+                  <Button
+                    className={styles.rowBtn}
+                    onClick={(e) => handleMyCourse(item.lessonId, e)}
+                  >
+                    课程详情
+                  </Button>
+                  <Button
+                    className={styles.rowBtn}
+                    onClick={(e) => handleMyDetail(item.lessonId, e)}
+                  >
+                    是不是我的已选课程
+                  </Button>
+                </Row>,
+              ]}
             >
-              <img
-                src={item.src}
-                alt=""
-                style={{ width: "200px", height: "100px" }}
+              <Meta
+                title={item.lessonName}
+                description={item.info}
+                style={{ height: "80px" }}
               />
-              <div>{item.title}</div>
-              <div>{item.teacher}</div>
             </Card>
-          </div>
+          </Col>
         ))}
       </Row>
     </div>
   );
 }
-
-{
-  /* map的for循环在react中的使用 */
-}
-{
-  /* {list1.map((item) => {
-        return (
-          <HeaderItem
-            img={item.src}
-            teacher={item.teacher}
-            title={item.title}
-          />
-        );
-      })} */
-}
-
-// function HeaderItem(props) {
-//   return (
-//     <div className="w">
-//       <div
-//         style={{
-//           width: "150px",
-//           border: "1px solid #000",
-//           height: "150px",
-//           borderRadius: "8px",
-//         }}
-//         className={styles["headerItem"]}
-//       >
-//         <div className={styles["warp"]}>
-//           <img className={styles["headerImg"]} src={props.img} alt="tipian" />
-//           <div className={styles["name"]}>{props.name}</div>
-//           <div className={styles["name"]}>{props.title} </div>
-//           <div className={styles["name"]}>{props.teacher}</div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
