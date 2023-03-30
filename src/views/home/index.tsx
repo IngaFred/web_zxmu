@@ -33,12 +33,10 @@ export default function Home() {
 
   const navigate = useNavigate();
   const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
-    navigate("/course");
+    navigate("/course", { state: { lessonId: { e } } });
   };
   const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
-    navigate("/list", { state: { lessonId: {e} } });
+    navigate("/list", { state: { lessonId: { e } } });
   };
 
   return (

@@ -4,7 +4,7 @@ import http from "../utils/http";
 //课程id
 type LessonId = {
   //课程id
-  classId: string;
+  e: string;
 };
 
 //主题id
@@ -57,7 +57,7 @@ type hot = {
 
 // 获取课程信息方法
 export const getLessonInfo = async (id: LessonId) => {
-  const ret = await http.get("/lesson?lessonId=" + id.classId);
+  const ret = await http.get("/lesson?lessonId=" + id.e);
   // console.log(ret);
   return ret;
 };
