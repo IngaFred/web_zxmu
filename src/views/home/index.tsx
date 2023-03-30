@@ -84,7 +84,7 @@ export default function Home() {
                     className={styles.rowBtn}
                     onClick={(e) => handleMyDetail(item.lessonId, e)}
                   >
-                    是不是我的已选课程
+                    现在这是我的已选课程, 点击前往作业列表
                   </Button>
                 </Row>,
               ]}
