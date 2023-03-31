@@ -238,15 +238,15 @@ const ThemeItem = ({ themeName, courses, handleMyCourse, handleMyDetail }) => {
     <>
       <h1>{themeName}</h1>
       <Divider />
-      <Row gutter={(24, 8)}>
+      <Row gutter={(24)}>
         {courses.map((item, index) => (
           <Col span={6}>
             <Card
-            style={{
-              width: 300,
+            style={
+             { width: 300,
               margin: 10,
-              textAlign: 'center',
-            }}
+              textAlign: 'center',}
+            }
               key={index}
               size="small"
               className={styles.card}
@@ -260,12 +260,15 @@ const ThemeItem = ({ themeName, courses, handleMyCourse, handleMyDetail }) => {
               actions={[
                 <Row justify={'space-between'}>
                   <Button
+                  type="dashed"
+                  style={{marginBottom:8}}
                     className={styles.rowBtn2}
                     onClick={(e) => handleMyCourse(item.lessonId, e)}
                   >
                     课程详情
                   </Button>
                   <Button
+                  type="dashed"
                     className={styles.rowBtn}
                     onClick={(e) => handleMyDetail(item.lessonId, e)}
                   >
