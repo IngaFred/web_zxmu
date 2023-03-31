@@ -34,8 +34,11 @@ export default function ClassList() {
   console.log(lessonAll);
 
   const navigate = useNavigate();
-  const handleMyDetail = (id: React.MouseEvent<HTMLButtonElement>) => {
-    navigate("/detail", { state: { lessonId: { id } } });
+  const handleMyDetail = (
+    id: React.MouseEvent<HTMLButtonElement>,
+    hId: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    navigate("/detail", { state: { lessonId: { id }, homeworkId: { hId } } });
   };
 
   return (
@@ -52,7 +55,9 @@ export default function ClassList() {
                   <Row justify={"space-between"}>
                     <Button
                       className={styles.rowBtn}
-                      onClick={(id) => handleMyDetail(item.lessonId, id)}
+                      onClick={(id, hId) =>
+                        handleMyDetail(item.lessonId, item.homeworkId, id, hId)
+                      }
                     >
                       我的作业详情
                     </Button>

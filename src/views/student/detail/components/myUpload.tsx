@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import type { UploadFile, UploadProps } from "antd";
+import type { UploadFile } from "antd";
 import { Button, message, Upload } from "antd";
 import { toUploadFile } from "../../../../service/detail";
 

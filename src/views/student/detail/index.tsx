@@ -127,9 +127,10 @@ export default function Detail() {
           <Row className={styles.info}>
             <p className={styles["info-p"]}>{info}</p>
           </Row>
+          {/* 富文本控件 */}
           <MyEditor />
         </Col>
-
+        {/* 资源下载控件 */}
         <Col span={4}>
           <Card size="small" title="作业资源">
             <Space direction={"vertical"} align={"center"}>
@@ -148,7 +149,7 @@ export default function Detail() {
               </Row>
             </Space>
           </Card>
-
+          {/* 文件上传控件 */}
           <Card size="small" title="文件选择" className={styles.upload}>
             <MyUpload
               fileList={fileList}
