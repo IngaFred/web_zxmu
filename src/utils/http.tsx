@@ -46,35 +46,31 @@ instance.interceptors.response.use(
   }
 );
 
-// axios
-interface Data {
-  [index: string]: unknown;
-}
-
 interface Http {
   get: (
     url: string,
-    data?: Data,
+    data?: any,
     config?: AxiosRequestConfig
   ) => Promise<AxiosResponse>;
   post: (
     url: string,
-    data?: Data,
-    config?: AxiosRequestConfig
+    data?: any,
+    config?: AxiosRequestConfig,
+    type?: 'upload'
   ) => Promise<AxiosResponse>;
   put: (
     url: string,
-    data?: Data,
+    data?: any,
     config?: AxiosRequestConfig
   ) => Promise<AxiosResponse>;
   patch: (
     url: string,
-    data?: Data,
+    data?: any,
     config?: AxiosRequestConfig
   ) => Promise<AxiosResponse>;
   delete: (
     url: string,
-    data?: Data,
+    data?: any,
     config?: AxiosRequestConfig
   ) => Promise<AxiosResponse>;
 }
@@ -86,11 +82,26 @@ const http: Http = {
       ...config,
     });
   },
-  post(url, data, config) {
+  post(url, data, config, type) {
     if (!data) {
       return instance.post(url, data, config);
     }
-    // 注入参数
+
+    // 上传文件
+    if (type === 'upload') {
+      const formData = new FormData();
+      formData.append('resourceFile', data);
+      return instance.post(url, formData, config).then((res) => {
+        // 接口统一报错处理
+        if (res && res.status === 200 && res.data && res.data.success) {
+          return res;
+        }
+        message.error(res?.data?.errorMsg || '请求失败');
+        return res;
+      });
+    }
+
+    // 一般接口直接注入参数
     let params = new URLSearchParams();
     Object.keys(data).forEach((key) => {
       params.append(key, data?.[key]?.toString() || '');
