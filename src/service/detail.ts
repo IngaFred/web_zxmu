@@ -14,6 +14,9 @@ export const getDetails = async (myLesson: Lesson) => {
 export const toUploadFile = async (file: File) => {  
   const formData = new FormData();
   formData.append('resourceFile', file);
+  
+  console.log(formData);
+  
   console.log(formData.get('resourceFile'));
   
   const ret = await http.post("/resource/upload", { formData } );
