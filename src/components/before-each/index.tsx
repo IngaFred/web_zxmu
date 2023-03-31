@@ -27,10 +27,6 @@ export default function BeforeEach(props: BeforeEachProps) {
 
   // 通过useAppDispatch 获取dispatch
   const dispatch = useAppDispatch();
-
-  // console.log('====');
-  // console.log(token);
-  // console.log(user);
   
   if (Array.isArray(matchs)) {
     const meta = matchs[matchs.length - 1].route.meta;

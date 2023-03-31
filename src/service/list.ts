@@ -6,6 +6,5 @@ type LessonId = {
 
 export const getLessons = async (lessonId: LessonId) => {
   const ret = await http.get("/lesson?lessonId=" + lessonId.e);
-  console.log(ret);
   return ret;
 };
