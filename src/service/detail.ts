@@ -12,16 +12,7 @@ export const getDetails = async (myLesson: Lesson) => {
 };
 // 上传文件
 export const toUploadFile = async (file: File) => {
-  const ret = await http.post(
-    '/resource/upload',
-    file,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
-    'upload'
-  );
+  const ret = await http.post('/resource/upload', file, {}, 'upload');
   return ret;
 };
 // 学生不用删除文件，是修改文件

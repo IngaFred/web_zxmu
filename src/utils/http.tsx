@@ -91,14 +91,21 @@ const http: Http = {
     if (type === 'upload') {
       const formData = new FormData();
       formData.append('resourceFile', data);
-      return instance.post(url, formData, config).then((res) => {
-        // 接口统一报错处理
-        if (res && res.status === 200 && res.data && res.data.success) {
+      return instance
+        .post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          ...config,
+        })
+        .then((res) => {
+          // 接口统一报错处理
+          if (res && res.status === 200 && res.data && res.data.success) {
+            return res;
+          }
+          message.error(res?.data?.errorMsg || '请求失败');
           return res;
-        }
-        message.error(res?.data?.errorMsg || '请求失败');
-        return res;
-      });
+        });
     }
 
     // 一般接口直接注入参数
