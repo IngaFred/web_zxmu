@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Button, Modal, Divider, Space, message, Upload } from "antd";
+import { Button, Modal, Divider, Space, message, Upload, Row } from "antd";
 import type { UploadProps } from "antd";
 import { ExclamationCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
@@ -48,12 +48,17 @@ export default function Personal() {
 
   return (
     <>
-      <h1 className={styles["h1style"]}>个人信息</h1>
+      <div className={styles.detailALL}>
+        <Row justify={"space-between"} className={styles.detailHeader}>
+          <h2>个人信息</h2>
+        </Row>
+      </div>
+
       <Divider />
       <div className={styles.introduce}>
         <img src={userInfo.picUrl} className={styles.icons_items} alt="头像" />
         <Upload {...props}>
-          <Button icon={<UploadOutlined />} className={styles.fixtx}>
+          <Button icon={<UploadOutlined />} className={styles.modifyavatar}>
             修改头像
           </Button>
         </Upload>
