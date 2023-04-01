@@ -55,8 +55,15 @@ type hot = {
   hot: string;
 };
 
-// 获取课程信息方法
+//老师获取自己创建的课程列表
+export const getTeacherClassList = async () => {
+  const res = await http.get("/lesson/teacher/created/simple");
+  return res;
+};
+
+// 学生获取课程信息方法
 export const getLessonInfo = async (id: LessonId) => {
+  // console.log("id" + id);
   const ret = await http.get("/lesson?lessonId=" + id.e);
   // console.log(ret);
   return ret;

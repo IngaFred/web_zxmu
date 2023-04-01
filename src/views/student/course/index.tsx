@@ -9,11 +9,6 @@ import { getLessonInfo } from "../../../service/course";
 import { useLocation } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
-//接受参数接口
-// interface Props {
-//   message: string;
-// }
-
 //请求课程Id接口
 type LessonId = {
   e: string;
@@ -27,10 +22,7 @@ export default function Course() {
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
-    //实例化一个便于测试
-    // const testLessonId: LessonId = {
-    //   classId: "1635659994380824576",
-    // };
+    console.log("我是学生端");
     getLessonInfo(lessonId).then((res) => {
       if (res.data.success) {
         setLessonInfo(res.data.data);
@@ -39,21 +31,14 @@ export default function Course() {
       } else {
         message.warning(res.data.errorMsg);
       }
-      // console.log(res);
-      // console.log(res.data.data.lessonPassageBOList);
-      // console.log(setLessonPassageBOList(res.data.data.lessonPassageBOList));
-      // console.log(lessonPassageBOList);
     });
   }, []);
-  // useEffect(() => {
-  //   console.log("lessonPassageBOList:", lessonPassageBOList);
-  // }, [lessonPassageBOList]);
 
   return (
     <Layout className={styles.courseAll}>
       <Header className={styles.header}>
         <div>
-          {lessonInfo.length > 0 ? (
+          {Object.keys(lessonInfo).length > 0 ? (
             <div>
               <div className={styles.title}>
                 <div>

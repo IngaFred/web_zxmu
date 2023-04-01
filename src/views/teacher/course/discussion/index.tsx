@@ -70,7 +70,7 @@ const CommentCard: React.FC = () => {
   //存在的主题
   const [themeList, setThemeList] = useState<any[]>([]);
   //主题下的详细评论
-  const DISPLAY_COUNT = 5;
+  const DISPLAY_COUNT = 3;
   const [displayedComments, setDisplayedComments] = useState(DISPLAY_COUNT);
   const [themeComment, setThemeComment] = useState<any>({});
   const [themeCommentList, setThemeCommentList] = useState<any[]>([]);
@@ -82,21 +82,7 @@ const CommentCard: React.FC = () => {
   const [commentId, setCommentId] = useState("");
   const [newTheme, setNewTheme] = useState<any[]>([]);
   //获取我自己创建的主题帖
-  // const [myTheme, setMyTheme] = useState<any[]>([]);
   useEffect(() => {
-    //获取设置存在的主题
-    // getThemeList().then((res) => {
-    //   if (res.status === 200) {
-    //     if (res.data.success) {
-    //       setThemeList(res.data.data);
-    //     } else {
-    //       message.error(res.data.data.errorMsg);
-    //     }
-    //   } else {
-    //     message.error("请求失败");
-    //   }
-    // });
-    //主题下详细的评论
     interface themeId {
       themeId: string;
     }
@@ -122,7 +108,6 @@ const CommentCard: React.FC = () => {
   }, []);
   useEffect(() => {
     setDisplayCommentList(themeCommentList.slice(0, displayedComments));
-    // console.log(themeCommentList);
   }, [displayedComments, themeCommentList]);
 
   return (
@@ -139,7 +124,12 @@ const CommentCard: React.FC = () => {
       </div>
 
       {/* 有评论时展示 */}
-      <div style={{ display: themeCommentList.length > 0 ? "inline" : "none" }}>
+      <div
+        style={{
+          display: themeCommentList.length > 0 ? "inline" : "none",
+          backgroundColor: "#fafafb",
+        }}
+      >
         {/* 热评标题 */}
         <div className={styles.discussionHot}>
           <h1>热门评论</h1>
@@ -205,7 +195,7 @@ const CommentCard: React.FC = () => {
             </div>
           ))}
           <div className={styles.moreReplay} onClick={handleMoreComments}>
-            更多回复
+            展开更多回复
           </div>
         </div>
       </div>
