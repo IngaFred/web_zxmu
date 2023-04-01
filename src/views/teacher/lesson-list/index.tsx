@@ -69,7 +69,7 @@ export default function List() {
 						actions={[
 							<Row justify={'space-between'}>
 								<Button
-									className={styles.rowBtn}
+									className={styles['row-ss']}
 									onClick={(e) => {}}
 								>
 									课程详情
