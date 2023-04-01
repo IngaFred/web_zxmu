@@ -1,7 +1,18 @@
 import React from "react";
-import { Row, Space, Button, Form, Input, DatePicker, Upload } from "antd";
+import {
+  Row,
+  Space,
+  Button,
+  Form,
+  Input,
+  message,
+  DatePicker,
+  Upload,
+} from "antd";
+import type { UploadProps } from "antd";
 import styles from "./index.module.scss";
 import { PlusOutlined } from "@ant-design/icons";
+import { postUploadFile } from "../../../service/teacherdetail";
 //蔡启航
 export default function Detail() {
   const [form] = Form.useForm();
@@ -30,7 +41,6 @@ export default function Detail() {
                   console.log("form", form);
                   const values = form?.getFieldsValue();
                   console.log(" form?.getFieldsValue()", values);
-
                   const newObj = {
                     name: values.name,
                     info: values.info,
@@ -38,6 +48,7 @@ export default function Detail() {
                     end: values.time?.[1]?.valueOf?.(),
                   };
                   console.log("newObj", newObj);
+                  /* postUploadFile(newObj as File); */
                 }}
               >
                 新建作业
