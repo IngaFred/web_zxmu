@@ -59,43 +59,36 @@ export default function Detail() {
   };
   
 
-  useEffect(() => {
-    // getLessons(lessonId).then((ret) => {
-    //   if (ret.data.success) {
-    //     message.success(ret.data.errorMsg);
-    //     setLessonAll(ret.data.data.homeworkBOList);
-    //   } else {
-    //     message.error("打分失败");
-    //   }
-    // });
-  }, []);
+  
   type scoreParams = {
     submitHomeworkId:string;
     score:string
 }   
 
-    const [scoreParam,setScoreParam] = useState<scoreParams>({
-      submitHomeworkId:"1638327777207640064",
-      score:""
-    })
-    const handleSend = (fen: string) =>{
+    const [scoreParam,setScoreParam] = useState<scoreParams>()
+    const handleSend = (scores: string) =>{
       const score:scoreParams={
         submitHomeworkId:"1638327777207640064",
-        score:fen
+        score:scores
       }
+      // console.log(score);
+      
       setScoreParam(score)
-  
+      handleInputScore(score);
     }
-    useEffect(()=>{
+    
+    const handleInputScore = (scoreParam:scoreParams) =>{
           putSorce(scoreParam).then((ret)=>{
-        
         if(ret.status === 200){
           console.log(ret);
           
             if(ret.data.success){
-              message.info(ret.data.errorMsg)
-            }else{
+              console.log(scoreParam.score);
               
+              message.info(ret.data.errorMsg)
+            }else{              
+              console.log(scoreParam.score);
+
               message.warning(ret.data.errorMsg)
             }
         }else{
@@ -103,17 +96,36 @@ export default function Detail() {
         }
         
       })
-    },[scoreParam])
+    } 
+
+    // useEffect(()=>{
+    //       putSorce(scoreParam).then((ret)=>{
+        
+    //     if(ret.status === 200){
+    //       console.log(ret);
+          
+    //         if(ret.data.success){
+    //           message.info(ret.data.errorMsg)
+    //         }else{
+              
+    //           message.warning(ret.data.errorMsg)
+    //         }
+    //     }else{
+    //       message.error("请求失败！")
+    //     }
+        
+    //   })
+    // },[scoreParam])
+    const [scores,setScores] = useState("");
     const handleInput = (e:React.ChangeEvent<HTMLInputElement>) =>{
-      
-      handleSend(e.target.value)
+      setFen(e.target.value);
+      setScores(e.target.value);
     }
     const [fen,setFen] = useState("")
 
   // 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
   const { lessonName, name, creatorName, start, end, info } =
     homeworkBOList || {};
-
 
   return (
     <div className={styles.detailALL}>
@@ -244,8 +256,8 @@ export default function Detail() {
     ]}
   /> */}
     <Space.Compact style={{ width: '10%' }}>
-      <Input defaultValue={""} value={fen} onChange={(e)=>handleInput(e)}/>
-      <Button type="primary" onClick={()=>handleSend}>Submit</Button>
+      <Input  value={fen} onChange={(e)=>handleInput(e)}/>
+      <Button type="primary" onClick={()=>handleSend(scores)}>Submit</Button>
     </Space.Compact>
 
         </div>
