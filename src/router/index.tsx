@@ -155,72 +155,71 @@ export const routes: RouteObject[] = [
       },
 
       // teacher
-
-      // {
-      //   path: 'courseTeacher',
-      //   element: <CourseTeacher />,
-      //   meta: {
-      //     menu: true,
-      //     title: '课程详情',
-      //     icon: <CalendarOutlined />,
-      //     auth: true,
-      //   },
-      //   name: 'courseTeacher',
-      // },
-      // {
-      //   path: 'detailTeacher',
-      //   element: <DetailTeacher />,
-      //   meta: {
-      //     menu: true,
-      //     title: '作业详情设置',
-      //     icon: <CalendarOutlined />,
-      //     auth: true,
-      //   },
-      //   name: 'detailTeacher',
-      // },
-      // {
-      //   path: 'listTeacher',
-      //   element: <ListTeacher />,
-      //   meta: {
-      //     menu: true,
-      //     title: '我的作业列表',
-      //     icon: <CalendarOutlined />,
-      //     auth: true,
-      //   },
-      //   name: 'listTeacher',
-      // },{
-      //   path: 'scoringTeacher',
-      //   element: <ScoringTeacher />,
-      //   meta: {
-      //     menu: true,
-      //     title: '作业详情打分',
-      //     icon: <CalendarOutlined />,
-      //     auth: true,
-      //   },
-      //   name: 'scoringTeacher',
-      // },
-      // {
-      //   path: 'showTeacher',
-      //   element: <ShowTeacher />,
-      //   meta: {
-      //     menu: true,
-      //     title: '优秀成果展示',
-      //     icon: <CalendarOutlined />,
-      //     auth: true,
-      //   },
-      //   name: 'showTeacher',
-      // },
-      // {
-      //   path: 'newTeacher',
-      //   element: <NewTeacher />,
-      //   meta: {
-      //     menu: true,
-      //     title: '新建/修改课程',
-      //     icon: <CalendarOutlined />,
-      //     auth: true,
-      //   },
-      //   name: 'newTeacher',
-      // },
+      {
+        path: 'courseTeacher',
+        element: <CourseTeacher />,
+        meta: {
+          menu: true,
+          title: '课程详情',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'courseTeacher',
+      },
+      {
+        path: 'detailTeacher',
+        element: <DetailTeacher />,
+        meta: {
+          menu: true,
+          title: '作业详情设置',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'detailTeacher',
+      },
+      {
+        path: 'listTeacher',
+        element: <ListTeacher />,
+        meta: {
+          menu: true,
+          title: '我的作业列表',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'listTeacher',
+      },{
+        path: 'scoringTeacher',
+        element: <ScoringTeacher />,
+        meta: {
+          menu: true,
+          title: '作业详情打分',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'scoringTeacher',
+      },
+      {
+        path: 'showTeacher',
+        element: <ShowTeacher />,
+        meta: {
+          menu: true,
+          title: '优秀成果展示',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'showTeacher',
+      },
+      {
+        path: 'newTeacher',
+        element: <NewTeacher />,
+        meta: {
+          menu: true,
+          title: '新建/修改课程',
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: 'newTeacher',
+      },
       {
         path: "information",
         element: <Information />,
