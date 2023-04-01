@@ -124,7 +124,24 @@ const http: Http = {
     });
   },
   put(url, data, config) {
-    return instance.put(url, data, config);
+    if (!data) {
+      return instance.put(url, data, config);
+    }
+
+    // 一般接口直接注入参数
+    let params = new URLSearchParams();
+    Object.keys(data).forEach((key) => {
+      params.append(key, data?.[key]?.toString() || '');
+    });
+
+    return instance.put(url, params, config).then((res) => {
+      // 接口统一报错处理
+      if (res && res.status === 200 && res.data && res.data.success) {
+        return res;
+      }
+      message.error(res?.data?.errorMsg || '请求失败');
+      return res;
+    });
   },
   patch(url, data, config) {
     return instance.patch(url, data, config);
