@@ -12,7 +12,7 @@ export default function Detail() {
     <>
       <div className={styles.detailALL}>
         <Row justify={"space-between"} className={styles.detailHeader}>
-          <h2>课程详情设置</h2>
+          <h2>作业发布</h2>
           <Space size={"middle"}>
             {/* <Button>保存</Button> */}
             <Button type="primary" onClick={SubmitEvent}>
@@ -26,15 +26,18 @@ export default function Detail() {
           layout="horizontal"
           style={{ maxWidth: 600 }}
         >
-          <Form.Item label="课程名称">
+          <Form.Item label="作业名称">
             <Input />
           </Form.Item>
 
-          <Form.Item label="课程时间">
+          <Form.Item label="作业开始时间">
+            <RangePicker />
+          </Form.Item>
+          <Form.Item label="作业结束时间">
             <RangePicker />
           </Form.Item>
 
-          <Form.Item label="课程介绍">
+          <Form.Item label="作业内容介绍">
             <TextArea rows={4} />
           </Form.Item>
 
@@ -45,10 +48,6 @@ export default function Detail() {
                 <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
-          </Form.Item>
-
-          <Form.Item label="提交">
-            <Button>确认</Button>
           </Form.Item>
         </Form>
       </div>

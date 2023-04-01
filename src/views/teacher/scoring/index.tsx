@@ -67,6 +67,10 @@ export default function Detail() {
 
     const [scoreParam,setScoreParam] = useState<scoreParams>()
     const handleSend = (scores: string) =>{
+      if(!scores){
+        message.warning('所打数不能为空')
+        return null;
+      }
       const score:scoreParams={
         submitHomeworkId:"1638327777207640064",
         score:scores
@@ -78,6 +82,7 @@ export default function Detail() {
     }
     
     const handleInputScore = (scoreParam:scoreParams) =>{
+      
           putSorce(scoreParam).then((ret)=>{
         if(ret.status === 200){
           console.log(ret);
