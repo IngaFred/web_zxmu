@@ -1,0 +1,78 @@
+.discussion {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  margin-left: 10px;
+  box-shadow: 0px 0px 7px 4px rgb(217 216 216 / 50%); /* bottom阴影 */
+}
+.discussion h1 {
+  margin: 10px 0px 10px 10px;
+}
+
+.discussionUser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+.discussionUser img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.discussionUser span {
+  display: flex;
+  width: 99%;
+  height: 50px;
+  border-radius: 5px;
+  background: rgb(217 216 216 / 50%);
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+.discussionHot {
+  margin: 20px 0px 20px 0px;
+}
+
+.commentCard {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.commentCardHeader {
+  display: flex;
+  align-items: center;
+}
+.commentCardHeader span {
+  font-size: 14px;
+  margin-left: 10px;
+}
+.themeName {
+  font-size: 14px;
+  margin-left: 5.2%;
+}
+.comment {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: auto;
+  box-shadow: 0px 0px 7px 4px rgb(217 216 216 / 50%); /* bottom阴影 */
+  margin: 10px 0 10px 68px;
+  // align-items: center;
+  padding: 1%;
+}
+.likedAndReplay {
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: auto;
+  // box-shadow: 0px 0px 7px 4px rgb(217 216 216 / 50%); /* bottom阴影 */
+  // margin-left: .%;
+}
+.moreReplay {
+  cursor: pointer;
+  display: block;
+  color: blue;
+  margin: 2% 20% 2% 59%;
+}
+// #fafafb
