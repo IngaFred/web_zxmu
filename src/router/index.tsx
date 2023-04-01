@@ -20,12 +20,13 @@ const List = lazy(() => import("../views/student/list"));
 const Show = lazy(() => import("../views/student/show"));
 
 // teacher端
+// const DetailTeacher = lazy(() => import("../views/teacher/detail"));
 const CourseTeacher = lazy(() => import("../views/teacher/course"));
-const DetailTeacher = lazy(() => import("../views/teacher/detail"));
-const ListTeacher = lazy(() => import("../views/teacher/list"));
+const DetailListTeacher = lazy(() => import("../views/teacher/detailList"));
 const ShowTeacher = lazy(() => import("../views/teacher/show"));
 const NewTeacher = lazy(() => import("../views/teacher/new"));
 const ScoringTeacher = lazy(() => import("../views/teacher/scoring"));
+const LessonListTeacher = lazy(() => import("../views/teacher/courseList"));
 
 // 懒加载的形式引入
 const BeforeEach = lazy(() => import("../components/before-each"));
@@ -155,6 +156,7 @@ export const routes: RouteObject[] = [
       },
 
       // teacher
+
       {
         path: 'courseTeacher',
         element: <CourseTeacher />,
@@ -167,26 +169,26 @@ export const routes: RouteObject[] = [
         name: 'courseTeacher',
       },
       {
-        path: 'detailTeacher',
-        element: <DetailTeacher />,
+        path: 'lessonListTeacher',
+        element: <LessonListTeacher />,
         meta: {
           menu: true,
-          title: '作业详情设置',
+          title: '我的课程列表',
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'detailTeacher',
+        name: 'lessonListTeacher',
       },
       {
-        path: 'listTeacher',
-        element: <ListTeacher />,
+        path: 'detailListTeacher',
+        element: <DetailListTeacher />,
         meta: {
           menu: true,
           title: '我的作业列表',
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'listTeacher',
+        name: 'detailListTeacher',
       },{
         path: 'scoringTeacher',
         element: <ScoringTeacher />,
@@ -230,6 +232,17 @@ export const routes: RouteObject[] = [
           auth: true,
         },
         name: "information",
+      },
+      {
+        path: "lessonlist",
+        element: <LessonListTeacher />,
+        meta: {
+          menu: true,
+          title: "教师我的课程",
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: "lessonlist",
       },
     ],
   },
