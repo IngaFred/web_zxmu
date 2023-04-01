@@ -20,14 +20,13 @@ const List = lazy(() => import("../views/student/list"));
 const Show = lazy(() => import("../views/student/show"));
 
 // teacher端
+// const DetailTeacher = lazy(() => import("../views/teacher/detail"));
 const CourseTeacher = lazy(() => import("../views/teacher/course"));
-const DetailTeacher = lazy(() => import("../views/teacher/detail"));
-const CourseListTeacher = lazy(() => import("../views/teacher/courseList"));
 const DetailListTeacher = lazy(() => import("../views/teacher/detailList"));
 const ShowTeacher = lazy(() => import("../views/teacher/show"));
 const NewTeacher = lazy(() => import("../views/teacher/new"));
 const ScoringTeacher = lazy(() => import("../views/teacher/scoring"));
-const LessonListTeacher = lazy(() => import("../views/teacher/lesson-list"));
+const LessonListTeacher = lazy(() => import("../views/teacher/courseList"));
 
 // 懒加载的形式引入
 const BeforeEach = lazy(() => import("../components/before-each"));
@@ -170,37 +169,26 @@ export const routes: RouteObject[] = [
         name: 'courseTeacher',
       },
       {
-        path: 'courseTeacher',
-        element: <CourseTeacher />,
-        meta: {
-          menu: true,
-          title: '课程详情',
-          icon: <CalendarOutlined />,
-          auth: true,
-        },
-        name: 'courseTeacher',
-      },
-      {
-        path: 'detailListTeacher',
-        element: <DetailListTeacher />,
+        path: 'lessonListTeacher',
+        element: <LessonListTeacher />,
         meta: {
           menu: true,
           title: '我的课程列表',
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'detailListTeacher',
+        name: 'lessonListTeacher',
       },
       {
-        path: 'courseListTeacher',
-        element: <CourseListTeacher />,
+        path: 'detailListTeacher',
+        element: <DetailListTeacher />,
         meta: {
           menu: true,
           title: '我的作业列表',
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'courseListTeacher',
+        name: 'detailListTeacher',
       },{
         path: 'scoringTeacher',
         element: <ScoringTeacher />,
