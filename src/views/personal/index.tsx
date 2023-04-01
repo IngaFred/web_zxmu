@@ -30,7 +30,7 @@ export default function Personal() {
 
   const props: UploadProps = {
     name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    action: userInfo.picUrl,
     headers: {
       authorization: "authorization-text",
     },

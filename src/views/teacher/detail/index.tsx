@@ -1,9 +1,57 @@
-import React from 'react'
-// 作业详情设置（设置截至日期，删除作业，新增作业）
-// 蔡启航
-export default function Detail() {
-  return (
-    <div>Detail</div>
-  )
-}
+import React from "react";
+import { Row, Space, Button, Form, Input, DatePicker, Upload } from "antd";
+import styles from "./index.module.scss";
+import { PlusOutlined } from "@ant-design/icons";
 
+//蔡启航
+export default function Detail() {
+  const SubmitEvent = () => {};
+  const { RangePicker } = DatePicker;
+  const { TextArea } = Input;
+  return (
+    <>
+      <div className={styles.detailALL}>
+        <Row justify={"space-between"} className={styles.detailHeader}>
+          <h2>课程详情设置</h2>
+          <Space size={"middle"}>
+            {/* <Button>保存</Button> */}
+            <Button type="primary" onClick={SubmitEvent}>
+              新建作业
+            </Button>
+          </Space>
+        </Row>
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+          style={{ maxWidth: 600 }}
+        >
+          <Form.Item label="课程名称">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="课程时间">
+            <RangePicker />
+          </Form.Item>
+
+          <Form.Item label="课程介绍">
+            <TextArea rows={4} />
+          </Form.Item>
+
+          <Form.Item label="上传文件" valuePropName="fileList">
+            <Upload action="/upload.do" listType="picture-card">
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+          </Form.Item>
+
+          <Form.Item label="提交">
+            <Button>确认</Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
+  );
+}
