@@ -26,7 +26,7 @@ export default function Home() {
         message.success(ret.data.errorMsg);
         setCourse(ret.data.data);
         //显示回参
-      console.log(Courses);
+        // console.log(Courses);
       } else {
         message.error("获取课程失败");
       }
