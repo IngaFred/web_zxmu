@@ -105,7 +105,6 @@ export default function Home() {
     </div>
   );
 }
-
 // }
 //@ts-nocheck
 // import React, { useEffect, useState } from 'react';
