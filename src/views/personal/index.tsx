@@ -6,7 +6,7 @@ import type { UploadProps } from "antd";
 import { ExclamationCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import LocalizedModal from "./modal";
-import { getUserInfo } from "../../service/personal";
+import { getUserInfo, postUploadImg } from "../../service/personal";
 // 个人信息（设置密码）
 // 蔡启航
 
@@ -57,8 +57,16 @@ export default function Personal() {
       <Divider />
       <div className={styles.introduce}>
         <img src={userInfo.picUrl} className={styles.icons_items} alt="头像" />
-        <Upload {...props}>
-          <Button icon={<UploadOutlined />} className={styles.modifyavatar}>
+        <Upload
+          {...props}
+          customRequest={(res) => {
+            /* console.log(res); */
+            postUploadImg(res.file as File);
+          }}
+        >
+          <Button
+            /* icon={<UploadOutlined />} */ className={styles.modifyavatar}
+          >
             修改头像
           </Button>
         </Upload>

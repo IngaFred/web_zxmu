@@ -15,7 +15,7 @@ export const postUploadFile = async (file: File) => {
 
 //上传头像
 export const postUploadImg = async (file: File) => {
-  const ret = await http.post("/resource/upload", file, {}, "upload");
+  const ret = await http.post("/userinfo/pic", file, {}, "upload");
   return ret;
 };
 
