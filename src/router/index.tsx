@@ -26,6 +26,7 @@ const ListTeacher = lazy(() => import("../views/teacher/list"));
 const ShowTeacher = lazy(() => import("../views/teacher/show"));
 const NewTeacher = lazy(() => import("../views/teacher/new"));
 const ScoringTeacher = lazy(() => import("../views/teacher/scoring"));
+const LessonListTeacher = lazy(() => import("../views/teacher/lesson-list"));
 
 // 懒加载的形式引入
 const BeforeEach = lazy(() => import("../components/before-each"));
@@ -230,6 +231,17 @@ export const routes: RouteObject[] = [
           auth: true,
         },
         name: "information",
+      },
+      {
+        path: "lessonlist",
+        element: <LessonListTeacher />,
+        meta: {
+          menu: true,
+          title: "教师我的课程",
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: "lessonlist",
       },
     ],
   },
