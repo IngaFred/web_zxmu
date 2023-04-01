@@ -24,6 +24,7 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { getTeacherClassList, getLessonInfo } from "../../../service/course";
+import defaultClassCover from "../../../assets/images/course/defaultClassCover.jpg";
 
 const { Header, Content, Footer } = Layout;
 
@@ -99,7 +100,7 @@ export default function New() {
                     height: "320px",
                     borderRadius: "5px",
                   }}
-                  src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/0cc5ce60-252e-4c33-aa55-d02852b9b708.jpg"
+                  src={defaultClassCover}
                 />
                 <TextArea
                   className={styles.card}
@@ -166,7 +167,7 @@ export default function New() {
     lessonPassageBOList: any[],
     resoursBOList: any[]
   ) => {
-    console.log(lessonInfo, lessonPassageBOList, resoursBOList);
+    // console.log(lessonInfo, lessonPassageBOList, resoursBOList);
 
     return (
       <Layout className={styles.courseAll}>
@@ -181,13 +182,13 @@ export default function New() {
                       style={{ width: "300px" }}
                       defaultValue={lessonInfo.lessonName}
                     ></Input>
-                    <Button
-                      className={styles.saveButton}
-                      type="primary"
-                      size="large"
-                    >
-                      保存
-                    </Button>
+                    <Button className={styles.saveButtons}>保存</Button>
+
+                    <div className={styles.buttonDiv}>
+                      <Button>添加学生</Button>
+                      <Button>修改学生</Button>
+                      <Button>新建作业</Button>
+                    </div>
                   </div>
                   <div className={styles.box}>
                     <Image
@@ -241,15 +242,30 @@ export default function New() {
               </div>
               <Card className={styles.outlineCard}>
                 <div className={styles.outlineCardContent}>
-                  <Dragger {...courseProps}>
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">暂无课程资源</p>
-                    <p className="ant-upload-hint">
-                      把文件拖入指定区域，完成上传，同样支持点击上传，可以一次上传多个文件。
-                    </p>
-                  </Dragger>
+                  <div
+                    style={{
+                      display: resoursBOList.length === 0 ? "inline" : "none",
+                    }}
+                  >
+                    暂无资源
+                  </div>
+                  <div
+                    style={{
+                      display: resoursBOList.length > 0 ? "inline" : "none",
+                    }}
+                  >
+                    {resoursBOList.map((item, index) => (
+                      <Tooltip
+                        className={styles.resoursTooltip}
+                        key={index}
+                        title={"Download   " + item.name}
+                      >
+                        <a href={item.url} download={item.name}>
+                          <ContainerTwoTone style={{ fontSize: "40px" }} />
+                        </a>
+                      </Tooltip>
+                    ))}
+                  </div>
                 </div>
               </Card>
             </div>
