@@ -22,6 +22,7 @@ const permission = {
 	tea: [
 		'home',
 		'personal',
+		'courseList',
 		'courseTeacher',
 		'detailTeacher',
 		'listTeacher',
@@ -29,7 +30,6 @@ const permission = {
 		'showTeacher',
 		'newTeacher',
 		'information',
-		'courseList',
 	],
 };
 // 定义过滤函数
@@ -37,9 +37,9 @@ const filter = (menus: RouteObject[], p: string[]) => {
 	const newMenu: RouteObject[] = [];
 	menus.forEach((item) => {
 		const childrens = item.children ? filter(item.children, p) : undefined;
-		console.log('p,item', p, item.name);
+		// console.log('p,item', p, item.name);
 		if (p.includes(item.name)) {
-			console.log(true);
+			// console.log(true);
 			// @ts-ignore
 			newMenu.push({
 				...item,
@@ -47,32 +47,32 @@ const filter = (menus: RouteObject[], p: string[]) => {
 			});
 		}
 	});
-	console.log('newMenu', newMenu);
+	// console.log('newMenu', newMenu);
 	return newMenu;
 };
 // 定义一个组件，使用HomeAsideProps接口作为props类型
 const HomeAside: React.FC<HomeAsideProps> = () => {
-	console.log('000');
+	// console.log('000');
 	// 定义一个状态变量，表示权限数据
 	const [myPerm, setMyPerm] = useState<Perm | null>(null);
 	// 定义一个状态变量，表示菜单项数据
 	const [myItems, setMyItems] = useState<RouteObject[] | null>([]);
 	// 使用useEffect钩子函数，在组件挂载后，获取权限数据和菜单项数据
 	useEffect(() => {
-		console.log(111);
+		// console.log(111);
 		// 获取权限数据，并存储在myPerm状态变量中
 		getPerm().then((ret) => {
-			console.log('2222', ret);
+			// console.log('2222', ret);
 
 			const { success } = ret?.data || undefined;
 			const perm = ret?.data?.data?.[0] || [];
 			if (success) {
-				console.log(perm?.permName);
+				// console.log(perm?.permName);
 				setMyPerm(perm?.permName);
 				// 根据权限数据，使用过滤函数的对象映射，过滤菜单项，并存储在items状态变量中
 				if (perm?.permName === '学生权限') {
 					const items = filter(routes, permission.stu);
-					console.log('item', items);
+					// console.log('item', items);
 
 					setMyItems(items);
 				} else {
@@ -108,7 +108,7 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
 	const matchs = matchRoutes(routes, location);
 	const subpath = matchs![0].pathnameBase || '';
 	const path = matchs![1].pathnameBase || '';
-	console.log('myitems', myItems);
+	// console.log('myitems', myItems);
 
 	return (
 		<Menu

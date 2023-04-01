@@ -157,6 +157,17 @@ export const routes: RouteObject[] = [
 
 			// teacher
 			{
+				path: 'courseList',
+				element: <LessonListTeacher />,
+				meta: {
+					menu: true,
+					title: '我的课程',
+					icon: <CalendarOutlined />,
+					auth: true,
+				},
+				name: 'courseList',
+			},
+			{
 				path: 'courseTeacher',
 				element: <CourseTeacher />,
 				meta: {
@@ -232,17 +243,6 @@ export const routes: RouteObject[] = [
 					auth: true,
 				},
 				name: 'information',
-			},
-			{
-				path: 'courseList',
-				element: <LessonListTeacher />,
-				meta: {
-					menu: true,
-					title: '教师我的课程',
-					icon: <CalendarOutlined />,
-					auth: true,
-				},
-				name: 'courseList',
 			},
 		],
 	},

@@ -1,13 +1,38 @@
-import React from 'react';
-import { Select } from 'antd';
+// @ts-nocheck
 import styles from './index.module.scss';
-import { Divider, Carousel, Card, Row, message, Col, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Row, message, Col, Button, Select } from 'antd';
+import { getCourseList } from '../../../service/courseList';
+import { useNavigate } from 'react-router-dom';
+import Meta from 'antd/es/card/Meta';
+
 // 我的课程列表
 // 洪浩然
 
-const Meta = Card.Meta;
-
 export default function List() {
+	const [lesson, setLesson] = useState([]);
+
+	useEffect(() => {
+		getCourseList().then((ret) => {
+			if (ret.data.success) {
+				message.success(ret.data.errorMsg);
+				setLesson(ret.data.data);
+				//显示回参
+				//console.log(Courses);
+			} else {
+				message.error('获取课程失败');
+			}
+		});
+	}, []);
+
+	const navigate = useNavigate();
+	const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
+		navigate('/courseTeacher', { state: { lessonId: { e } } });
+	};
+	const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
+		navigate('/detailListTeacher', { state: { lessonId: { e } } });
+	};
+
 	return (
 		<div className={styles['big']}>
 			<div className={styles['header-xxx']}>
@@ -55,219 +80,47 @@ export default function List() {
 				/>
 			</div>
 			<Row
+				gutter={(24, 8)}
 				className={styles['row-big']}
-				gutter={[16, 24]}
 			>
-				<Col span={8}>
-					<Card
-						size='small'
-						className={styles.card}
-						cover={
-							<img
-								src={'xx'}
-								alt=''
-								style={{ width: '100%', height: '180px', padding: '10px' }}
+				{lesson.map((item, index) => (
+					<Col span={8}>
+						<Card
+							key={index}
+							size='small'
+							className={styles.card}
+							cover={
+								<img
+									src={item?.picUrl}
+									alt=''
+									style={{ width: '300px', height: '180px', padding: '10px' }}
+								/>
+							}
+							actions={[
+								<Row justify={'space-between'}>
+									<Button
+										className={styles.rowBtn}
+										onClick={(e) => handleMyCourse(item.lessonId, e)}
+									>
+										课程详情
+									</Button>
+									<Button
+										className={styles.rowBtn}
+										onClick={(e) => handleMyDetail(item.lessonId, e)}
+									>
+										作业列表
+									</Button>
+								</Row>,
+							]}
+						>
+							<Meta
+								title={item?.lessonName}
+								description={item?.info}
+								style={{ height: '80px' }}
 							/>
-						}
-						actions={[
-							<Row justify={'space-between'}>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									课程详情
-								</Button>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									现在这是我的已选课程, 点击前往作业列表
-								</Button>
-							</Row>,
-						]}
-					>
-						<Meta
-							title={'标题'}
-							description={'课程信息'}
-							style={{ height: '80px' }}
-						/>
-					</Card>
-				</Col>
-				<Col span={8}>
-					<Card
-						size='small'
-						className={styles.card}
-						cover={
-							<img
-								src={'xx'}
-								alt=''
-								style={{ width: '100%', height: '180px', padding: '10px' }}
-							/>
-						}
-						actions={[
-							<Row justify={'space-between'}>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									课程详情
-								</Button>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									现在这是我的已选课程, 点击前往作业列表
-								</Button>
-							</Row>,
-						]}
-					>
-						<Meta
-							title={'biaoti'}
-							description={'kecheng xinxi'}
-							style={{ height: '80px' }}
-						/>
-					</Card>
-				</Col>
-				<Col span={8}>
-					<Card
-						size='small'
-						className={styles.card}
-						cover={
-							<img
-								src={'xx'}
-								alt=''
-								style={{ width: '100%', height: '180px', padding: '10px' }}
-							/>
-						}
-						actions={[
-							<Row justify={'space-between'}>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									课程详情
-								</Button>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									现在这是我的已选课程, 点击前往作业列表
-								</Button>
-							</Row>,
-						]}
-					>
-						<Meta
-							title={'biaoti'}
-							description={'kecheng xinxi'}
-							style={{ height: '80px' }}
-						/>
-					</Card>
-				</Col>
-				<Col span={8}>
-					<Card
-						size='small'
-						className={styles.card}
-						cover={
-							<img
-								src={'xx'}
-								alt=''
-								style={{ width: '100%', height: '180px', padding: '10px' }}
-							/>
-						}
-						actions={[
-							<Row justify={'space-between'}>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									课程详情
-								</Button>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									现在这是我的已选课程, 点击前往作业列表
-								</Button>
-							</Row>,
-						]}
-					>
-						<Meta
-							title={'biaoti'}
-							description={'kecheng xinxi'}
-							style={{ height: '80px' }}
-						/>
-					</Card>
-				</Col>
-				<Col span={8}>
-					<Card
-						size='small'
-						className={styles.card}
-						cover={
-							<img
-								src={'xx'}
-								alt=''
-								style={{ width: '100%', height: '180px', padding: '10px' }}
-							/>
-						}
-						actions={[
-							<Row justify={'space-between'}>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									课程详情
-								</Button>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									现在这是我的已选课程, 点击前往作业列表
-								</Button>
-							</Row>,
-						]}
-					>
-						<Meta
-							title={'biaoti'}
-							description={'kecheng xinxi'}
-							style={{ height: '80px' }}
-						/>
-					</Card>
-				</Col>
-				<Col span={8}>
-					<Card
-						size='small'
-						className={styles.card}
-						cover={
-							<img
-								src={'xx'}
-								alt=''
-								style={{ width: '100%', height: '180px', padding: '10px' }}
-							/>
-						}
-						actions={[
-							<Row justify={'space-between'}>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									课程详情
-								</Button>
-								<Button
-									className={styles.rowBtn}
-									onClick={(e) => {}}
-								>
-									现在这是我的已选课程, 点击前往作业列表
-								</Button>
-							</Row>,
-						]}
-					>
-						<Meta
-							title={'biaoti'}
-							description={'kecheng xinxi'}
-							style={{ height: '80px' }}
-						/>
-					</Card>
-				</Col>
+						</Card>
+					</Col>
+				))}
 			</Row>
 		</div>
 	);
