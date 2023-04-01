@@ -64,8 +64,8 @@ export default function Personal() {
         </Upload>
       </div>
 
-      <div className={styles.shuchu}>学号：{userInfo.stuId}</div>
-      <div className={styles.shuchu}>姓名；{userInfo.userName}</div>
+      <div className={styles.box}>学号：{userInfo.stuId}</div>
+      <div className={styles.box}>姓名；{userInfo.userName}</div>
 
       <Space>
         <LocalizedModal />
