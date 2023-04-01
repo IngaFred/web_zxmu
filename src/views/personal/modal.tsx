@@ -21,6 +21,7 @@ const formItemLayout = {
     },
   },
 };
+// modal 对话框
 const LocalizedModal = () => {
   const [open, setOpen] = useState(false);
   const showModal = () => {
@@ -29,15 +30,15 @@ const LocalizedModal = () => {
   const hideModal = () => {
     setOpen(false);
   };
-
+  //密码输入框
   const [form] = Form.useForm();
-  const onFinish = (values:any) => {
+  const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
 
   return (
     <>
-      <Button type="primary" className={styles.fixmima} onClick={showModal}>
+      <Button type="primary" className={styles.fixpsd} onClick={showModal}>
         修改密码
       </Button>
       <Modal

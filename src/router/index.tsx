@@ -20,13 +20,13 @@ const List = lazy(() => import("../views/student/list"));
 const Show = lazy(() => import("../views/student/show"));
 
 // teacher端
-const CourseTeacher = lazy(() => import("../views/teacher/course"));
 const DetailTeacher = lazy(() => import("../views/teacher/detail"));
-const ListTeacher = lazy(() => import("../views/teacher/list"));
+const CourseTeacher = lazy(() => import("../views/teacher/course"));
+const DetailListTeacher = lazy(() => import("../views/teacher/detailList"));
 const ShowTeacher = lazy(() => import("../views/teacher/show"));
 const NewTeacher = lazy(() => import("../views/teacher/new"));
 const ScoringTeacher = lazy(() => import("../views/teacher/scoring"));
-const LessonListTeacher = lazy(() => import("../views/teacher/lesson-list"));
+const LessonListTeacher = lazy(() => import("../views/teacher/courseList"));
 
 // 懒加载的形式引入
 const BeforeEach = lazy(() => import("../components/before-each"));
@@ -156,70 +156,83 @@ export const routes: RouteObject[] = [
       },
 
       // teacher
+
       {
-        path: 'courseTeacher',
+        path: "courseTeacher",
         element: <CourseTeacher />,
         meta: {
           menu: true,
-          title: '课程详情',
+          title: "课程详情",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'courseTeacher',
+        name: "courseTeacher",
       },
       {
-        path: 'detailTeacher',
+        path: "detailTeacher",
         element: <DetailTeacher />,
         meta: {
           menu: true,
-          title: '作业详情设置',
+          title: "作业发布",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'detailTeacher',
+        name: "detailTeacher",
       },
       {
-        path: 'listTeacher',
-        element: <ListTeacher />,
+        path: "lessonListTeacher",
+        element: <LessonListTeacher />,
         meta: {
           menu: true,
-          title: '我的作业列表',
+          title: "我的课程列表",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'listTeacher',
-      },{
-        path: 'scoringTeacher',
+        name: "lessonListTeacher",
+      },
+      {
+        path: "detailListTeacher",
+        element: <DetailListTeacher />,
+        meta: {
+          menu: true,
+          title: "我的作业列表",
+          icon: <CalendarOutlined />,
+          auth: true,
+        },
+        name: "detailListTeacher",
+      },
+      {
+        path: "scoringTeacher",
         element: <ScoringTeacher />,
         meta: {
           menu: true,
-          title: '作业详情打分',
+          title: "作业详情打分",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'scoringTeacher',
+        name: "scoringTeacher",
       },
       {
-        path: 'showTeacher',
+        path: "showTeacher",
         element: <ShowTeacher />,
         meta: {
           menu: true,
-          title: '优秀成果展示',
+          title: "优秀成果展示",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'showTeacher',
+        name: "showTeacher",
       },
       {
-        path: 'newTeacher',
+        path: "newTeacher",
         element: <NewTeacher />,
         meta: {
           menu: true,
-          title: '新建/修改课程',
+          title: "新建/修改课程",
           icon: <CalendarOutlined />,
           auth: true,
         },
-        name: 'newTeacher',
+        name: "newTeacher",
       },
       {
         path: "information",
