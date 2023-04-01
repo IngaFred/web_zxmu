@@ -156,7 +156,6 @@ export const routes: RouteObject[] = [
 			},
 
 			// teacher
-
 			{
 				path: 'courseTeacher',
 				element: <CourseTeacher />,

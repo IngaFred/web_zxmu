@@ -17,7 +17,7 @@ import { getDetails } from '../../../service/detail';
 import MyEditor from './components/myEditor';
 import MyUpload from './components/myUpload';
 import styles from './index.module.scss';
-import { putSorce } from '../../../service/scoring';
+import { putCourse } from '../../../service/scoring';
 // 作业批改（查看作业，提交作业，成果展示列表，批改作业）
 // 娄竞楷
 interface Homework {
@@ -83,7 +83,7 @@ export default function Detail() {
     
     const handleInputScore = (scoreParam:scoreParams) =>{
       
-          putSorce(scoreParam).then((ret)=>{
+      putCourse(scoreParam).then((ret)=>{
         if(ret.status === 200){
           console.log(ret);
           
@@ -104,7 +104,7 @@ export default function Detail() {
     } 
 
     // useEffect(()=>{
-    //       putSorce(scoreParam).then((ret)=>{
+    //       putCourse(scoreParam).then((ret)=>{
         
     //     if(ret.status === 200){
     //       console.log(ret);
@@ -262,7 +262,7 @@ export default function Detail() {
   /> */}
     <Space.Compact style={{ width: '10%' }}>
       <Input  value={fen} onChange={(e)=>handleInput(e)}/>
-      <Button type="primary" onClick={()=>handleSend(scores)}>Submit</Button>
+      <Button type="primary" onClick={()=>handleSend(scores)}>提交</Button>
     </Space.Compact>
 
         </div>

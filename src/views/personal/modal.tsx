@@ -38,7 +38,7 @@ const LocalizedModal = () => {
 
   return (
     <>
-      <Button type="primary" className={styles.fixmima} onClick={showModal}>
+      <Button type="primary" className={styles.fixpsd} onClick={showModal}>
         修改密码
       </Button>
       <Modal
