@@ -1,39 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Menu } from "antd";
 import type { MenuProps } from "antd";
 import styles from "../index.module.scss";
-// 拿到infos
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../store";
 // 得到路由
 import { routes } from "../../../router";
+import { RouteObject } from "react-router-dom";
 // 克隆过滤路由
 import _ from "lodash";
 import { useLocation, matchRoutes, Link } from "react-router-dom";
-
-export default function HomeAside() {
-  const location = useLocation();
-  // 权限过滤
-  // const permission = useSelector(
-  //   (state: RootState) => state.user.infos.permission
-  // ) as unknown[];
-  // if (!permission) return null;
-  // const menus = _.cloneDeep(routes).filter((v) => {
-  //   v.children = v.children?.filter((v) => {
-  //     return permission.includes(v.name) && v.meta?.menu;
-  //   });
-  //   return permission.includes(v.name) && v.meta?.menu;
-  // });v
-
-  const menus = _.cloneDeep(routes).filter((v) => {
-    v.children = v.children?.filter((v) => {
-      return v.name !== "/";
+// 拿到对应用户权限
+import { getPerm } from "../../../service/page";
+// 定义一个接口，表示HomeAside组件的props类型
+interface HomeAsideProps {}
+// 定义一个接口，表示getPerm函数的返回值类型
+interface Perm {
+  permName: string;
+}
+// 定义常量对象，表示路由权限数组
+const permission = {
+  stu: ["personal", "course", "list", "detail", "show"],
+  tea: [
+    " personal",
+    "courseTeacher",
+    "detailTeacher",
+    "listTeacher",
+    "scoringTeacher",
+    "showTeacher",
+    "newTeacher",
+    "information",
+  ],
+};
+// 定义过滤函数
+const filter = {
+  stu: (menus: RouteObject[]) => {
+    return menus.filter((v) => {
+      v.children = v.children?.filter((v) => {
+        return permission.stu.includes(v.name) && v.meta?.menu;
+      });
+      return permission.stu.includes(v.name) && v.meta?.menu;
     });
-    return v.name !== "/";
-  });
-
-  // 变成具备动态菜单渲染的路由menu 转圜成菜单栏
-  const items: MenuProps["items"] = menus.map((v1) => {
+  },
+  tea: (menus: RouteObject[]) => {
+    return menus.filter((v) => {
+      v.children = v.children?.filter((v) => {
+        return permission.tea.includes(v.name) && v.meta?.menu;
+      });
+      return permission.tea.includes(v.name) && v.meta?.menu;
+    });
+  },
+};
+// 定义一个组件，使用HomeAsideProps接口作为props类型
+const HomeAside: React.FC<HomeAsideProps> = () => {
+  // 定义一个状态变量，表示权限数据
+  const [myPerm, setMyPerm] = useState<Perm | null>(null);
+  // 定义一个状态变量，表示菜单项数据
+  const [myItems, setMyItems] = useState<RouteObject[] | null>([]);
+  // 使用useEffect钩子函数，在组件挂载后，获取权限数据和菜单项数据
+  useEffect(() => {
+    // 获取权限数据，并存储在myPerm状态变量中
+    getPerm().then((ret) => {
+      const { success } = ret?.data || undefined;
+      const { perm } = ret?.data[0] || [];
+      if (success) {
+        console.log(perm?.permName);
+        setMyPerm(perm?.permName);
+      }
+    });
+  }, []);
+  // 克隆路由数组，并存储在menus变量中
+  const menus: RouteObject[] = _.cloneDeep(routes);
+  // 根据权限数据，使用过滤函数的对象映射，过滤菜单项，并存储在items状态变量中
+  if (myPerm?.permName === "学生权限") {
+    const items = filter.stu(menus);
+    setMyItems(items);
+  } else {
+    const items = filter.tea(menus);
+    setMyItems(items);
+  }
+  // 获取当前的路由位置，并存储在location变量中
+  const location = useLocation();
+  // 变成具备动态菜单渲染的路由menu 转换成菜单栏
+  const items: MenuProps["items"] = myItems?.map((v1) => {
     const children = v1.children?.map((v2) => {
       return {
         key: v1.path! + v2.path!,
@@ -63,4 +110,5 @@ export default function HomeAside() {
       className={styles["home-aside"]}
     />
   );
-}
+};
+export default HomeAside;
