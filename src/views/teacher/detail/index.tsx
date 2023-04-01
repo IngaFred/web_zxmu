@@ -30,10 +30,7 @@ export default function Detail() {
             <Input />
           </Form.Item>
 
-          <Form.Item label="作业开始时间">
-            <RangePicker />
-          </Form.Item>
-          <Form.Item label="作业结束时间">
+          <Form.Item label="作业时间">
             <RangePicker />
           </Form.Item>
 
