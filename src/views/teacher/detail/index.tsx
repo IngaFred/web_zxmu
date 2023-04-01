@@ -44,11 +44,11 @@ export default function Detail() {
                   const newObj = {
                     name: values.name,
                     info: values.info,
-                    start: values.time?.[0]?.valueOf?.(),
-                    end: values.time?.[1]?.valueOf?.(),
+                    /* start: values.time?.[0]?.valueOf?.(),
+                    end: values.time?.[1]?.valueOf?.(), */
                   };
                   console.log("newObj", newObj);
-                  /* postUploadFile(newObj as File); */
+                  postUploadFile(values);
                 }}
               >
                 新建作业
@@ -60,9 +60,9 @@ export default function Detail() {
             <Input />
           </Form.Item>
 
-          <Form.Item name="time" label="作业时间">
+          {/* <Form.Item name="time" label="作业时间">
             <RangePicker />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item name="info" label="作业内容介绍">
             <TextArea rows={4} />
