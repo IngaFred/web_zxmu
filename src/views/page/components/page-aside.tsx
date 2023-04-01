@@ -18,9 +18,9 @@ interface Perm {
 }
 // 定义常量对象，表示路由权限数组
 const permission = {
-	stu: ['home','personal', 'course', 'list', 'detail', 'show'],
+	stu: ['home', 'personal', 'course', 'list', 'detail', 'show'],
 	tea: [
-    'home',
+		'home',
 		'personal',
 		'courseTeacher',
 		'detailTeacher',
@@ -29,6 +29,7 @@ const permission = {
 		'showTeacher',
 		'newTeacher',
 		'information',
+		'courseList',
 	],
 };
 // 定义过滤函数
@@ -38,7 +39,7 @@ const filter = (menus: RouteObject[], p: string[]) => {
 		const childrens = item.children ? filter(item.children, p) : undefined;
 		console.log('p,item', p, item.name);
 		if (p.includes(item.name)) {
-      console.log(true)
+			console.log(true);
 			// @ts-ignore
 			newMenu.push({
 				...item,
@@ -46,7 +47,7 @@ const filter = (menus: RouteObject[], p: string[]) => {
 			});
 		}
 	});
-  console.log('newMenu',newMenu)
+	console.log('newMenu', newMenu);
 	return newMenu;
 };
 // 定义一个组件，使用HomeAsideProps接口作为props类型
@@ -107,30 +108,30 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
 	const matchs = matchRoutes(routes, location);
 	const subpath = matchs![0].pathnameBase || '';
 	const path = matchs![1].pathnameBase || '';
-  console.log('myitems',myItems);
-  
+	console.log('myitems', myItems);
+
 	return (
 		<Menu
 			selectedKeys={[path]}
 			openKeys={[subpath]}
-			mode="inline"
+			mode='inline'
 			items={myItems?.map((v1) => {
-        const children = v1.children?.map((v2) => {
-          return {
-            key: v1.path! + v2.path!,
-            // 实现路由跳转 标签
-            label: <Link to={v1.path! + v2.path!}> {v2.meta?.title} </Link>,
-            icon: v2.meta?.icon,
-          };
-        });
-        return {
-          // 不能将类型 key: string | undefined; 进行非空断言
-          key: v1.path! as string,
-          label: v1.meta?.title,
-          icon: v1.meta?.icon,
-          children,
-        };
-      })}
+				const children = v1.children?.map((v2) => {
+					return {
+						key: v1.path! + v2.path!,
+						// 实现路由跳转 标签
+						label: <Link to={v1.path! + v2.path!}> {v2.meta?.title} </Link>,
+						icon: v2.meta?.icon,
+					};
+				});
+				return {
+					// 不能将类型 key: string | undefined; 进行非空断言
+					key: v1.path! as string,
+					label: v1.meta?.title,
+					icon: v1.meta?.icon,
+					children,
+				};
+			})}
 			className={styles['home-aside']}
 		/>
 	);
