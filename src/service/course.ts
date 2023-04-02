@@ -60,13 +60,17 @@ export const getTeacherClassList = async () => {
   const res = await http.get("/lesson/teacher/created/simple");
   return res;
 };
-
 // 学生获取课程信息方法
 export const getLessonInfo = async (id: LessonId) => {
   // console.log("id" + id);
   const ret = await http.get("/lesson?lessonId=" + id.e);
   // console.log(ret);
   return ret;
+};
+//老师批量导入学生，上传Excel文件
+export const importStudent = async (file: File) => {
+  const res = await http.post("/lesson/importuser", file);
+  return res;
 };
 
 //拉取所有存在的主题

@@ -75,6 +75,26 @@ export default function New() {
   const [isCreate, setIsCreate] = useState(true);
   const { TextArea } = Input;
 
+  //课程批量导入学生
+  const studentProp: UploadProps = {
+    name: "file",
+    accept: "file",
+    action: "/lesson/importuser",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   const displayAdd = () => {
     return (
       <Layout className={styles.courseAll}>
@@ -185,7 +205,9 @@ export default function New() {
                     <Button className={styles.saveButtons}>保存</Button>
 
                     <div className={styles.buttonDiv}>
-                      <Button>添加学生</Button>
+                      <Upload {...studentProp}>
+                        <Button icon={<UploadOutlined />}>添加学生</Button>
+                      </Upload>
                       <Button>修改学生</Button>
                       <Button>新建作业</Button>
                     </div>
