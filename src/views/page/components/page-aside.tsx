@@ -30,6 +30,7 @@ const permission = {
 		'showTeacher',
 		'newTeacher',
 		'information',
+		'detailListTeacher'
 	],
 };
 // 定义过滤函数

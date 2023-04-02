@@ -7,9 +7,15 @@
     padding: 10px;
 }
 
-.topcenter{
+.topCenter{
     display: flex;
     flex-direction: row;
     justify-content:space-between ;
     margin: 10px;
+}
+
+.itemStyle{
+    display: 'flex';
+     flex-direction: 'column';
+     justify-content: "space-between"
 }
