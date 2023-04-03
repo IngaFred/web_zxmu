@@ -32,18 +32,21 @@ type Invitation = {
 type termedLessonId = {
   termedLessonId: string;
 };
+type updateClassCover = {
+  picFile: File;
+  lessonId: string;
+};
 
 //老师业务方法
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
-  console.log(Lesson);
+  // console.log(Lesson);
   const res = await http.post("/lesson/create", {
     picFile: Lesson.picFile,
     name: Lesson.name,
     info: Lesson.info,
     resourceList: Lesson.resourceList,
   });
-  console.log(res);
   return res;
 };
 //老师获取自己创建的课程列表
@@ -56,8 +59,29 @@ export const importStudent = async (file: File) => {
   const res = await http.post("/lesson/importuser", file);
   return res;
 };
+//教师修改课程封面
+export const updateLessonCover = async (updateData: updateClassCover) => {
+  const res = await http.put("/lesson/pic", {
+    picFile: updateData.picFile,
+    lessonId: updateData.lessonId,
+  });
+  console.log(updateData);
+  console.log(res);
+  return res;
+};
+//教师修改课程封面
+export const updateLessonName = async (lessonId: string, name: string) => {
+  const res = await http.put("/lesson/name", {
+    lessonId: lessonId,
+    name: name,
+  });
+  console.log(res);
+  return res;
+};
+
 //用户上传资源
 export const uploadResource = async (file: File) => {
+  // console.log(file);
   const ret = await http.post("/resource/upload", file, {}, "upload");
   return ret;
 };
