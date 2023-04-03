@@ -82,6 +82,7 @@ const UpdateLesson = (id: LessonId) => {
       }
     });
   };
+  const handleCreateWork = () => {};
 
   useEffect(() => {
     getLessonInfo(id).then((res) => {
@@ -102,67 +103,65 @@ const UpdateLesson = (id: LessonId) => {
   return (
     <Layout className={styles.courseAll}>
       <Header className={styles.header}>
-        <>
-          {Object.keys(lessonInfo).length > 0 ? (
-            <>
-              <div>
-                <div className={styles.title}>
-                  <h1>课程名:</h1>
-                  <Input
-                    style={{ width: "300px" }}
-                    value={lessonName}
-                    onChange={(e) => {
-                      setLessonName(e.target.value);
-                    }}
-                  ></Input>
-                  <Button className={styles.saveButtons} onClick={handleUpName}>
-                    保存
-                  </Button>
-
-                  <Button className={styles.newButtonDiv}>新建作业</Button>
-                </div>
-                <div className={styles.box}>
-                  <Image
-                    preview={false}
-                    style={{
-                      width: "450px",
-                      height: "320px",
-                      borderRadius: "5px",
-                    }}
-                    src={lessonInfo.picUrl}
-                  />
-                  <TextArea
-                    className={styles.card}
-                    value={lessonDetail}
-                    onChange={(e) => {
-                      setLessonDetail(e.target.value);
-                    }}
-                  ></TextArea>
-                </div>
-              </div>
-              <div className={styles.upload}>
-                <Upload
-                  {...uploadCoverProps}
-                  customRequest={(res) => {
-                    handleUploadCover(res.file as File);
+        {Object.keys(lessonInfo).length > 0 ? (
+          <>
+            <div>
+              <div className={styles.title}>
+                <h1>课程名:</h1>
+                <Input
+                  style={{ width: "300px" }}
+                  value={lessonName}
+                  onChange={(e) => {
+                    setLessonName(e.target.value);
                   }}
-                >
-                  <Button
-                    className={styles.uploadButton1}
-                    icon={<UploadOutlined />}
-                  >
-                    上传课程封面
-                  </Button>
-                </Upload>
-                <Button className={styles.updateButton} onClick={handleUpInfo}>
-                  保存修改
+                ></Input>
+                <Button className={styles.saveButtons} onClick={handleUpName}>
+                  保存
                 </Button>
+
+                {/* <Button className={styles.newButtonDiv onclick={handleCreateWork}>新建作业</Button> */}
               </div>
-            </>
-          ) : (
-            <Empty description="暂无课程详情" />
-          )}
-        </>
+              <div className={styles.box}>
+                <Image
+                  preview={false}
+                  style={{
+                    width: "450px",
+                    height: "320px",
+                    borderRadius: "5px",
+                  }}
+                  src={lessonInfo.picUrl}
+                />
+                <TextArea
+                  className={styles.card}
+                  value={lessonDetail}
+                  onChange={(e) => {
+                    setLessonDetail(e.target.value);
+                  }}
+                ></TextArea>
+              </div>
+            </div>
+            <div className={styles.upload}>
+              <Upload
+                {...uploadCoverProps}
+                customRequest={(res) => {
+                  handleUploadCover(res.file as File);
+                }}
+              >
+                <Button
+                  className={styles.uploadButton1}
+                  icon={<UploadOutlined />}
+                >
+                  上传课程封面
+                </Button>
+              </Upload>
+              <Button className={styles.updateButton} onClick={handleUpInfo}>
+                保存修改
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Empty description="暂无课程详情" />
+        )}
       </Header>
       <Content>
         <div className={styles.outline}>
