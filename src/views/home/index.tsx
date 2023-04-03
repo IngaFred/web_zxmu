@@ -287,7 +287,7 @@ export default function Home() {
 								className={styles.rowBtn}
 								onClick={(e) => handleMyCourse(item.lessonId, e)}
 							>
-							{toLog(item.lessonId)}
+								{toLog(item.lessonId)}
 								课程详情
 							</Button>
 							<Button
@@ -336,7 +336,7 @@ export default function Home() {
 								className={styles.rowBtn}
 								onClick={(e) => handleMyDetail(item.lessonId, e)}
 							>
-								作业列表
+								我的作业
 							</Button>
 						</Row>,
 					]}
@@ -354,13 +354,9 @@ export default function Home() {
 
 	const navigate = useNavigate();
 	const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
-		console.log(e);
-		
 		navigate('/course', { state: { lessonId: { e } } });
 	};
 	const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-		console.log(e);
-
 		navigate('/list', { state: { lessonId: { e } } });
 	};
 

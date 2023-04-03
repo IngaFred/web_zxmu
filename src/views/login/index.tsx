@@ -30,7 +30,7 @@ export default function Login() {
   const testUsers: User[] = [
     // 测试1 学生
     {
-      account: "202112211203007",
+      account: "202112213801013",
       password: "123456",
     },
     // 测试2 教师
