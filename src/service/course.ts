@@ -54,11 +54,6 @@ export const getTeacherClassList = async () => {
   const res = await http.get("/lesson/teacher/created/simple");
   return res;
 };
-//老师批量导入学生，上传Excel文件
-export const importStudent = async (file: File) => {
-  const res = await http.post("/lesson/importuser", file);
-  return res;
-};
 //教师修改课程封面
 export const updateLessonCover = async (updateData: updateClassCover) => {
   const res = await http.put("/lesson/pic", {
@@ -69,13 +64,22 @@ export const updateLessonCover = async (updateData: updateClassCover) => {
   console.log(res);
   return res;
 };
-//教师修改课程封面
+//教师修改课程名
 export const updateLessonName = async (lessonId: string, name: string) => {
   const res = await http.put("/lesson/name", {
     lessonId: lessonId,
     name: name,
   });
-  console.log(res);
+  // console.log(res);
+  return res;
+};
+//教师修改课介绍
+export const updateLessonInfo = async (lessonId: string, info: string) => {
+  const res = await http.put("/lesson/info", {
+    lessonId: lessonId,
+    info: info,
+  });
+  // console.log(res);
   return res;
 };
 

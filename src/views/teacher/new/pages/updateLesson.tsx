@@ -19,6 +19,7 @@ import styles from "../index.module.scss";
 import {
   getLessonInfo,
   updateLessonCover,
+  updateLessonInfo,
   updateLessonName,
 } from "../../../../service/course";
 import { useEffect, useState } from "react";
@@ -36,7 +37,9 @@ const UpdateLesson = (id: LessonId) => {
   const { TextArea } = Input;
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [lessonName, setLessonName] = useState("");
+  const [lessonDetail, setLessonDetail] = useState("");
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
+  // const [isUpdateInfo, setIsUpdateInfo] = useState(false);
   const uploadCoverProps: UploadProps = {
     name: "file",
     headers: {
@@ -62,7 +65,6 @@ const UpdateLesson = (id: LessonId) => {
   };
   const handleUpName = () => {
     updateLessonName(id.e, lessonName).then((res) => {
-      console.log(res.data);
       if (res.data.success) {
         message.success(res.data.errorMsg);
       } else {
@@ -70,12 +72,24 @@ const UpdateLesson = (id: LessonId) => {
       }
     });
   };
+
+  const handleUpInfo = () => {
+    updateLessonInfo(id.e, lessonDetail).then((res) => {
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+      } else {
+        message.error(res.data.errorMsg);
+      }
+    });
+  };
+
   useEffect(() => {
     getLessonInfo(id).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
           setLessonInfo(res.data.data);
           setLessonName(res.data.data.lessonName);
+          setLessonDetail(res.data.data.info);
           setresoursBOList(res.data.data.resoursBOList);
         } else {
           message.warning(res.data.errorMsg);
@@ -119,7 +133,10 @@ const UpdateLesson = (id: LessonId) => {
                   />
                   <TextArea
                     className={styles.card}
-                    defaultValue={lessonInfo.info}
+                    value={lessonDetail}
+                    onChange={(e) => {
+                      setLessonDetail(e.target.value);
+                    }}
                   ></TextArea>
                 </div>
               </div>
@@ -137,7 +154,9 @@ const UpdateLesson = (id: LessonId) => {
                     上传课程封面
                   </Button>
                 </Upload>
-                {/* <Button>保存修改</Button> */}
+                <Button className={styles.updateButton} onClick={handleUpInfo}>
+                  保存修改
+                </Button>
               </div>
             </>
           ) : (
