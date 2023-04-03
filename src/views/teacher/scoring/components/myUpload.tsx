@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd";
 import { Button, message, Upload } from "antd";
-import { toUploadFile } from "../../../../service/detail";
+import { postUploadFile } from "../../../../service/detail";
 
 // 定义一个MyUploadProps接口，用来描述props的类型
 interface MyUploadProps {
@@ -24,7 +24,7 @@ const MyUpload = (props: MyUploadProps) => {
     // 设置uploading状态为true，表示正在上传文件
     setUploading(true);
     // 使用service中封装函数上传文件
-    toUploadFile(file).then((ret) => {
+    postUploadFile(file).then((ret) => {
       // 处理响应数据
       const { success, errorMsg, data } = ret?.data || {};
       if (success) {

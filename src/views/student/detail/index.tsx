@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getDetails, getLessons } from '../../../service/detail';
+import { getDetails, getLessons, postSubmit } from '../../../service/detail';
 import MyEditor from './components/myEditor';
 import MyUpload from './components/myUpload';
 import styles from './index.module.scss';
@@ -28,6 +28,7 @@ interface Homework {
 	end: string;
 	status: string;
 	creator: any;
+	term: any;
 	resoursBOList: Resource[];
 }
 interface Resource {
@@ -37,14 +38,18 @@ interface Resource {
 	url: string;
 	info: string;
 }
-
+interface HomeworkList {
+	homeworkId: string;
+	content: string;
+	termId: string;
+	resourceList: UploadFile[] | null;
+}
 export default function Detail() {
 	const location = useLocation();
 	// const { lessonId: myLesson, homeworkId: myHomework } = location?.state || {};
 	const { lessonId: myLesson } = location?.state || {}; // 解构赋值
 	const [homeworkBOList, setHomeworkBOList] = useState<Homework | null>();
 	const [myResoursBOList, setMyResoursBOList] = useState([]);
-
 	// 使用useState创建一个本地状态fileList，用来存放文件列表
 	const [fileList, setFileList] = useState<UploadFile[]>([]);
 	// 定义一个handleChange函数，用来更新fileList状态
@@ -80,9 +85,25 @@ export default function Detail() {
 
 	// 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
 	const { lessonName, name, info, start, end } = homeworkBOList || {};
-
 	const userName = homeworkBOList?.creator?.userName;
-	const SubmitEvent = () => {};
+	const termId = homeworkBOList?.term?.termId;
+	// 全体作业存储
+	const myHomework: HomeworkList = {
+		homeworkId: homeworkBOList?.homeworkId || '',
+		content: 'string',
+		termId: termId as string,
+		resourceList: fileList || null,
+	};
+	const SubmitEvent = () => {
+		postSubmit(myHomework).then((ret) => {
+			const { success, data, errorMsg } = ret?.data || null;
+			if (success) {
+				console.log(errorMsg);
+			} else {
+				console.log(errorMsg);
+			}
+		});
+	};
 
 	return (
 		<div className={styles.detailALL}>
