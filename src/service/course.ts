@@ -6,6 +6,7 @@ type LessonId = {
   //课程id
   e: string;
 };
+//创建课程数据接口
 type Lesson = {
   picFile?: File;
   name: string;
@@ -35,12 +36,15 @@ type termedLessonId = {
 //老师业务方法
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
+  console.log(Lesson);
   const res = await http.post("/lesson/create", {
     picFile: Lesson.picFile,
     name: Lesson.name,
     info: Lesson.info,
     resourceList: Lesson.resourceList,
   });
+  console.log(res);
+  return res;
 };
 //老师获取自己创建的课程列表
 export const getTeacherClassList = async () => {
@@ -52,7 +56,11 @@ export const importStudent = async (file: File) => {
   const res = await http.post("/lesson/importuser", file);
   return res;
 };
-
+//用户上传资源
+export const uploadResource = async (file: File) => {
+  const ret = await http.post("/resource/upload", file, {}, "upload");
+  return ret;
+};
 //学生业务方法
 // 学生获取课程信息方法
 export const getLessonInfo = async (id: LessonId) => {
