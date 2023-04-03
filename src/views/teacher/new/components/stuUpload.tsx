@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd";
 import { Button, message, Upload } from "antd";
-import { importStudent } from "../../../../service/course";
+import { uploadResource } from "../../../../service/course";
 
 // 定义一个MyUploadProps接口，用来描述props的类型
 interface MyUploadProps {
@@ -15,7 +15,7 @@ interface MyUploadProps {
   // disabled是一个布尔类型
   disabled: boolean;
 }
-const StuUpload = (props: MyUploadProps) => {
+const MyUpload = (props: MyUploadProps) => {
   // 使用useState创建一个本地状态uploading，用来表示是否正在上传文件
   const [uploading, setUploading] = useState(false);
 
@@ -24,7 +24,7 @@ const StuUpload = (props: MyUploadProps) => {
     // 设置uploading状态为true，表示正在上传文件
     setUploading(true);
     // 使用service中封装函数上传文件
-    importStudent(file).then((ret) => {
+    uploadResource(file).then((ret) => {
       // 处理响应数据
       const { success, errorMsg, data } = ret?.data || {};
       if (success) {
@@ -74,4 +74,4 @@ const StuUpload = (props: MyUploadProps) => {
     </Upload>
   );
 };
-export default StuUpload;
+export default MyUpload;

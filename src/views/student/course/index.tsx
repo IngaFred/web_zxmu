@@ -76,16 +76,15 @@ export default function Course() {
           <div className={styles.outlineTitle}>
             <h1>教学大纲</h1>
           </div>
-          {lessonPassageBOList.map((item, index) => (
-            <Card key={index} className={styles.outlineCard}>
-              <div className={styles.outlineCardTitle}>
-                <h2>{item.name}</h2>
-              </div>
-              <div className={styles.outlineCardContent}>
-                <p>内容</p>
-              </div>
-            </Card>
-          ))}
+
+          <Card className={styles.outlineCard}>
+            <div className={styles.outlineCardTitle}>
+              <h2>标题</h2>
+            </div>
+            <div className={styles.outlineCardContent}>
+              <p>内容</p>
+            </div>
+          </Card>
           <div>
             <div className={styles.resoursListTitle}>
               <h1>其他资源</h1>
