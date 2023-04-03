@@ -6,6 +6,12 @@ type LessonId = {
   //课程id
   e: string;
 };
+type Lesson = {
+  picFile?: File;
+  name: string;
+  info: string;
+  resourceList: string[];
+};
 
 //发表帖子
 type Invitation = {
@@ -27,6 +33,15 @@ type termedLessonId = {
 };
 
 //老师业务方法
+//教师创建课程
+export const postCreateLesson = async (Lesson: Lesson) => {
+  const res = await http.post("/lesson/create", {
+    picFile: Lesson.picFile,
+    name: Lesson.name,
+    info: Lesson.info,
+    resourceList: Lesson.resourceList,
+  });
+};
 //老师获取自己创建的课程列表
 export const getTeacherClassList = async () => {
   const res = await http.get("/lesson/teacher/created/simple");

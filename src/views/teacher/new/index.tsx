@@ -95,6 +95,31 @@ export default function New() {
     },
   };
 
+  //创建课程数据接口
+  type Lesson = {
+    picFile?: File;
+    name: string;
+    info: string;
+    resourceList: string[];
+  };
+
+  const [createLesson, setCreateLesson] = useState<Lesson>({
+    picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
+      type: "image/jpeg",
+    }),
+    name: "输入课程名",
+    info: "输入简介",
+    resourceList: [],
+  });
+  const postUploadImg = (newFile: File) => {
+    setCreateLesson({
+      picFile: newFile,
+      name: "输入课程名",
+      info: "输入简介",
+      resourceList: [],
+    });
+  };
+
   const displayAdd = () => {
     return (
       <Layout className={styles.courseAll}>
@@ -103,7 +128,10 @@ export default function New() {
             <div>
               <div className={styles.title}>
                 <h1>课程名:</h1>
-                <Input style={{ width: "300px" }}></Input>
+                <Input
+                  style={{ width: "300px" }}
+                  value={createLesson.name}
+                ></Input>
                 <Button
                   className={styles.saveButton}
                   type="primary"
@@ -129,7 +157,12 @@ export default function New() {
               </div>
             </div>
             <div className={styles.upload}>
-              <Upload {...props}>
+              <Upload
+                {...props}
+                customRequest={(res) => {
+                  postUploadImg(res.file as File);
+                }}
+              >
                 <Button
                   className={styles.uploadButton1}
                   icon={<UploadOutlined />}

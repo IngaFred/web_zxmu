@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Avatar, Button, Input, message, Tooltip } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import {} from "../../../../service/course";
+import { getCommentByTermedLessonId } from "../../../../service/course";
 
 const CommentCard: React.FC = () => {
   //是否有评论逻辑
@@ -81,21 +81,21 @@ const CommentCard: React.FC = () => {
     const testThemeId: themeId = {
       themeId: "1635354389891915776",
     };
-    getThemeCommentList(testThemeId).then((res) => {
-      if (res.status === 200) {
-        if (res.data.success) {
-          setThemeComment(res.data.data);
-          setThemeCommentList(res.data.data.commentList);
-          setDisplayCommentList(
-            res.data.data.commentList.slice(0, DISPLAY_COUNT)
-          );
-        } else {
-          message.error(res.data.data.errorMsg);
-        }
-      } else {
-        message.error("请求失败");
-      }
-    });
+    // getThemeCommentList(testThemeId).then((res) => {
+    //   if (res.status === 200) {
+    //     if (res.data.success) {
+    //       setThemeComment(res.data.data);
+    //       setThemeCommentList(res.data.data.commentList);
+    //       setDisplayCommentList(
+    //         res.data.data.commentList.slice(0, DISPLAY_COUNT)
+    //       );
+    //     } else {
+    //       message.error(res.data.data.errorMsg);
+    //     }
+    //   } else {
+    //     message.error("请求失败");
+    //   }
+    // });
   }, []);
   useEffect(() => {
     setDisplayCommentList(themeCommentList.slice(0, displayedComments));
