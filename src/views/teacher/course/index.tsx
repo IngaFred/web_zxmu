@@ -24,27 +24,22 @@ export default function Course() {
   const lessonId: LessonId = location.state?.lessonId;
 
   const [lessonInfo, setLessonInfo] = useState<any>({});
-  const [lessonPassageBOList, setLessonPassageBOList] = useState<any[]>([]);
-  const [resoursBOList, setresoursBOList] = useState<any[]>([]);
+  // const [lessonPassageBOList, setLessonPassageBOList] = useState<any[]>([]);
+  // const [resoursBOList, setresoursBOList] = useState<any[]>([]);
   //请求课程Id接口
   interface LessonId {
     e: string;
   }
-  const testLessonId: LessonId = {
-    e: "1635659994380824576",
-  };
   useEffect(() => {
     console.log("我是教师端");
-    getLessonInfo(testLessonId).then((res) => {
+    getLessonInfo(lessonId).then((res) => {
       if (res.data.success) {
         setLessonInfo(res.data.data);
-        setLessonPassageBOList(res.data.data.lessonPassageBOList);
-        setresoursBOList(res.data.data.resoursBOList);
       } else {
         message.warning(res.data.errorMsg);
       }
     });
-  }, []);
+  }, [lessonId]);
 
   return (
     <Layout className={styles.courseAll}>
@@ -97,16 +92,15 @@ export default function Course() {
           <div className={styles.outlineTitle}>
             <h1>教学大纲</h1>
           </div>
-          {lessonPassageBOList.map((item, index) => (
-            <Card key={index} className={styles.outlineCard}>
-              <div className={styles.outlineCardTitle}>
-                <h2>{item.name}</h2>
-              </div>
-              <div className={styles.outlineCardContent}>
-                <p>内容</p>
-              </div>
-            </Card>
-          ))}
+
+          <Card className={styles.outlineCard}>
+            <div className={styles.outlineCardTitle}>
+              <h2>标题</h2>
+            </div>
+            <div className={styles.outlineCardContent}>
+              <p>内容</p>
+            </div>
+          </Card>
           <div>
             <div className={styles.resoursListTitle}>
               <h1>其他资源</h1>
@@ -114,13 +108,15 @@ export default function Course() {
             <Card className={styles.outlineCard}>
               <div className={styles.outlineCardContent}>
                 <div
-                  style={{
-                    display: resoursBOList.length === 0 ? "inline" : "none",
-                  }}
+                  style={
+                    {
+                      // display: resoursBOList.length === 0 ? "inline" : "none",
+                    }
+                  }
                 >
                   暂无资源
                 </div>
-                <div
+                {/* <div
                   style={{
                     display: resoursBOList.length > 0 ? "inline" : "none",
                   }}
@@ -136,7 +132,7 @@ export default function Course() {
                       </a>
                     </Tooltip>
                   ))}
-                </div>
+                </div> */}
               </div>
             </Card>
           </div>
