@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UploadOutlined } from "@ant-design/icons";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd";
 import { Button, message, Upload } from "antd";
 import { uploadResource } from "../../../../service/course";
@@ -16,6 +16,7 @@ interface MyUploadProps {
   disabled: boolean;
 }
 const MyUpload = (props: MyUploadProps) => {
+  const { Dragger } = Upload;
   // 使用useState创建一个本地状态uploading，用来表示是否正在上传文件
   const [uploading, setUploading] = useState(false);
 
@@ -29,7 +30,7 @@ const MyUpload = (props: MyUploadProps) => {
       const { success, errorMsg, data } = ret?.data || {};
       if (success) {
         // 输出返回数据
-        console.log(data);
+        // console.log(data);
         // 设置uploading状态为false，表示上传文件完成
         setUploading(false);
         // 通知上传成功
@@ -58,7 +59,8 @@ const MyUpload = (props: MyUploadProps) => {
   };
 
   return (
-    <Upload
+    <Dragger
+      multiple={true}
       // 使用props中传入的fileList作为文件列表
       fileList={props.fileList}
       // 使用props中传入的onChange函数作为文件列表变化的回调
@@ -70,8 +72,14 @@ const MyUpload = (props: MyUploadProps) => {
       // 使用props中传入的disabled作为是否禁用上传的标志
       disabled={props.disabled}
     >
-      <Button icon={<UploadOutlined />}>上传</Button>
-    </Upload>
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">暂无课程资源</p>
+      <p className="ant-upload-hint">
+        把文件拖入指定区域，完成上传，同样支持点击上传，可以一次上传多个文件。
+      </p>
+    </Dragger>
   );
 };
 export default MyUpload;

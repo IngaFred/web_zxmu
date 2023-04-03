@@ -13,26 +13,69 @@ import {
   Empty,
   Tooltip,
   message,
+  UploadProps,
 } from "antd";
 import styles from "../index.module.scss";
-import defaultClassCover from "../../../../assets/images/course/defaultClassCover.jpg";
-import { getLessonInfo } from "../../../../service/course";
+import {
+  getLessonInfo,
+  updateLessonCover,
+  updateLessonName,
+} from "../../../../service/course";
 import { useEffect, useState } from "react";
 const { Header, Content } = Layout;
 type LessonId = {
   //课程id
   e: string;
 };
+type updateCover = {
+  picFile: File;
+  lessonId: string;
+};
+
 const UpdateLesson = (id: LessonId) => {
   const { TextArea } = Input;
   const [lessonInfo, setLessonInfo] = useState<any>({});
+  const [lessonName, setLessonName] = useState("");
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
-
+  const uploadCoverProps: UploadProps = {
+    name: "file",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+  const handleUploadCover = (cover: File) => {
+    const formData: updateCover = {
+      picFile: cover,
+      lessonId: id.e,
+    };
+    updateLessonCover(formData);
+  };
+  const handleUpName = () => {
+    updateLessonName(id.e, lessonName).then((res) => {
+      console.log(res.data);
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+      } else {
+        message.error(res.data.errorMsg);
+      }
+    });
+  };
   useEffect(() => {
     getLessonInfo(id).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
           setLessonInfo(res.data.data);
+          setLessonName(res.data.data.lessonName);
           setresoursBOList(res.data.data.resoursBOList);
         } else {
           message.warning(res.data.errorMsg);
@@ -53,17 +96,16 @@ const UpdateLesson = (id: LessonId) => {
                   <h1>课程名:</h1>
                   <Input
                     style={{ width: "300px" }}
-                    defaultValue={lessonInfo.lessonName}
+                    value={lessonName}
+                    onChange={(e) => {
+                      setLessonName(e.target.value);
+                    }}
                   ></Input>
-                  <Button className={styles.saveButtons}>保存</Button>
+                  <Button className={styles.saveButtons} onClick={handleUpName}>
+                    保存
+                  </Button>
 
-                  <div className={styles.buttonDiv}>
-                    <Upload>
-                      <Button icon={<UploadOutlined />}>添加学生</Button>
-                    </Upload>
-                    <Button>修改学生</Button>
-                    <Button>新建作业</Button>
-                  </div>
+                  <Button className={styles.newButtonDiv}>新建作业</Button>
                 </div>
                 <div className={styles.box}>
                   <Image
@@ -82,7 +124,12 @@ const UpdateLesson = (id: LessonId) => {
                 </div>
               </div>
               <div className={styles.upload}>
-                <Upload>
+                <Upload
+                  {...uploadCoverProps}
+                  customRequest={(res) => {
+                    handleUploadCover(res.file as File);
+                  }}
+                >
                   <Button
                     className={styles.uploadButton1}
                     icon={<UploadOutlined />}

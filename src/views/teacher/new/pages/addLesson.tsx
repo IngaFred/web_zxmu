@@ -1,15 +1,12 @@
-import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
-import { Layout, Input, Button, Upload, Card, Image } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Layout, Input, Button, Upload, Card, Image, UploadFile } from "antd";
 import styles from "../index.module.scss";
 import defaultClassCover from "../../../../assets/images/course/defaultClassCover.jpg";
 import { postCreateLesson } from "../../../../service/course";
 import { useEffect, useState } from "react";
+import MyUpload from "../components/lessonSourceUpload";
 const { Header, Content } = Layout;
 const DisplayAdd = () => {
-  const { Dragger } = Upload;
-  const { TextArea } = Input;
-
-  const [newName, setNewName] = useState("输入课程名");
   //创建课程数据接口
   type Lesson = {
     picFile?: File;
@@ -17,7 +14,18 @@ const DisplayAdd = () => {
     info: string;
     resourceList: string[];
   };
-
+  const { TextArea } = Input;
+  const [newInfo, setNewInfo] = useState("输入简介");
+  const [newResourceList, setNewResourceList] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [newName, setNewName] = useState("输入课程名");
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const handleChange = (info: { fileList: UploadFile[] }) => {
+    setFileList(info.fileList);
+  };
+  const handleRemove = (file: UploadFile) => {
+    setFileList(fileList.filter((f) => f.uid !== file.uid));
+  };
   const [createLesson, setCreateLesson] = useState<Lesson>({
     picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
       type: "image/jpeg",
@@ -31,17 +39,6 @@ const DisplayAdd = () => {
       type: "image/jpeg",
     })
   );
-  const [newInfo, setNewInfo] = useState("输入简介");
-  const [newResourceList, setNewResourceList] = useState([]);
-  const [isSubmit, setIsSubmit] = useState(false);
-
-  useEffect(() => {
-    if (isSubmit) {
-      postCreateLesson(createLesson);
-    } else {
-      return;
-    }
-  }, [createLesson, isSubmit]);
   const submitCreateLesson = () => {
     setCreateLesson({
       picFile: newCover,
@@ -52,6 +49,13 @@ const DisplayAdd = () => {
     setIsSubmit(true);
   };
 
+  useEffect(() => {
+    if (isSubmit) {
+      postCreateLesson(createLesson);
+    } else {
+      return;
+    }
+  }, [createLesson, isSubmit]);
   return (
     <Layout className={styles.courseAll}>
       <Header className={styles.header}>
@@ -130,15 +134,12 @@ const DisplayAdd = () => {
             </div>
             <Card className={styles.outlineCard}>
               <div className={styles.outlineCardContent}>
-                <Dragger>
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                  </p>
-                  <p className="ant-upload-text">暂无课程资源</p>
-                  <p className="ant-upload-hint">
-                    把文件拖入指定区域，完成上传，同样支持点击上传，可以一次上传多个文件。
-                  </p>
-                </Dragger>
+                <MyUpload
+                  fileList={fileList}
+                  onChange={handleChange}
+                  onRemove={handleRemove}
+                  disabled={false}
+                ></MyUpload>
               </div>
             </Card>
           </div>
