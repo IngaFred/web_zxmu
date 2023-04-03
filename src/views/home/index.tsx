@@ -380,7 +380,7 @@ export default function Home() {
 				{model.map((item, index) => (
 					<Col span={24}>
 						<Card key={index} className={styles.card}>
-							<Meta title={item.name} style={{ height: '80px' }} />
+							<Meta title={item.name} style={{ height: '40px' }} />
 							<Row gutter={24}>
 								{modelLessons[item.name] || modelLessons['default']}
 							</Row>

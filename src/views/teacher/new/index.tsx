@@ -174,7 +174,7 @@ export default function New() {
               <Upload
                 {...props}
                 customRequest={(res) => {
-                  newClass(res.file as File);
+                  newClassCover(res.file as File);
                 }}
               >
                 <Button
