@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
-import { getModel, getModelLessons } from "../../service/home";
+import { getModel, getModelLessons, getMyLessons } from "../../service/home";
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 // 洪浩然，章徐松
@@ -35,6 +35,7 @@ export default function Home() {
   const [modelLessons4, setModelLessons4] = useState([]);
   const [modelLessons5, setModelLessons5] = useState([]);
   const [modelLessons6, setModelLessons6] = useState([]);
+  const [lessons, setLessons] = useState([])
 
   useEffect(() => {
     getModel().then((ret) => {
@@ -94,8 +95,15 @@ export default function Home() {
         message.error("获取model失败");
       }
     });
+    getMyLessons().then((ret) => {
+      if(ret.data.success){
+        setLessons(ret.data.data)
+      }
+    })
   }, []);
 
+  console.log(lessons);
+  
   const modelLessons = {
     模块一: modelLessons1.map((item, index) => (
       <Col key={index} span={8}>

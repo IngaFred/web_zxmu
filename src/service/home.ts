@@ -10,3 +10,8 @@ export const getModelLessons = async (modelId: string) => {
   const ret = await http.get("/lesson/model/lesson?modelId=" + modelId);
   return ret;
 };
+// 获取学生已选课程
+export const getMyLessons = async () => {
+  const ret = await http.get("/lesson/simple");
+  return ret;
+}
