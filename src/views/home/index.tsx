@@ -10,6 +10,7 @@ import {
   Col,
   Button,
   Empty,
+  Tag,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
@@ -102,6 +103,9 @@ export default function Home() {
           key={index}
           size="small"
           className={styles.card}
+          title={
+            <Tag color="success">已选</Tag>
+          }
           cover={
             <img
               src={item.picUrl}
@@ -125,7 +129,7 @@ export default function Home() {
                 className={styles.rowBtn}
                 onClick={(e) => handleMyDetail(item.lessonId, e)}
               >
-                作业列表
+                我的作业
               </Button>
             </Row>,
           ]}
@@ -144,6 +148,9 @@ export default function Home() {
           key={index}
           size="small"
           className={styles.card}
+          title={
+            <Tag color="error">未选</Tag>
+          }
           cover={
             <img
               src={item.picUrl}
@@ -167,7 +174,7 @@ export default function Home() {
                 className={styles.rowBtn}
                 onClick={(e) => handleMyDetail(item.lessonId, e)}
               >
-                作业列表
+                我的作业
               </Button>
             </Row>,
           ]}
@@ -186,6 +193,9 @@ export default function Home() {
           key={index}
           size="small"
           className={styles.card}
+          title={
+            <Tag color="success">已选</Tag>
+          }
           cover={
             <img
               src={item.picUrl}
@@ -209,7 +219,7 @@ export default function Home() {
                 className={styles.rowBtn}
                 onClick={(e) => handleMyDetail(item.lessonId, e)}
               >
-                作业列表
+                我的作业
               </Button>
             </Row>,
           ]}
@@ -228,6 +238,9 @@ export default function Home() {
           key={index}
           size="small"
           className={styles.card}
+          title={
+            <Tag color="success">已选</Tag>
+          }
           cover={
             <img
               src={item.picUrl}
@@ -251,7 +264,7 @@ export default function Home() {
                 className={styles.rowBtn}
                 onClick={(e) => handleMyDetail(item.lessonId, e)}
               >
-                作业列表
+                我的作业
               </Button>
             </Row>,
           ]}
@@ -270,6 +283,9 @@ export default function Home() {
           key={index}
           size="small"
           className={styles.card}
+          title={
+            <Tag color="success">已选</Tag>
+          }
           cover={
             <img
               src={item.picUrl}
@@ -294,7 +310,7 @@ export default function Home() {
                 className={styles.rowBtn}
                 onClick={(e) => handleMyDetail(item.lessonId, e)}
               >
-                作业列表
+                我的作业
               </Button>
             </Row>,
           ]}
@@ -313,6 +329,9 @@ export default function Home() {
           key={index}
           size="small"
           className={styles.card}
+          title={
+            <Tag color="success">已选</Tag>
+          }
           cover={
             <img
               src={item.picUrl}
@@ -336,7 +355,7 @@ export default function Home() {
                 className={styles.rowBtn}
                 onClick={(e) => handleMyDetail(item.lessonId, e)}
               >
-                作业列表
+                我的作业
               </Button>
             </Row>,
           ]}
@@ -353,7 +372,7 @@ export default function Home() {
   };
 
 	const navigate = useNavigate();
-	const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => { 
 		console.log(e);
 		
 		navigate('/course', { state: { lessonId: { e } } });
