@@ -1,0 +1,16 @@
+.div {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  width: 700px;
+}
+.cardTextArea {
+  min-height: 200px;
+}
+.cardRow {
+  margin-top: 24px;
+}

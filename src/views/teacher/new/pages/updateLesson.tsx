@@ -23,6 +23,7 @@ import {
   updateLessonName,
 } from "../../../../service/course";
 import { useEffect, useState } from "react";
+import CreateHomeWork from "../components/createHomeWork";
 const { Header, Content } = Layout;
 type LessonId = {
   //课程id
@@ -39,7 +40,7 @@ const UpdateLesson = (id: LessonId) => {
   const [lessonName, setLessonName] = useState("");
   const [lessonDetail, setLessonDetail] = useState("");
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
-  // const [isUpdateInfo, setIsUpdateInfo] = useState(false);
+  const [isCreateWork, setIsCreateWork] = useState(true);
   const uploadCoverProps: UploadProps = {
     name: "file",
     headers: {
@@ -82,7 +83,9 @@ const UpdateLesson = (id: LessonId) => {
       }
     });
   };
-  const handleCreateWork = () => {};
+  const handleCreateWork = () => {
+    setIsCreateWork(false);
+  };
 
   useEffect(() => {
     getLessonInfo(id).then((res) => {
@@ -102,9 +105,9 @@ const UpdateLesson = (id: LessonId) => {
   }, [id]);
   return (
     <Layout className={styles.courseAll}>
-      <Header className={styles.header}>
-        {Object.keys(lessonInfo).length > 0 ? (
-          <>
+      {isCreateWork ? (
+        <>
+          <Header className={styles.header}>
             <div>
               <div className={styles.title}>
                 <h1>课程名:</h1>
@@ -119,7 +122,12 @@ const UpdateLesson = (id: LessonId) => {
                   保存
                 </Button>
 
-                {/* <Button className={styles.newButtonDiv onclick={handleCreateWork}>新建作业</Button> */}
+                <Button
+                  className={styles.newButtonDiv}
+                  onClick={handleCreateWork}
+                >
+                  新建作业
+                </Button>
               </div>
               <div className={styles.box}>
                 <Image
@@ -158,59 +166,59 @@ const UpdateLesson = (id: LessonId) => {
                 保存修改
               </Button>
             </div>
-          </>
-        ) : (
-          <Empty description="暂无课程详情" />
-        )}
-      </Header>
-      <Content>
-        <div className={styles.outline}>
-          <div className={styles.outlineTitle}>
-            <h1>教学大纲</h1>
-          </div>
-          <Card className={styles.outlineCard}>
-            <div className={styles.outlineCardTitle}>
-              <h2>{"item.name"}</h2>
-            </div>
-            <div className={styles.outlineCardContent}>
-              <p>内容</p>
-            </div>
-          </Card>
-          <div>
-            <div className={styles.resoursListTitle}>
-              <h1>其他资源</h1>
-            </div>
-            <Card className={styles.outlineCard}>
-              <div className={styles.outlineCardContent}>
-                <div
-                  style={{
-                    display: resoursBOList.length === 0 ? "inline" : "none",
-                  }}
-                >
-                  暂无资源
-                </div>
-                <div
-                  style={{
-                    display: resoursBOList.length > 0 ? "inline" : "none",
-                  }}
-                >
-                  {resoursBOList.map((item, index) => (
-                    <Tooltip
-                      className={styles.resoursTooltip}
-                      key={index}
-                      title={"Download   " + item.name}
-                    >
-                      <a href={item.url} download={item.name}>
-                        <ContainerTwoTone style={{ fontSize: "40px" }} />
-                      </a>
-                    </Tooltip>
-                  ))}
-                </div>
+          </Header>
+          <Content>
+            <div className={styles.outline}>
+              <div className={styles.outlineTitle}>
+                <h1>教学大纲</h1>
               </div>
-            </Card>
-          </div>
-        </div>
-      </Content>
+              <Card className={styles.outlineCard}>
+                <div className={styles.outlineCardTitle}>
+                  <h2>{"item.name"}</h2>
+                </div>
+                <div className={styles.outlineCardContent}>
+                  <p>内容</p>
+                </div>
+              </Card>
+              <div>
+                <div className={styles.resoursListTitle}>
+                  <h1>其他资源</h1>
+                </div>
+                <Card className={styles.outlineCard}>
+                  <div className={styles.outlineCardContent}>
+                    <div
+                      style={{
+                        display: resoursBOList.length === 0 ? "inline" : "none",
+                      }}
+                    >
+                      暂无资源
+                    </div>
+                    <div
+                      style={{
+                        display: resoursBOList.length > 0 ? "inline" : "none",
+                      }}
+                    >
+                      {resoursBOList.map((item, index) => (
+                        <Tooltip
+                          className={styles.resoursTooltip}
+                          key={index}
+                          title={"Download   " + item.name}
+                        >
+                          <a href={item.url} download={item.name}>
+                            <ContainerTwoTone style={{ fontSize: "40px" }} />
+                          </a>
+                        </Tooltip>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </Content>
+        </>
+      ) : (
+        <CreateHomeWork lessonId={id.e}></CreateHomeWork>
+      )}
     </Layout>
   );
 };
