@@ -111,10 +111,21 @@ export default function New() {
     info: "输入简介",
     resourceList: [],
   });
-  const postUploadImg = (newFile: File) => {
+  const newClassCover = (newFile?: File) => {
     setCreateLesson({
       picFile: newFile,
       name: "输入课程名",
+      info: "输入简介",
+      resourceList: [],
+    });
+  };
+
+  const newClassName = (name: string) => {
+    setCreateLesson({
+      picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
+        type: "image/jpeg",
+      }),
+      name: name,
       info: "输入简介",
       resourceList: [],
     });
@@ -131,6 +142,9 @@ export default function New() {
                 <Input
                   style={{ width: "300px" }}
                   value={createLesson.name}
+                  onChange={(event) => {
+                    newClassName(event.target.value);
+                  }}
                 ></Input>
                 <Button
                   className={styles.saveButton}
@@ -160,7 +174,7 @@ export default function New() {
               <Upload
                 {...props}
                 customRequest={(res) => {
-                  postUploadImg(res.file as File);
+                  newClass(res.file as File);
                 }}
               >
                 <Button
