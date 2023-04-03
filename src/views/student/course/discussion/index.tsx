@@ -2,30 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Avatar, Button, Input, message, Tooltip } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import {
-  //拉取所有存在的主题
-  getThemeList,
-  //请求创建主题帖方法
-  postThemeInvitation,
-  //删除一个主题帖
-  deleteInvitation,
-  //用户修改主题帖标题
-  putThemeTitle,
-  //用户获取自己发布的主题帖
-  getMyTheme,
-  //用户订阅一个主题
-  subscribeTheme,
-  //用户取消订阅一个主题
-  unsubscribeTheme,
-  //用户查看自己订阅的主题
-  getMySubscribeTheme,
-  //拉取单个主题下包含的详细评论
-  getThemeCommentList,
-  //请求发表帖子评论的方法
-  postInvitation,
-  //提升热度
-  putHot,
-} from "../../../../service/course";
+import {} from "../../../../service/course";
 
 const CommentCard: React.FC = () => {
   //是否有评论逻辑
