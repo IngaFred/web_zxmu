@@ -23,8 +23,13 @@ import {
   InboxOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { getTeacherClassList, getLessonInfo } from "../../../service/course";
+import {
+  getTeacherClassList,
+  getLessonInfo,
+  postCreateLesson,
+} from "../../../service/course";
 import defaultClassCover from "../../../assets/images/course/defaultClassCover.jpg";
+import { log } from "console";
 
 const { Header, Content, Footer } = Layout;
 
@@ -107,29 +112,37 @@ export default function New() {
     picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
       type: "image/jpeg",
     }),
-    name: "输入课程名",
-    info: "输入简介",
+    name: "",
+    info: "",
     resourceList: [],
   });
-  const newClassCover = (newFile?: File) => {
+  const [newCover, setNewCover] = useState(
+    new File([defaultClassCover], "defaultClassCover.jpg", {
+      type: "image/jpeg",
+    })
+  );
+  const [newName, setNewName] = useState("输入课程名");
+  const [newInfo, setNewInfo] = useState("输入简介");
+  const [newResourceList, setNewResourceList] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const submitCreateLesson = () => {
     setCreateLesson({
-      picFile: newFile,
-      name: "输入课程名",
-      info: "输入简介",
-      resourceList: [],
+      picFile: newCover,
+      name: newName,
+      info: newInfo,
+      resourceList: newResourceList,
     });
+    setIsSubmit(true);
   };
 
-  const newClassName = (name: string) => {
-    setCreateLesson({
-      picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
-        type: "image/jpeg",
-      }),
-      name: name,
-      info: "输入简介",
-      resourceList: [],
-    });
-  };
+  useEffect(() => {
+    if (isSubmit) {
+      postCreateLesson(createLesson);
+      console.log("提交了一次");
+    } else {
+      return;
+    }
+  }, [createLesson, isSubmit]);
 
   const displayAdd = () => {
     return (
@@ -141,15 +154,16 @@ export default function New() {
                 <h1>课程名:</h1>
                 <Input
                   style={{ width: "300px" }}
-                  value={createLesson.name}
+                  value={newName}
                   onChange={(event) => {
-                    newClassName(event.target.value);
+                    setNewName(event.target.value);
                   }}
                 ></Input>
                 <Button
                   className={styles.saveButton}
                   type="primary"
                   size="large"
+                  onClick={submitCreateLesson}
                 >
                   保存
                 </Button>
@@ -166,7 +180,10 @@ export default function New() {
                 />
                 <TextArea
                   className={styles.card}
-                  defaultValue="输入课程简介"
+                  value={newInfo}
+                  onChange={(e) => {
+                    setNewInfo(e.target.value);
+                  }}
                 ></TextArea>
               </div>
             </div>
@@ -174,7 +191,7 @@ export default function New() {
               <Upload
                 {...props}
                 customRequest={(res) => {
-                  newClassCover(res.file as File);
+                  setNewCover(res.file as File);
                 }}
               >
                 <Button
