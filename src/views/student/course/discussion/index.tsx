@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Avatar, Button, Input, message, Tooltip } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import { getCommentByTermedLessonId } from "../../../../service/course";
 
-const CommentCard: React.FC = () => {
+type LessonId = {
+  lessonId: string;
+};
+const Discussion = (LessonId: LessonId, termId: string) => {
   //是否有评论逻辑
   const [isHaveComment, setIsHaveComment] = useState({
     //无评论
@@ -190,4 +192,4 @@ const CommentCard: React.FC = () => {
   );
 };
 
-export default CommentCard;
+export default Discussion;

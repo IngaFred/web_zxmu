@@ -17,8 +17,8 @@ export default function Course() {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
 
+  const [termId, setTermId] = useState("");
   const [lessonInfo, setLessonInfo] = useState<any>({});
-  const [lessonPassageBOList, setLessonPassageBOList] = useState<any[]>([]);
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -26,8 +26,9 @@ export default function Course() {
     getLessonInfo(lessonId).then((res) => {
       if (res.data.success) {
         setLessonInfo(res.data.data);
-        setLessonPassageBOList(res.data.data.lessonPassageBOList);
+        setTermId(res.data.data.termId);
         setresoursBOList(res.data.data.resoursBOList);
+        console.log(res.data.data);
       } else {
         message.warning(res.data.errorMsg);
       }
@@ -121,7 +122,7 @@ export default function Course() {
         </div>
       </Content>
       <Footer className={styles.footer}>
-        <Discussion></Discussion>
+        <Discussion lessonId={lessonId.e}></Discussion>
       </Footer>
     </Layout>
   );
