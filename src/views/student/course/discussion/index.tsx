@@ -5,8 +5,9 @@ import styles from "./index.module.scss";
 
 type LessonId = {
   lessonId: string;
+  termId: any;
 };
-const Discussion = (LessonId: LessonId, termId: string) => {
+const Discussion = (props: LessonId) => {
   //是否有评论逻辑
   const [isHaveComment, setIsHaveComment] = useState({
     //无评论
@@ -76,13 +77,7 @@ const Discussion = (LessonId: LessonId, termId: string) => {
     //   }
     // });
     //主题下详细的评论
-    interface themeId {
-      themeId: string;
-    }
     // const themeId = localStorage.getItem("themeId");
-    const testThemeId: themeId = {
-      themeId: "1635354389891915776",
-    };
     // getThemeCommentList(testThemeId).then((res) => {
     //   if (res.status === 200) {
     //     if (res.data.success) {
@@ -98,6 +93,7 @@ const Discussion = (LessonId: LessonId, termId: string) => {
     //     message.error("请求失败");
     //   }
     // });
+    console.log(props);
   }, []);
   useEffect(() => {
     setDisplayCommentList(themeCommentList.slice(0, displayedComments));
