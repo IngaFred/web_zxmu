@@ -14,6 +14,15 @@ type LessonId = {
   //课程id
   lessonId: string;
 };
+//教师新建课程作业数据接口
+type createBody = {
+  lessonId: string;
+  name: string;
+  resourceList: string;
+  info: string;
+  start: string;
+  end: string;
+};
 const { TextArea } = Input;
 const CreateHomeWork = (lessonId: LessonId) => {
   const [workName, setWorkName] = useState("");
