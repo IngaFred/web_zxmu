@@ -32,9 +32,19 @@ type Invitation = {
 type termedLessonId = {
   termedLessonId: string;
 };
+//教师更新课程封面数据接口
 type updateClassCover = {
   picFile: File;
   lessonId: string;
+};
+//教师新建课程作业数据接口
+type createBody = {
+  lessonId: string;
+  name: string;
+  resourceList: string;
+  info: string;
+  start: string;
+  end: string;
 };
 
 //老师业务方法
@@ -80,6 +90,19 @@ export const updateLessonInfo = async (lessonId: string, info: string) => {
     info: info,
   });
   // console.log(res);
+  return res;
+};
+//教师新建作业
+export const createHomeWork = async (work: createBody) => {
+  const res = await http.post("/homework/create", {
+    lessonId: work.lessonId,
+    name: work.name,
+    resourceList: work.resourceList,
+    info: work.info,
+    start: work.start,
+    end: work.end,
+  });
+  console.log(res);
   return res;
 };
 
