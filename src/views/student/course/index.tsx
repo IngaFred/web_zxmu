@@ -18,7 +18,7 @@ export default function Course() {
   const lessonId: LessonId = location.state?.lessonId;
 
   const [terms, setTerms] = useState<any>([]);
-  const [termId, setTermId] = useState("11");
+  const [termId, setTermId] = useState("");
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
@@ -35,12 +35,6 @@ export default function Course() {
       }
     });
   }, [lessonId]);
-
-  useEffect(() => {
-    console.log(terms[0]);
-    console.log(termId);
-  }, [terms]);
-
   return (
     <Layout className={styles.courseAll}>
       <Header className={styles.header}>
