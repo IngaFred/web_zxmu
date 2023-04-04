@@ -14,20 +14,6 @@ type Lesson = {
   resourceList: string[];
 };
 
-//发表帖子
-type Invitation = {
-  //评论所属主题帖id
-  themeId: string;
-  //评论发布客户端类型
-  clientType: string;
-  //评论内容
-  content: string;
-  //前一个评论的id，主评论该项则为空
-  previousCommentId: string;
-  //所属的主评论id，如果不为空，则该评论为回复评论
-  masterId: string;
-};
-
 //学期课程id数据组合接口
 type termedLessonId = {
   termedLessonId: string;
@@ -122,11 +108,47 @@ export const getLessonInfo = async (id: LessonId) => {
 };
 
 //公用业务方法
-//获取一个课程下的所有评论
-export const getCommentByTermedLessonId = async (id: termedLessonId) => {
+//获取一个课程下的所有评论一个参数方法
+export const getCommentByTermIdLessonId = async (id: termedLessonId) => {
   const ret = await http.get(
     "/comment/lesson/comment?termedLessonId=" + id.termedLessonId
   );
   console.log(ret);
   return ret;
+};
+//获取一个课程下的所有评论两个参数方法
+export const getCommentByTermIdAndLessonId = async (
+  lessonId: string,
+  termId: string
+) => {
+  const res = await http.get(
+    "/comment/lesson/comment?lessonId=" + lessonId + "&termId=" + termId
+  );
+  console.log(res);
+  return res;
+};
+//发表评论两个参数方法
+type postCommentBody = {
+  termedLessonId?: string;
+  lessonId: string;
+  termId: string;
+  clientType: string;
+  content: string;
+  previousCommentId?: string;
+  masterId?: string;
+};
+export const postCommentByTermIdAndLessonId = async (
+  postCommentBody: postCommentBody
+) => {
+  const res = await http.post("/comment/create", {
+    termedLessonId: postCommentBody.termedLessonId,
+    lessonId: postCommentBody.lessonId,
+    termId: postCommentBody.termId,
+    clientType: postCommentBody.clientType,
+    content: postCommentBody.content,
+    previousCommentId: postCommentBody.previousCommentId,
+    masterId: postCommentBody.masterId,
+  });
+  console.log(res);
+  return res;
 };
