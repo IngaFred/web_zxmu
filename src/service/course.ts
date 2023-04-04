@@ -127,3 +127,28 @@ export const getCommentByTermIdAndLessonId = async (
   console.log(res);
   return res;
 };
+//发表评论两个参数方法
+type postCommentBody = {
+  termedLessonId?: string;
+  lessonId: string;
+  termId: string;
+  clientType: string;
+  content: string;
+  previousCommentId?: string;
+  masterId?: string;
+};
+export const postCommentByTermIdAndLessonId = async (
+  postCommentBody: postCommentBody
+) => {
+  const res = await http.post("/comment/create", {
+    termedLessonId: postCommentBody.termedLessonId,
+    lessonId: postCommentBody.lessonId,
+    termId: postCommentBody.termId,
+    clientType: postCommentBody.clientType,
+    content: postCommentBody.content,
+    previousCommentId: postCommentBody.previousCommentId,
+    masterId: postCommentBody.masterId,
+  });
+  console.log(res);
+  return res;
+};
