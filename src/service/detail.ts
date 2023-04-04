@@ -48,6 +48,11 @@ export const postSubmit = async (payload: HomeworkList) => {
 export const postUploadImage = async (file: File) => {
 	const ret = await http.post('/resource/upload', file, {}, 'upload');
 	console.log('postUploadImage use');
-	
+	return ret;
+};
+// 自定义上传Video. 并得到视频 url
+export const postUploadVideo = async (file: File) => {
+	const ret = await http.post('/resource/upload', file, {}, 'upload');
+	console.log('postUploadVideo use');
 	return ret;
 };

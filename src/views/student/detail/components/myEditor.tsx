@@ -12,7 +12,7 @@ import styles from '../components/editorStyles/view.module.scss';
 import { SlateElement } from '@wangeditor/editor';
 import { message } from 'antd';
 // post import
-import { postUploadImage } from '../../../../service/detail';
+import { postUploadImage, postUploadVideo } from '../../../../service/detail';
 
 function MyEditor() {
 	// editor 实例
@@ -56,9 +56,9 @@ function MyEditor() {
 				// },
 				fieldName: 'myImage',
 				// 单个文件的最大体积限制，默认为 2M
-				maxFileSize: 10 * 1024 * 1024, // 10M
+				maxFileSize: 2000 * 1024 * 1024, // 2000M
 				// 最多可上传几个文件，默认为 100
-				maxNumberOfFiles: 10,
+				maxNumberOfFiles: 1,
 				// 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
 				allowedFileTypes: ['image/*'],
 				// 上传之前触发
@@ -85,14 +85,66 @@ function MyEditor() {
 				},
 				// 自定义上传
 				async customUpload(file: File, insertFn: any) {
-					let url = '';
 					// file 即选中的文件
 					postUploadImage(file).then((ret) => {
 						// 自己实现上传，并得到图片 url alt href
 						const { success, data, errorMsg } = ret?.data || null;
 						if (success) {
 							message.success(errorMsg);
-							url = data?.url;
+							const url = data?.url;
+							// 最后插入图片
+							insertFn(url);
+							// 修改默认图片上传样式
+							// const node = {type: "image",url,style: { width: "100%" }, children: [{ text: "" }],};
+							// editor? editor.insertNode(node) : console.log('image error');
+						}
+					});
+				},
+			},
+			uploadVideo: {
+				fieldName: 'myVideo',
+				// 单个文件的最大体积限制，默认为 10M
+				maxFileSize: 10 * 1024 * 1024,
+				// 最多可上传几个文件，默认为 5
+				maxNumberOfFiles: 5,
+				// 选择文件时的类型限制，默认为 ['video/*'] 。如不想限制，则设置为 []
+				allowedFileTypes: ['video/*'],
+				// 将 meta 拼接到 url 参数中，默认 false
+				metaWithUrl: false,
+				// 跨域是否传递 cookie ，默认为 false
+				withCredentials: false,
+				// 超时时间，默认为 30 秒
+				timeout: 15 * 1000, // 15 秒
+				// 视频不支持 base64 格式插入
+				// 上传之前触发
+				onBeforeUpload(file: File) {
+					return file;
+				},
+				// 上传进度的回调函数
+				onProgress(progress: number) {
+					console.log('progressVideo', progress);
+				},
+				// 单个文件上传成功之后
+				onSuccess(file: File, res: any) {
+					console.log(`${file.name} 上传成功`, res);
+				},
+				// 单个文件上传失败
+				onFailed(file: File, res: any) {
+					console.log(`${file.name} 上传失败`, res);
+				},
+				// 上传错误，或者触发 timeout 超时
+				onError(file: File, err: any, res: any) {
+					console.log(`${file.name} 上传出错`, err, res);
+				},
+				// 自定义上传
+				async customUpload(file: File, insertFn: any) {
+					// file 即选中的文件
+					postUploadVideo(file).then((ret) => {
+						// 自己实现上传，并得到图片 url alt href
+						const { success, data, errorMsg } = ret?.data || null;
+						if (success) {
+							message.success(errorMsg);
+							const url = data?.url;
 							// 最后插入图片
 							insertFn(url);
 							// 修改默认图片上传样式
