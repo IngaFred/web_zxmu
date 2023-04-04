@@ -11,54 +11,99 @@ import styles from '../components/editorStyles/view.module.scss';
 //导入图片类型
 import { SlateElement } from '@wangeditor/editor';
 import { message } from 'antd';
+// post import
+import { postUploadImage } from '../../../../service/detail';
 
-// 定义图片元素类型
-type ImageElement = SlateElement & {
-	src: string;
-	alt: string;
-	url: string;
-	href: string;
-};
 function MyEditor() {
 	// editor 实例
 	const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
 	// 编辑器初始内容
 	const [html, setHtml] = useState('');
 
-
 	// 工具栏配置
 	const toolbarConfig: Partial<IToolbarConfig> = {
 		/* 工具栏配置 */
-        toolbarKeys: [ /* 显示哪些菜单，如何排序、分组 */ ],
-        excludeKeys: [ /* 隐藏哪些菜单 */ ],
+		/* 显示哪些菜单，如何排序、分组 */
+		// toolbarKeys: [
+		// ],
+		/* 隐藏哪些菜单 */
+		// excludeKeys: [
+		// ],
 	};
-
+	// 当前菜单排序和分组
 	const toolbar = editor ? DomEditor.getToolbar(editor) : null;
-	// let toolbar;
-	// if (editor != null) {
-	//   toolbar = DomEditor.getToolbar(editor);
-	// } else {
-	//   toolbar = undefined;
-	// }
 	const curToolbarConfig = toolbar?.getConfig();
 	// 输出出现有的工具栏列表key值
-	// 当前菜单排序和分组
-	console.log(curToolbarConfig?.toolbarKeys ?? 'noEditor');
+	// console.log(curToolbarConfig?.toolbarKeys ?? 'noEditor');
 
 	// 初始化编辑器配置
 	// 初始化 MENU_CONF 属性
 	// 类型是IEditorConfig类型的部分子集，也就是说它可以省略一些IEditorConfig类型的属性
 	const editorConfig: Partial<IEditorConfig> = {
-	// 编辑器配置，如 placeholder onChange ...
-    // 所有的菜单配置，都要在 MENU_CONF 属性下
-    MENU_CONF: {
-        // 配置字号
-        // fontSize: [ ... ],
-        // 配置上传图片
-        // uploadImage: { ... },
-        // 继续其他菜单配置
-	}
-    }
+		// 编辑器配置，如 placeholder onChange ...
+		// 所有的菜单配置，都要在 MENU_CONF 属性下
+		MENU_CONF: {
+			// Image upload
+			uploadImage: {
+				// server: 'https://zcmu.vxpage.top/resource/upload',
+				// // 自定义增加 http  header
+				// headers: {
+				// 	Authorization: token,
+				// },
+				// 自定义上传参数，参数会被添加到 formData 中
+				// meta: {
+				// 	resourceFile: myFile,
+				// },
+				fieldName: 'myImage',
+				// 单个文件的最大体积限制，默认为 2M
+				maxFileSize: 10 * 1024 * 1024, // 10M
+				// 最多可上传几个文件，默认为 100
+				maxNumberOfFiles: 10,
+				// 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+				allowedFileTypes: ['image/*'],
+				// 上传之前触发
+				onBeforeUpload(file: File) {
+					return file;
+					// 1. return file 或者 new 一个 file ，接下来将上传
+					// 2. return false ，不上传这个 file
+				},
+				// 上传进度的回调函数
+				onProgress(progress: number) {
+					console.log('progress 进度', progress);
+				},
+				// 单个文件上传成功之后
+				onSuccess(file: File, res: any) {
+					console.log(`${file.name} 上传成功`, res);
+				},
+				// 单个文件上传失败
+				onFailed(file: File, res: any) {
+					console.log(`${file.name} 上传失败`, res);
+				},
+				// 上传错误，或者触发 timeout 超时
+				onError(file: File, err: any, res: any) {
+					console.log(`${file.name} 上传出错`, err, res);
+				},
+				// 自定义上传
+				async customUpload(file: File, insertFn: any) {
+					let url = '';
+					// file 即选中的文件
+					postUploadImage(file).then((ret) => {
+						// 自己实现上传，并得到图片 url alt href
+						const { success, data, errorMsg } = ret?.data || null;
+						if (success) {
+							message.success(errorMsg);
+							url = data?.url;
+							// 最后插入图片
+							insertFn(url);
+							// 修改默认图片上传样式
+							// const node = {type: "image",url,style: { width: "100%" }, children: [{ text: "" }],};
+							// editor? editor.insertNode(node) : console.log('image error');
+						}
+					});
+				},
+			},
+		},
+	};
 	// 上传图片配置
 	// 自定义校验图片
 	function customCheckImageFn(
@@ -86,13 +131,10 @@ function MyEditor() {
 		return src;
 	}
 
-
 	editorConfig.placeholder = '请输入内容...';
-    
-    // 编辑器创建完毕时的回调函数
-    editorConfig.onCreated = (editor: IDomEditor) => {
-        
-    }
+
+	// 编辑器创建完毕时的回调函数
+	editorConfig.onCreated = (editor: IDomEditor) => {};
 
 	// 及时销毁 editor ，重要！
 	useEffect(() => {
