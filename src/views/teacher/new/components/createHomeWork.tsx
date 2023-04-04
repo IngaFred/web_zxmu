@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import styles from "./createHomeWork.module.scss";
 import { RangePickerProps } from "antd/es/date-picker";
+import { createHomeWork } from "../../../../service/course";
 type LessonId = {
   //课程id
   lessonId: string;
@@ -44,6 +45,17 @@ const CreateHomeWork = (lessonId: LessonId) => {
     console.log(workContent);
     console.log(startTime);
     console.log(endTime);
+    const workBody: createBody = {
+      lessonId: lessonId.lessonId,
+      name: workName,
+      resourceList: "",
+      info: workContent,
+      start: startTime,
+      end: endTime,
+    };
+    createHomeWork(workBody).then((res) => {
+      console.log(res);
+    });
   };
   return (
     <div className={styles.div}>
