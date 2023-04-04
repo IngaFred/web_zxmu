@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   Col,
   DatePicker,
@@ -27,20 +28,22 @@ const { TextArea } = Input;
 const CreateHomeWork = (lessonId: LessonId) => {
   const [workName, setWorkName] = useState("");
   const [workContent, setWorkContent] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const { RangePicker } = DatePicker;
 
   const onChange = (
     value: DatePickerProps["value"] | RangePickerProps["value"],
     dateString: [string, string] | string
   ) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
+    setStartTime(new Date(dateString[0]).getTime().toString());
+    setEndTime(new Date(dateString[1]).getTime().toString());
   };
-
-  const onOk = (
-    value: DatePickerProps["value"] | RangePickerProps["value"]
-  ) => {
-    console.log("onOk: ", value);
+  const handleSubmit = () => {
+    console.log(workName);
+    console.log(workContent);
+    console.log(startTime);
+    console.log(endTime);
   };
   return (
     <div className={styles.div}>
@@ -85,7 +88,6 @@ const CreateHomeWork = (lessonId: LessonId) => {
                 showTime={{ format: "HH:mm" }}
                 format="YYYY-MM-DD HH:mm"
                 onChange={onChange}
-                onOk={onOk}
               />
             </Space>
           </Col>
@@ -94,7 +96,24 @@ const CreateHomeWork = (lessonId: LessonId) => {
           <Col span={4}>
             <label>上传资源:</label>
           </Col>
-          <Col span={20}></Col>
+          <Col span={20}>
+            <div
+              style={{
+                width: "100%",
+                height: "200px",
+                border: "1px solid black",
+              }}
+            >
+              11
+            </div>
+          </Col>
+        </Row>
+        <Row className={styles.cardRow}>
+          <Col span={4} offset={20}>
+            <Button style={{ marginLeft: "45px" }} onClick={handleSubmit}>
+              保存
+            </Button>
+          </Col>
         </Row>
       </Card>
     </div>
