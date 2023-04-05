@@ -88,7 +88,6 @@ export const createHomeWork = async (work: createBody) => {
     start: work.start,
     end: work.end,
   });
-  console.log(res);
   return res;
 };
 
@@ -124,7 +123,7 @@ export const getCommentByTermIdAndLessonId = async (
   const res = await http.get(
     "/comment/lesson/comment?lessonId=" + lessonId + "&termId=" + termId
   );
-  console.log(res);
+  // console.log(res);
   return res;
 };
 //发表评论两个参数方法
