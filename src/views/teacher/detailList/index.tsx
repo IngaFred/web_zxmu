@@ -1,23 +1,43 @@
-import { Button, Card, Col, Row, Select, Space } from 'antd'
+import { Button, Card, Col, Empty, Row, Select, Space, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from "./index.module.scss";
-import { getUnsubmit } from "../../../service/detailList"
+import { getUnSubmit, getSubmit } from "../../../service/detailList"
 // 查看作业列表（展示作业某个作业里列表所有学生提交的列表，展示分数，批改状态）
 // 吴振宇
 
 export default function DetailList() {
   type homeworkId = {
     homeworkId: string;
+    termId: String;
   };
   const [unSubimtStudent, setUnSubimtStudent] = useState<any[]>([]);
+  const [SubimtStudent, setSubimtStudent] = useState<any[]>([]);
+
   useEffect(() => {
     const uId: homeworkId = {
-      homeworkId: "1635662170574483456"
+      homeworkId: "1642606856576876544",
+      termId: "1642563145096630272"
     }
-    getUnsubmit(uId).then((ret) => {
-      setUnSubimtStudent(ret.data.data);
+    getUnSubmit(uId).then((ret) => {
+      if (ret.data.success) {
+        message.success(ret.data.errorMsg)
+        
+        setUnSubimtStudent(ret.data.data);
+      } else {
+        message.error('获取作业列表失败');
+      }
     });
-  })
+    getSubmit(uId).then((ret) => {
+      if (ret.data.success) {
+        message.success(ret.data.errorMsg)
+        console.log(ret.data.data);
+        setSubimtStudent(ret.data.data);
+      } else {
+        message.error('获取作业列表失败');
+      }
+
+    });
+  },[])
   return (
     <div>
       <Row className={styles['top']}>
@@ -45,35 +65,62 @@ export default function DetailList() {
 
       <Card
         title="未批改"
-        style={{ width: '100%', height: '400px' }}
+        style={{ width: '100%', }}
       >
         <Row gutter={24}>
-          {/* {unSubimtStudent.map((item,index)=>(
-        <>
-       
-        <div>
-        {item.userName}
-        </div>
-       
-        </>
-      ))} */}
-          <Col span={6} >
-            {/* <div style={{ height: '100px', width: '160px', margin: 'auto', backgroundColor: 'brown', padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
-              <h1>名字</h1>
-              <Button style={{ width: '50px', padding: '0', alignSelf: 'flex-end' }}>批改</Button>
-            </div> */}
-            <Card 
-              hoverable={true}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
-                <h1>名字</h1>
-                <Button style={{ alignSelf: 'flex-end' }}>批改</Button>
-              </div>
+          {SubimtStudent.map((item, index) => (
 
-            </Card>
-          </Col>
+            <>
+              <Col span={6} key={index}>
+                <Card
+                key={index}
+                  hoverable={true}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
+                    <h1>{item.user}</h1>
+                    <Button style={{ alignSelf: 'flex-end' }}>批改</Button>
+                  </div>
+
+                </Card>
+              </Col>
+
+
+            </>
+          ))}
+
         </Row>
 
+      </Card>
+      <Card
+        title="未提交"
+        style={{ width: '100%'}}
+      >
+        <Row gutter={24}>
+          {/* {_.isEmpty(unSubimtStudent)?(
+            <Col span={24}>
+						<Empty description="没有对应的课程，暂无作业列表" />
+					</Col>
+          ):()} */}y
+          {unSubimtStudent.map((item, index) => (
+            <>
+              <Col span={6} key={index}>
+                <Card
+                key={index}
+                  hoverable={true}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
+                    <h1>{item.userName}</h1>
+                    <Button style={{ alignSelf: 'flex-end' }}>批改</Button>
+                  </div>
+
+                </Card>
+              </Col>
+
+
+            </>
+          ))}
+
+        </Row>
       </Card>
       <Card
         title="已批改"
@@ -81,12 +128,9 @@ export default function DetailList() {
       >
 
       </Card>
-      <Card
-        title="未提交"
-        style={{ width: '100%', height: '400px' }}
-      >
 
-      </Card>
+
+
     </div>
   )
 }

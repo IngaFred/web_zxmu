@@ -4,9 +4,15 @@ import http from '../utils/http';
 
 type homeworkId={
   homeworkId:String;
+  termId:String;
 }
 // 获取课程详情
-export const getUnsubmit = async (myWorkid: homeworkId) => {
-  const ret = await http.get('/homework/unsubmit' + myWorkid.homeworkId);
+export const getUnSubmit = async (myWorkid: homeworkId) => {
+  const ret = await http.get('/homework/unsubmit?homeworkId=' + myWorkid.homeworkId+"&termId="+myWorkid.termId);
+  return ret;
+};
+
+export const getSubmit = async (myWorkid: homeworkId) => {
+  const ret = await http.get('/homework/submit?homeworkId=' + myWorkid.homeworkId+"&termId="+myWorkid.termId);
   return ret;
 };
