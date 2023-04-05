@@ -7,11 +7,13 @@ import {
   Input,
   Row,
   Space,
+  UploadFile,
 } from "antd";
 import React, { useState } from "react";
 import styles from "./createHomeWork.module.scss";
 import { RangePickerProps } from "antd/es/date-picker";
 import { createHomeWork } from "../../../../service/course";
+import MyUpload from "./lessonSourceUpload";
 type LessonId = {
   //课程id
   lessonId: string;
@@ -32,7 +34,16 @@ const CreateHomeWork = (lessonId: LessonId) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const { RangePicker } = DatePicker;
-
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const handleChange = (info: { fileList: UploadFile[] }) => {
+    setFileList(info.fileList);
+    info.fileList.forEach((file) => {
+      file.status = "success";
+    });
+  };
+  const handleRemove = (file: UploadFile) => {
+    setFileList(fileList.filter((f) => f.uid !== file.uid));
+  };
   const onChange = (
     value: DatePickerProps["value"] | RangePickerProps["value"],
     dateString: [string, string] | string
@@ -113,10 +124,15 @@ const CreateHomeWork = (lessonId: LessonId) => {
               style={{
                 width: "100%",
                 height: "200px",
-                border: "1px solid black",
+                borderRadius: "5px",
               }}
             >
-              11
+              <MyUpload
+                fileList={fileList}
+                onChange={handleChange}
+                onRemove={handleRemove}
+                disabled={false}
+              ></MyUpload>
             </div>
           </Col>
         </Row>

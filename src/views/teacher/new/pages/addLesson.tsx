@@ -22,6 +22,9 @@ const DisplayAdd = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange = (info: { fileList: UploadFile[] }) => {
     setFileList(info.fileList);
+    info.fileList.forEach((file) => {
+      file.status = "success";
+    });
   };
   const handleRemove = (file: UploadFile) => {
     setFileList(fileList.filter((f) => f.uid !== file.uid));

@@ -30,8 +30,9 @@ const MyUpload = (props: MyUploadProps) => {
       const { success, errorMsg, data } = ret?.data || {};
       if (success) {
         // 输出返回数据
-        // console.log(data);
+        console.log(data);
         // 设置uploading状态为false，表示上传文件完成
+
         setUploading(false);
         // 通知上传成功
         message.success(errorMsg);
