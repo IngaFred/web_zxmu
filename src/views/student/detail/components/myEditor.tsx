@@ -154,8 +154,41 @@ function MyEditor() {
 					});
 				},
 			},
+			// codeLangs 配置代码语言 代码高亮
+			codeSelectLang: {
+				// 代码语言
+				// codeLangs: [
+				// 	{ text: 'CSS', value: 'css' },
+				// 	{ text: 'HTML', value: 'html' },
+				// 	{ text: 'XML', value: 'xml' },
+				// 	{ text: 'SQL', value: 'sql' },
+				// 	{ text: 'JAVA', value: 'java' },
+				// 	{ text: 'Python', value: 'python' },
+				// 	{ text: 'Javascript', value: 'javascript' },
+				// 	{ text: 'C', value: 'c' },
+				// 	{ text: 'C#', value: 'c#' },
+				// ],
+			},
 		},
+		
 	};
+
+		// 自定义粘贴
+		const customPaste = (editor: IDomEditor, event: any) => {
+			// 实现复制的文字粘贴至富文本
+			const html = event.clipboardData.getData('text/html'); // 获取粘贴的 html
+			const text = event.clipboardData.getData('text/plain'); // 获取粘贴的 text
+			const rtf = event.clipboardData.getData('text/trf'); // 获取粘贴的rtf
+	
+			// 插入复制的文本
+			editor.insertText(text);
+			editor.insertText(rtf);
+	
+			event.preventDefault();
+	
+			return true; // true 允许粘贴行为
+		};
+
 	// 上传图片配置
 	// 自定义校验图片
 	function customCheckImageFn(
@@ -212,7 +245,7 @@ function MyEditor() {
 					onCreated={setEditor}
 					onChange={(editor) => setHtml(editor.getHtml())}
 					mode="default"
-					style={{ height: '300px', overflowY: 'hidden' }}
+					style={{ height: '400px', overflowY: 'hidden' }}
 				/>
 			</div>
 			<div
