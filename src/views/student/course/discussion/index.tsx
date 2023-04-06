@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Avatar, Button, Input, message, Tooltip } from "antd";
-import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
-import styles from "./index.module.scss";
-import { getCommentByTermIdAndLessonId } from "../../../../service/course";
+import React, { useState, useEffect } from 'react';
+import { Avatar, Button, Input, message, Tooltip } from 'antd';
+import { HeartOutlined, HeartFilled, CommentOutlined } from '@ant-design/icons';
+import styles from './index.module.scss';
+import { getCommentByTermIdAndLessonId } from '../../../../service/course';
 
 type LessonId = {
   lessonId: string;
@@ -53,7 +53,7 @@ const Discussion = (props: LessonId) => {
   const reply = (commentId: string) => {};
   useEffect(() => {
     //获取评论
-    if (props.termId !== "") {
+    if (props.termId !== '') {
       getCommentByTermIdAndLessonId(props.lessonId, props.termId).then(
         (res) => {
           if (res.status === 200) {
@@ -71,7 +71,7 @@ const Discussion = (props: LessonId) => {
               message.error(res.data.errorMsg);
             }
           } else {
-            message.error("请求失败");
+            message.error('请求失败');
           }
         }
       );
@@ -111,18 +111,13 @@ const Discussion = (props: LessonId) => {
       {/* 无评论时展示 */}
       <div
         className={styles.discussionUser}
-        style={{ display: commentList.length === 0 ? "inline" : "none" }}
+        style={{ display: commentList.length === 0 ? 'inline' : 'none' }}
       >
         <span>暂无评论，留个言再走吧！</span>
       </div>
 
       {/* 有评论时展示 */}
-      <div style={{ display: commentList.length > 0 ? "inline" : "none" }}>
-        {/* 热评标题 */}
-        <div className={styles.discussionHot}>
-          <h1>热门评论</h1>
-        </div>
-
+      <div style={{ display: commentList.length > 0 ? 'inline' : 'none' }}>
         {/* 评论内容 */}
         <div className={styles.commentCard}>
           {/* 评论内容 */}
