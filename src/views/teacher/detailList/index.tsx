@@ -11,7 +11,9 @@ export default function DetailList() {
     termId: String;
   };
   const [unSubimtStudent, setUnSubimtStudent] = useState<any[]>([]);
-  const [SubimtStudent, setSubimtStudent] = useState<any[]>([]);
+  const [SubimtStudent1, setSubimtStudent1] = useState<any[]>([]);
+  const [SubimtStudent2, setSubimtStudent2] = useState<any[]>([]);
+
 
   useEffect(() => {
     const uId: homeworkId = {
@@ -21,7 +23,7 @@ export default function DetailList() {
     getUnSubmit(uId).then((ret) => {
       if (ret.data.success) {
         message.success(ret.data.errorMsg)
-        
+
         setUnSubimtStudent(ret.data.data);
       } else {
         message.error('获取作业列表失败');
@@ -31,13 +33,15 @@ export default function DetailList() {
       if (ret.data.success) {
         message.success(ret.data.errorMsg)
         console.log(ret.data.data);
-        setSubimtStudent(ret.data.data);
+        setSubimtStudent1(ret.data.data[0]);
+        setSubimtStudent2(ret.data.data[1]);
+
       } else {
         message.error('获取作业列表失败');
       }
 
     });
-  },[])
+  }, [])
   return (
     <div>
       <Row className={styles['top']}>
@@ -68,16 +72,16 @@ export default function DetailList() {
         style={{ width: '100%', }}
       >
         <Row gutter={24}>
-          {SubimtStudent.map((item, index) => (
+          {SubimtStudent1.length > 0 ? (SubimtStudent1.map((item, index) => (
 
             <>
               <Col span={6} key={index}>
                 <Card
-                key={index}
+                  key={index}
                   hoverable={true}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
-                    <h1>{item.user}</h1>
+                    <h1>{item.user.userName}</h1>
                     <Button style={{ alignSelf: 'flex-end' }}>批改</Button>
                   </div>
 
@@ -86,31 +90,26 @@ export default function DetailList() {
 
 
             </>
-          ))}
+          ))) : <Empty description='无暂未批改作业' />}
 
         </Row>
 
       </Card>
       <Card
         title="未提交"
-        style={{ width: '100%'}}
+        style={{ width: '100%' }}
       >
         <Row gutter={24}>
-          {/* {_.isEmpty(unSubimtStudent)?(
-            <Col span={24}>
-						<Empty description="没有对应的课程，暂无作业列表" />
-					</Col>
-          ):()} */}y
-          {unSubimtStudent.map((item, index) => (
+          {unSubimtStudent.length > 0 ? (unSubimtStudent.map((item, index) => (
             <>
               <Col span={6} key={index}>
                 <Card
-                key={index}
+                  key={index}
                   hoverable={true}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
                     <h1>{item.userName}</h1>
-                    <Button style={{ alignSelf: 'flex-end' }}>批改</Button>
+                    {/* <Button style={{ alignSelf: 'flex-end' }}>批改</Button> */}
                   </div>
 
                 </Card>
@@ -118,7 +117,7 @@ export default function DetailList() {
 
 
             </>
-          ))}
+          ))) : <Empty description='无暂未提交作业' />}
 
         </Row>
       </Card>
@@ -126,7 +125,29 @@ export default function DetailList() {
         title="已批改"
         style={{ width: '100%', height: '400px' }}
       >
+        <Row gutter={24}>
+          {SubimtStudent2.length > 0 ? (SubimtStudent2.map((item, index) => (
 
+            <>
+              <Col span={6} key={index}>
+                <Card
+                  key={index}
+                  hoverable={true}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between" }}>
+                    <h1>{item.user.userName}</h1>
+                    <h2>分数：{item.score}分</h2>
+                    <Button style={{ alignSelf: 'flex-end' }}>修改</Button>
+                  </div>
+
+                </Card>
+              </Col>
+
+
+            </>
+          ))) : <Empty description='无暂未已批改作业' />}
+
+        </Row>
       </Card>
 
 
