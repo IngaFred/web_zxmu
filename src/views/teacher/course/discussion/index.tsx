@@ -85,7 +85,7 @@ const Discussion = (props: LessonId) => {
   }, [props]);
   useEffect(() => {
     setDisplayCommentList(commentList.slice(0, displayedComments));
-    // console.log(themeCommentList);
+    console.log(commentList);
   }, [displayedComments, commentList]);
 
   return (
