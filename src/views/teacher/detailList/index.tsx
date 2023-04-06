@@ -111,7 +111,7 @@ export default function DetailList() {
 const HomeworkCard = (props: any) => {
   const { item, key, type } = props;
   return (
-    <Col span={6} key={key}>
+    <Col span={4} key={key}>
       <div className={styles.homeworkItem}>
         {item?.user?.userName && (
           <div className={styles.stuName}>{item?.user?.userName}</div>
@@ -133,7 +133,7 @@ const HomeworkCard = (props: any) => {
 const StuCard = (props: any) => {
   const { item, key } = props;
   return (
-    <Col span={6} key={key}>
+    <Col span={4} key={key}>
       <div className={styles.homeworkItem}>
         {item?.userName && (
           <div className={styles.stuName}>{item?.userName}</div>
