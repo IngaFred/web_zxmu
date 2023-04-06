@@ -14,6 +14,11 @@ const contentStyle = {
 	lineHeight: '160px',
 	textAlign: 'center',
 	background: '#364d79',
+	height: '200px',
+	color: '#fff',
+	lineHeight: '160px',
+	textAlign: 'center',
+	background: '#364d79',
 };
 
 /**
@@ -203,7 +208,33 @@ export default function Home() {
 					<h3 style={contentStyle}>公告3</h3>
 				</div>
 			</Carousel>
+	return (
+		<div className={styles.homeAll}>
+			{/* 公告栏 */}
+			<Carousel autoplay>
+				<div>
+					<h3 style={contentStyle}>公告1</h3>
+				</div>
+				<div>
+					<h3 style={contentStyle}>公告2</h3>
+				</div>
+				<div>
+					<h3 style={contentStyle}>公告3</h3>
+				</div>
+			</Carousel>
 
+			{/* 课程主题 */}
+			<Row gutter={24}>
+				{model.map((item, index) => (
+					<ModelCard
+						data={item}
+						modelLessons={modelLessons[index] || modelLessons['default']}
+						key={index}
+					/>
+				))}
+			</Row>
+		</div>
+	);
 			{/* 课程主题 */}
 			<Row gutter={24}>
 				{model.map((item, index) => (

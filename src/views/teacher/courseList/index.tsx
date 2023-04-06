@@ -41,7 +41,10 @@ export default function List() {
 		for (let i = 2013; i < 11; i++) {
 			console.log(i);
 			yearOptions.push(
-				<Select.Option key={i} value={i}>
+				<Select.Option
+					key={i}
+					value={i}
+				>
 					{i + 1}年
 				</Select.Option>
 			);
@@ -107,19 +110,25 @@ export default function List() {
           ]}
         /> */}
 			</div>
-			<Row gutter={(24, 8)} className={styles['row-big']}>
+			<Row
+				gutter={(24, 8)}
+				className={styles['row-big']}
+			>
 				{lesson.map((item, index) => (
-					<Col span={8} key={index}>
+					<Col
+						span={8}
+						key={index}
+					>
 						<Card
-							size="small"
+							size='small'
 							className={styles.card}
-							cover={
-								<img
-									src={item?.picUrl}
-									alt=""
-									style={{ width: '300px', height: '180px', padding: '10px' }}
-								/>
-							}
+							// cover={
+							// 	<img
+							// 		src={item?.picUrl}
+							// 		alt=""
+							// 		style={{ width: '300px', height: '180px', padding: '10px' }}
+							// 	/>
+							// }
 							actions={[
 								<Row justify={'space-between'}>
 									<Button
@@ -137,11 +146,18 @@ export default function List() {
 								</Row>,
 							]}
 						>
-							<Meta
-								title={item?.lessonName}
-								description={item?.info}
-								style={{ height: '80px' }}
+							<img
+								src={item?.picUrl}
+								alt='课程图片'
+								className={styles.lesson_img}
 							/>
+							<div className={styles.lesson_top}>
+								<div className={styles.lesson_name}> {item.lessonName} </div>
+							</div>
+							<div className={styles.lesson_description}>{item.info}</div>
+							{/* title={item?.lessonName}
+								description={item?.info}
+								style={{ height: '80px' }} */}
 						</Card>
 					</Col>
 				))}
