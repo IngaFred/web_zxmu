@@ -74,7 +74,7 @@ export default function Course() {
       </Header>
       <Content>
         <div className={styles.outline}>
-          <div className={styles.outlineTitle}>
+          {/* <div className={styles.outlineTitle}>
             <h1>教学大纲</h1>
           </div>
 
@@ -85,7 +85,7 @@ export default function Course() {
             <div className={styles.outlineCardContent}>
               <p>内容</p>
             </div>
-          </Card>
+          </Card> */}
           <div>
             <div className={styles.resoursListTitle}>
               <h1>其他资源</h1>
