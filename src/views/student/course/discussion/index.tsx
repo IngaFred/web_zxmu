@@ -42,9 +42,15 @@ const Discussion = (props: LessonId) => {
   const [displayedComments, setDisplayedComments] = useState(DISPLAY_COUNT);
   const [commentList, setCommentList] = useState<any[]>([]);
   const [displayCommentList, setDisplayCommentList] = useState<any[]>([]);
+  const REPLY_DISPLAY_COUNT = 3;
+  const [displayedReply, setDisplayedReply] = useState(REPLY_DISPLAY_COUNT);
+  const [disReply, setDisReply] = useState<any[]>([]);
+
+  const [commentBOList, setCommentBOList] = useState<any[]>([]);
   const handleMoreComments = () => {
     setDisplayedComments(displayedComments + DISPLAY_COUNT);
   };
+  const reply = (commentId: string) => {};
   useEffect(() => {
     //获取评论
     if (props.termId !== "") {
@@ -53,6 +59,14 @@ const Discussion = (props: LessonId) => {
           if (res.status === 200) {
             if (res.data.success) {
               setCommentList(res.data.data);
+              // console.log(res.data.data);
+              setCommentBOList(
+                res.data.data.map((item: any) => {
+                  return item.commentBOList.map((i: any) => {
+                    return i.map((j: any) => j);
+                  });
+                })
+              );
             } else {
               message.error(res.data.errorMsg);
             }
@@ -85,8 +99,9 @@ const Discussion = (props: LessonId) => {
   }, [props]);
   useEffect(() => {
     setDisplayCommentList(commentList.slice(0, displayedComments));
-    // console.log(themeCommentList);
-  }, [displayedComments, commentList]);
+    // setCommentBOList(commentList.map((item) => item.commentBOlist));
+    console.log(commentBOList);
+  }, [displayedComments, commentList, commentBOList]);
 
   return (
     <div className={styles.discussion}>
@@ -111,8 +126,8 @@ const Discussion = (props: LessonId) => {
         {/* 评论内容 */}
         <div className={styles.commentCard}>
           {/* 评论内容 */}
-          {displayCommentList.map((comment, index) => (
-            <div key={index}>
+          {displayCommentList.map((comment) => (
+            <div key={comment.commentId}>
               {/* 评论头部 */}
               <div className={styles.commentCardHeader}>
                 <Avatar size={48} src={comment.userInfo.picUrl} />
@@ -120,7 +135,10 @@ const Discussion = (props: LessonId) => {
               </div>
               {/* 点赞回复 */}
               <div className={styles.comment}>
-                <div>{comment.content}</div>
+                <div>
+                  {comment.content}
+                  {reply(comment.commentId)}
+                </div>
                 {/* <div className={styles.likedAndReplay}>
                   <Tooltip title={liked ? "取消点赞" : "点赞"}>
                     <Button
@@ -163,7 +181,7 @@ const Discussion = (props: LessonId) => {
             </div>
           ))}
           <div className={styles.moreReplay} onClick={handleMoreComments}>
-            更多回复
+            更多评论
           </div>
         </div>
       </div>
