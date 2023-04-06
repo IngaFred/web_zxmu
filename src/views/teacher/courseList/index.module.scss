@@ -14,3 +14,14 @@
 .st{
     width: 120px;
 }
+.lesson_img{
+    width: 100%;
+    height: 150px;
+}
+.lesson_top {
+    display: flex;
+    justify-content: space-between;
+  }
+  .lesson_description {
+    color: #666;
+  }
