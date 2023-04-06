@@ -1,21 +1,41 @@
-
-.top{
-    width: 100%;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+.wrap {
+  padding: 10px;
+}
+.top {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.topCenter{
-    display: flex;
-    flex-direction: row;
-    justify-content:space-between ;
-    margin: 10px;
+.topCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.itemStyle{
-    display: 'flex';
-     flex-direction: 'column';
-     justify-content: "space-between"
+.itemStyle {
+  display: 'flex';
+  flex-direction: 'column';
+  justify-content: 'space-between';
+}
+.homeworkItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  height: 120px;
+  padding: 10px;
+}
+.stuName {
+  font-size: 20px;
+  font-weight: 600;
+}
+.score {
+  font-size: 16px;
+}
+
+.title {
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 6px;
 }
