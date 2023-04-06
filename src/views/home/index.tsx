@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { Carousel, Card, Row, message, Col, Button, Tag, Divider, Empty } from 'antd';
@@ -6,9 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { getModel, getModelLessons, getMyLessons } from '../../service/home';
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
-// 洪浩然，章徐松
 
-const contentStyle = {
+const contentStyle: React.CSSProperties = {
 	height: '200px',
 	color: '#fff',
 	lineHeight: '160px',
@@ -20,7 +18,7 @@ const contentStyle = {
  * 模块组件
  * @returns
  */
-const ModelCard = (props) => {
+const ModelCard = (props: any) => {
 	const { data, modelLessons } = props;
 	const navigate = useNavigate();
 	const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,7 +35,7 @@ const ModelCard = (props) => {
 			<div className={styles.model_card}>
 				<div className={styles.model_title}>{data.name}</div>
 				<Row gutter={24}>
-					{modelLessons.length > 0 ? (modelLessons.map((item, index, dataSource) => (
+					{modelLessons.length > 0 ? (modelLessons.map((item: any, index: number, dataSource: any) => (
 						<Col key={index} span={8}>
 							<Card
 								key={index}
@@ -47,17 +45,16 @@ const ModelCard = (props) => {
 									<Row justify={'space-between'}>
 										<Button
 											className={styles.rowBtn}
-											onClick={(e) => handleMyCourse(item.lessonId, e)}
+											onClick={() => handleMyCourse(item.lessonId)}
 										>
 											课程详情
 										</Button>
 										{item.choosed ? (
 											<Button
 												className={styles.rowBtn}
-												onClick={(id) =>
+												onClick={() =>
                           handleMyDetail(
-                            item.lessonId,
-                            id
+                            item.lessonId
                           )}
 											>
 												我的作业
@@ -67,7 +64,7 @@ const ModelCard = (props) => {
 												className={styles.rowBtn}
 												onClick={() => {
 													let flag = true; // 用于判断是否有课程被选中
-													dataSource.map((item) => {
+													dataSource.map((item: any) => {
 														if (item.choosed === true) {
 															flag = false;
 														}
@@ -217,7 +214,7 @@ export default function Home() {
 				{model.map((item, index) => (
 					<ModelCard
 						data={item}
-						modelLessons={modelLessons[index] || modelLessons['default']}
+						modelLessons={modelLessons[index]}
 						key={index}
 					/>
 				))}
