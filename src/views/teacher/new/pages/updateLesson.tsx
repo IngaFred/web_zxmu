@@ -23,7 +23,6 @@ import {
   updateLessonName,
 } from "../../../../service/course";
 import { useEffect, useState } from "react";
-import CreateHomeWork from "../components/createHomeWork";
 import { useNavigate } from "react-router-dom";
 const { Header, Content } = Layout;
 type LessonId = {
