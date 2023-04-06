@@ -21,7 +21,6 @@ const permission = {
   stu: ['home', 'personal', 'course', 'list', 'detail', 'show', 'information'],
   tea: [
     'home',
-    'homeTeacher',
     'personal',
     'courseList',
     'courseTeacher',
