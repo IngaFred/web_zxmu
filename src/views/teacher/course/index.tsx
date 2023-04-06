@@ -1,6 +1,6 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Layout,
   Image,
@@ -10,20 +10,20 @@ import {
   Button,
   Empty,
   DatePicker,
-} from "antd";
-import dayjs from "dayjs";
-import { ContainerTwoTone } from "@ant-design/icons";
-import styles from "./index.module.scss";
-import Discussion from "./discussion";
-import { getLessonInfo } from "../../../service/course";
-import { useLocation } from "react-router-dom";
+} from 'antd';
+import dayjs from 'dayjs';
+import { ContainerTwoTone } from '@ant-design/icons';
+import styles from './index.module.scss';
+import Discussion from './discussion';
+import { getLessonInfo } from '../../../service/course';
+import { useLocation } from 'react-router-dom';
 const { Header, Content, Footer } = Layout;
 
 export default function Course() {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
   const [terms, setTerms] = useState<any>([]);
-  const [termId, setTermId] = useState("");
+  const [termId, setTermId] = useState('');
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
@@ -34,7 +34,7 @@ export default function Course() {
     e: string;
   }
   useEffect(() => {
-    console.log("我是教师端");
+    console.log('我是教师端');
     getLessonInfo(lessonId).then((res) => {
       if (res.data.success) {
         setLessonInfo(res.data.data);
@@ -61,7 +61,7 @@ export default function Course() {
                   <div>
                     <DatePicker
                       format="YYYY-MM-DD HH:mm:ss"
-                      showTime={{ defaultValue: dayjs("00:00:00", "HH:mm:ss") }}
+                      showTime={{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }}
                     />
                     <Button type="primary">批改作业</Button>
                   </div>
@@ -69,7 +69,7 @@ export default function Course() {
                 <div>
                   <h1>
                     任课教师：
-                    {lessonInfo.creater ? lessonInfo.creater.userName : ""}
+                    {lessonInfo.creater ? lessonInfo.creater.userName : ''}
                   </h1>
                 </div>
               </div>
@@ -77,9 +77,9 @@ export default function Course() {
                 <Image
                   preview={false}
                   style={{
-                    width: "450px",
-                    height: "320px",
-                    borderRadius: "5px",
+                    width: '450px',
+                    height: '320px',
+                    borderRadius: '5px',
                   }}
                   src={lessonInfo.picUrl}
                 />
@@ -145,7 +145,7 @@ export default function Course() {
         </div>
       </Content>
       <Footer className={styles.footer}>
-        <Discussion lessonId={lessonId.e} termId={termId}></Discussion>
+        <Discussion lessonId={lessonId?.e} termId={termId}></Discussion>
       </Footer>
     </Layout>
   );
