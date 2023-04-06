@@ -11,76 +11,79 @@ import _ from 'lodash';
 // 娄竞楷
 
 type LessonId = {
-	e: string;
+  e: string;
 };
 
 export default function ClassList() {
-	const location = useLocation();
+  const [lessonAll, setLessonAll] = useState([]);
 
-	const lessonId: LessonId = location.state?.lessonId;
+  useEffect(() => {
+    getLessons().then((ret) => {
+      if (ret.data.success) {
+        message.success(ret.data.errorMsg);
+        setLessonAll(ret.data.data);
+      } else {
+        message.error('获取作业列表失败');
+      }
+    });
+  }, []);
 
-	const [lessonAll, setLessonAll] = useState([]);
+  console.log(lessonAll);
+  console.log(_.isEmpty(lessonAll));
 
-	useEffect(() => {
-		getLessons(lessonId).then((ret) => {
-			if (ret.data.success) {
-				message.success(ret.data.errorMsg);
-				setLessonAll(ret.data.data);
-			} else {
-				message.error('获取作业列表失败');
-			}
-		});
-	}, []);
+  const navigate = useNavigate();
+  const handleMyDetail = (
+    id: React.MouseEvent<HTMLButtonElement>,
+    hId: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    navigate('/detail', { state: { lessonId: { id }, homeworkId: { hId } } });
+  };
+  const getStatus = (status: string) => {
+    switch (status) {
+      case 'SUBMIT_SCORED':
+        return '已批改';
+      case 'UN_SUBMIT':
+        return '未批改';
+    }
+    return '未批改';
+  };
 
-	console.log(lessonAll);
-	console.log(_.isEmpty(lessonAll));
-
-	const navigate = useNavigate();
-	const handleMyDetail = (
-		id: React.MouseEvent<HTMLButtonElement>,
-		hId: React.MouseEvent<HTMLButtonElement>
-	) => {
-		navigate('/detail', { state: { lessonId: { id }, homeworkId: { hId } } });
-	};
-
-	return (
-		<div className={styles.all}>
-			<Row gutter={24}>
-				
-					<Col span={6}>
-						<Card
-							size="small"
-							className={styles.card}
-							actions={[
-								<Row justify={'space-between'}>
-										<div>批改状态：</div>
-									<Button
-										className={styles.rowBtn}
-										onClick={(id, hId) =>
-											handleMyDetail(
-												lessonAll.lessonId,
-												lessonAll.homeworkId,
-												id,
-												hId
-											)
-										}
-									>
-										我的作业
-									</Button>
-								
-								</Row>,
-							]}
-						>
-							<Meta
-								title={lessonAll.lessonName}
-								description={lessonAll.name}
-								style={{ height: '80px' }}
-							/>
-							<p>{lessonAll.info}</p>
-						</Card>
-					</Col>
-				
-			</Row>
-		</div>
-	);
+  return (
+    <div className={styles.all}>
+      <Row gutter={24}>
+        {lessonAll.map((item, index) => {
+          return (
+            <Col span={6} key={index}>
+              <Card
+                size="small"
+                className={styles.card}
+                actions={[
+                  <Row justify={'space-between'}>
+                    <div>批改状态：{getStatus(item.status)}</div>
+                    <Button
+                      className={styles.rowBtn}
+                      onClick={(id, hId) =>
+                        handleMyDetail(item.lessonId, item.homeworkId, id, hId)
+                      }
+                    >
+                      我的作业
+                    </Button>
+                  </Row>,
+                ]}
+              >
+                <Meta
+                  title={item.lessonName}
+                  description={item.name}
+                  style={{ height: '80px' }}
+                />
+                <div className={styles.row}>
+                  分数：{item?.subHomework?.score}
+                </div>
+              </Card>
+            </Col>
+          );
+        })}
+      </Row>
+    </div>
+  );
 }
