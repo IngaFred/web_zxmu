@@ -1,14 +1,25 @@
-//@ts-nocheck
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Carousel, Card, Row, message, Col, Button, Tag, Divider, Empty } from 'antd';
+import {
+	Carousel,
+	Card,
+	Row,
+	message,
+	Col,
+	Button,
+	Tag,
+	Divider,
+	Empty,
+} from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { getModel, getModelLessons, getMyLessons } from '../../service/home';
+import {
+	getModel,
+	getModelLessons,
+} from '../../../service/teaHome';
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
-// 洪浩然，章徐松
 
-const contentStyle = {
+const contentStyle: React.CSSProperties = {
 	height: '200px',
 	color: '#fff',
 	lineHeight: '160px',
@@ -20,11 +31,11 @@ const contentStyle = {
  * 模块组件
  * @returns
  */
-const ModelCard = (props) => {
+const ModelCard = (props: any) => {
 	const { data, modelLessons } = props;
 	const navigate = useNavigate();
 	const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
-		navigate('/course', { state: { lessonId: { e } } });
+		navigate('/courseTeacher', { state: { lessonId: { e } } });
 	};
 	const handleMyDetail = (id: React.MouseEvent<HTMLButtonElement>) => {
 		navigate('/detail', { state: { lessonId: { id } } });
@@ -37,81 +48,48 @@ const ModelCard = (props) => {
 			<div className={styles.model_card}>
 				<div className={styles.model_title}>{data.name}</div>
 				<Row gutter={24}>
-					{modelLessons.length > 0 ? (modelLessons.map((item, index, dataSource) => (
-						<Col key={index} span={8}>
-							<Card
-								key={index}
-								size="small"
-								className={styles.card}
-								actions={[
-									<Row justify={'space-between'}>
-										<Button
-											className={styles.rowBtn}
-											onClick={(e) => handleMyCourse(item.lessonId, e)}
-										>
-											课程详情
-										</Button>
-										{item.choosed ? (
+					{modelLessons.length > 0 ? (
+						modelLessons.map((item: any, index: number) => (
+							<Col key={index} span={8}>
+								<Card
+									key={index}
+									size="small"
+									className={styles.card}
+									actions={[
+										<Row justify={'space-between'}>
 											<Button
 												className={styles.rowBtn}
-												onClick={(id) =>
-                          handleMyDetail(
-                            item.lessonId,
-                            id
-                          )}
+												onClick={() => handleMyCourse(item.lessonId)}
+											>
+												课程详情
+											</Button>
+
+											<Button
+												className={styles.rowBtn}
+												onClick={() => handleMyDetail(item.lessonId)}
 											>
 												我的作业
 											</Button>
-										) : (
-											<Button
-												className={styles.rowBtn}
-												onClick={() => {
-													let flag = true; // 用于判断是否有课程被选中
-													dataSource.map((item) => {
-														if (item.choosed === true) {
-															flag = false;
-														}
-														return null;
-													});
-
-													if (!flag) {
-														message.warning('一个主题只能选择一门课');
-														return;
-													}
-													// @洪浩然 学生选课接口
-													// 选课接口
-													message.success('选课成功');
-												}}
-											>
-												选择课程
-											</Button>
-										)}
-									</Row>,
-								]}
-							>
-								<img
-									src={item.picUrl}
-									alt="课程图片"
-									className={styles.lesson_img}
-								/>
-								<div className={styles.lesson_top}>
-									<div className={styles.lesson_name}>{item.lessonName}</div>
-									<div>
-										{item.choosed ? (
-											<Tag color="success">已选</Tag>
-										) : (
-											<Tag color="default">未选</Tag>
-										)}
+										</Row>,
+									]}
+								>
+									<img
+										src={item.picUrl}
+										alt="课程图片"
+										className={styles.lesson_img}
+									/>
+									<div className={styles.lesson_top}>
+										<div className={styles.lesson_name}>{item.lessonName}</div>
 									</div>
-								</div>
-								<div className={styles.lesson_description}>{item.info}</div>
-							</Card>
+									<div className={styles.lesson_description}>{item.info}</div>
+								</Card>
+							</Col>
+						))
+					) : (
+						<Col span={24}>
+							<Empty description="暂无课程" />
 						</Col>
-					))) : (
-            <Col span={24}>
-              <Empty description='暂无课程' />
-            </Col>
-          )}
+					)}
 				</Row>
 			</div>
 			<Divider className={styles.divider} />
@@ -217,7 +195,7 @@ export default function Home() {
 				{model.map((item, index) => (
 					<ModelCard
 						data={item}
-						modelLessons={modelLessons[index] || modelLessons['default']}
+						modelLessons={modelLessons[index]}
 						key={index}
 					/>
 				))}

@@ -170,24 +170,23 @@ function MyEditor() {
 				// ],
 			},
 		},
-		
 	};
 
-		// 自定义粘贴
-		const customPaste = (editor: IDomEditor, event: any) => {
-			// 实现复制的文字粘贴至富文本
-			const html = event.clipboardData.getData('text/html'); // 获取粘贴的 html
-			const text = event.clipboardData.getData('text/plain'); // 获取粘贴的 text
-			const rtf = event.clipboardData.getData('text/trf'); // 获取粘贴的rtf
-	
-			// 插入复制的文本
-			editor.insertText(text);
-			editor.insertText(rtf);
-	
-			event.preventDefault();
-	
-			return true; // true 允许粘贴行为
-		};
+	// 自定义粘贴
+	const customPaste = (editor: IDomEditor, event: any) => {
+		// 实现复制的文字粘贴至富文本
+		const html = event.clipboardData.getData('text/html'); // 获取粘贴的 html
+		const text = event.clipboardData.getData('text/plain'); // 获取粘贴的 text
+		const rtf = event.clipboardData.getData('text/trf'); // 获取粘贴的rtf
+
+		// 插入复制的文本
+		editor.insertText(text);
+		editor.insertText(rtf);
+
+		event.preventDefault();
+
+		return true; // true 允许粘贴行为
+	};
 
 	// 上传图片配置
 	// 自定义校验图片
@@ -248,26 +247,17 @@ function MyEditor() {
 					style={{ height: '400px', overflowY: 'hidden' }}
 				/>
 			</div>
-			<div
+			{/* <div
 				style={{ marginTop: '15px' }}
 				className={styles['editor-content-view']}
 			>
 				{html}
-			</div>
+			</div> */}
 		</>
 	);
 }
 
 export default MyEditor;
-
-// 我看了你发来的代码，它是一个使用@wangeditor/editor-for-react库的React组件，用于创建一个富文本编辑器。我觉得你的代码整体上写得不错，有以下几个优点：
-
-// - 你使用了ES6的模块化导入和导出语法，使得代码结构清晰，便于维护和复用。
-// - 你使用了TS的类型注解和类型推导，使得代码更健壮，避免了潜在的类型错误。
-// - 你使用了React的函数式组件和Hooks，使得代码更简洁，可读和易于测试。
-// - 你使用了@wangeditor/editor-for-react库提供的工具栏配置，菜单配置和自定义函数，使得编辑器更符合你的需求和风格。
-
-// 不过，我也发现了一些可以改进的地方，我给你一些改写升级的建议：
 
 // - 你可以使用ES6的解构赋值语法，来简化一些变量的声明和赋值。比如，
 // 你可以把`const toolbarConfig: Partial<IToolbarConfig> = {/* 工具栏配置 */};`改成`const { toolbarConfig }: Partial<IToolbarConfig> = {/* 工具栏配置 */};`，这样就不用再单独声明`toolbarConfig`变量了。
@@ -279,5 +269,3 @@ export default MyEditor;
 // 你可以把`if (imageNode == null) return;`改成`const { src, alt, url, href } = imageNode!;`，这样就不用再写if语句了。
 // - 你可以使用React的useRef Hook，来保存对编辑器实例的引用。这样就不用再用useState Hook来管理编辑器实例的状态了。比如，
 // 你可以把`const [editor, setEditor] = useState<IDomEditor | null>(null);`改成`const editorRef = useRef<IDomEditor | null>(null);`，然后在onCreated回调中把`setEditor(editor);`改成`editorRef.current = editor;`。
-
-// 以上是我的一些Review和分析，希望对你有帮助。如果你还有其他问题或想法，请随时告诉我。😊

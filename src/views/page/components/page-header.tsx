@@ -10,6 +10,7 @@ import type { RootState } from '../../../store';
 // token操作+同步方法
 import { useAppDispatch } from '../../../store';
 import { clearToken } from '../../../store/modules/user';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function HomeHeader() {
@@ -20,8 +21,11 @@ export default function HomeHeader() {
   const head = useSelector(
     (state: RootState) => state.user.infos.picUrl
   ) as string;
+  const navigate = useNavigate()
   const dispatch = useAppDispatch();
-
+  const headleMyself = () => {
+     navigate('/personal')
+  }
   const headleLogout = () => {
     // 清除token
     dispatch(clearToken());
@@ -40,7 +44,7 @@ export default function HomeHeader() {
   const items2: MenuProps['items'] = [
     {
       key: '1',
-      label: <div>个人中心</div>,
+      label: <div onClick={headleMyself}>个人中心</div>,
     },
     {
       key: '2',
