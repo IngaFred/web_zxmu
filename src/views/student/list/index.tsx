@@ -46,17 +46,14 @@ export default function ClassList() {
 	return (
 		<div className={styles.all}>
 			<Row gutter={24}>
-				{_.isEmpty(lessonAll) ? (
-					<Col span={24}>
-						<Empty description="没有对应的课程，暂无作业列表" />
-					</Col>
-				) : (
+				
 					<Col span={6}>
 						<Card
 							size="small"
 							className={styles.card}
 							actions={[
 								<Row justify={'space-between'}>
+										<div>批改状态：</div>
 									<Button
 										className={styles.rowBtn}
 										onClick={(id, hId) =>
@@ -68,8 +65,9 @@ export default function ClassList() {
 											)
 										}
 									>
-										我的作业详情
+										我的作业
 									</Button>
+								
 								</Row>,
 							]}
 						>
@@ -81,7 +79,7 @@ export default function ClassList() {
 							<p>{lessonAll.info}</p>
 						</Card>
 					</Col>
-				)}
+				
 			</Row>
 		</div>
 	);
