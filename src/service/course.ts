@@ -1,5 +1,5 @@
-import { type } from 'os';
-import http from '../utils/http';
+import { type } from "os";
+import http from "../utils/http";
 
 //课程id
 type LessonId = {
@@ -37,7 +37,7 @@ type createBody = {
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
   // console.log(Lesson);
-  const res = await http.post('/lesson/create', {
+  const res = await http.post("/lesson/create", {
     picFile: Lesson.picFile,
     name: Lesson.name,
     info: Lesson.info,
@@ -47,12 +47,12 @@ export const postCreateLesson = async (Lesson: Lesson) => {
 };
 //老师获取自己创建的课程列表
 export const getTeacherClassList = async () => {
-  const res = await http.get('/lesson/teacher/created/simple');
+  const res = await http.get("/lesson/teacher/created/simple");
   return res;
 };
 //教师修改课程封面
 export const updateLessonCover = async (updateData: updateClassCover) => {
-  const res = await http.put('/lesson/pic', {
+  const res = await http.put("/lesson/pic", {
     picFile: updateData.picFile,
     lessonId: updateData.lessonId,
   });
@@ -62,7 +62,7 @@ export const updateLessonCover = async (updateData: updateClassCover) => {
 };
 //教师修改课程名
 export const updateLessonName = async (lessonId: string, name: string) => {
-  const res = await http.put('/lesson/name', {
+  const res = await http.put("/lesson/name", {
     lessonId: lessonId,
     name: name,
   });
@@ -71,7 +71,7 @@ export const updateLessonName = async (lessonId: string, name: string) => {
 };
 //教师修改课介绍
 export const updateLessonInfo = async (lessonId: string, info: string) => {
-  const res = await http.put('/lesson/info', {
+  const res = await http.put("/lesson/info", {
     lessonId: lessonId,
     info: info,
   });
@@ -80,7 +80,7 @@ export const updateLessonInfo = async (lessonId: string, info: string) => {
 };
 //教师新建作业
 export const createHomeWork = async (work: createBody) => {
-  const res = await http.post('/homework/create', {
+  const res = await http.post("/homework/create", {
     lessonId: work.lessonId,
     name: work.name,
     resourceList: work.resourceList,
@@ -94,14 +94,14 @@ export const createHomeWork = async (work: createBody) => {
 //用户上传资源
 export const uploadResource = async (file: File) => {
   // console.log(file);
-  const ret = await http.post('/resource/upload', file, {}, 'upload');
+  const ret = await http.post("/resource/upload", file, {}, "upload");
   return ret;
 };
 //学生业务方法
 // 学生获取课程信息方法
 export const getLessonInfo = async (id: LessonId) => {
   // console.log("id" + id);
-  const ret = await http.get('/lesson?lessonId=' + id.e);
+  const ret = await http.get("/lesson?lessonId=" + id.e);
   // console.log(ret);
   return ret;
 };
@@ -110,7 +110,7 @@ export const getLessonInfo = async (id: LessonId) => {
 //获取一个课程下的所有评论一个参数方法
 export const getCommentByTermIdLessonId = async (id: termedLessonId) => {
   const ret = await http.get(
-    '/comment/lesson/comment?termedLessonId=' + id.termedLessonId
+    "/comment/lesson/comment?termedLessonId=" + id.termedLessonId
   );
   console.log(ret);
   return ret;
@@ -121,7 +121,7 @@ export const getCommentByTermIdAndLessonId = async (
   termId: string
 ) => {
   const res = await http.get(
-    '/comment/lesson/comment?lessonId=' + lessonId + '&termId=' + termId
+    "/comment/lesson/comment?lessonId=" + lessonId + "&termId=" + termId
   );
   // console.log(res);
   return res;
@@ -138,11 +138,11 @@ type postCommentBody = {
 export const postCommentByTermIdAndLessonId = async (
   postCommentBody: postCommentBody
 ) => {
-  const res = await http.post('/comment/create', {
+  const res = await http.post("/comment/create", {
     termedLessonId: postCommentBody.termedLessonId,
     lessonId: postCommentBody.lessonId,
     termId: postCommentBody.termId,
-    clientType: 'web_client',
+    clientType: "web_client",
     content: postCommentBody.content,
     previousCommentId: postCommentBody.previousCommentId,
     masterId: postCommentBody.masterId,
