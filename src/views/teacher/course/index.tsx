@@ -27,9 +27,6 @@ export default function Course() {
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
-  // const [lessonPassageBOList, setLessonPassageBOList] = useState<any[]>([]);
-  // const [resoursBOList, setresoursBOList] = useState<any[]>([]);
-  //请求课程Id接口
   interface LessonId {
     e: string;
   }
@@ -95,18 +92,6 @@ export default function Course() {
       </Header>
       <Content>
         <div className={styles.outline}>
-          {/* <div className={styles.outlineTitle}>
-            <h1>教学大纲</h1>
-          </div>
-
-          <Card className={styles.outlineCard}>
-            <div className={styles.outlineCardTitle}>
-              <h2>标题</h2>
-            </div>
-            <div className={styles.outlineCardContent}>
-              <p>内容</p>
-            </div>
-          </Card> */}
           <div>
             <div className={styles.resoursListTitle}>
               <h1>课程资源</h1>
