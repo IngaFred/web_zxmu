@@ -8,6 +8,9 @@ import {
 } from '../../../../service/course';
 import store from '../../../../store';
 
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../../store';
+
 type LessonId = {
   lessonId: string;
   termId: any;
@@ -86,7 +89,11 @@ const DiscussionItem = (props: {
   lessonId: string;
   termId: string;
 }) => {
-  const userId = store.getState().user.infos.userId;
+  // const userId = store.getState().user.infos.userId;
+  const userId = useSelector((state: RootState) => (state.user.infos.userId))
+
+  // console.log('userId',userId);
+  
 
   const { comment, lessonId, termId } = props;
   // //定义回复框是否可见，默认不可见

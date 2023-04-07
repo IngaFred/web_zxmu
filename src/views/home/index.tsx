@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Carousel, Card, Row, message, Col, Button, Tag, Divider, Empty } from 'antd';
+import {
+	Carousel,
+	Card,
+	Row,
+	message,
+	Col,
+	Button,
+	Tag,
+	Divider,
+	Empty,
+} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { getModel, getModelLessons, getMyLessons } from '../../service/home';
 
@@ -35,80 +45,79 @@ const ModelCard = (props: any) => {
 			<div className={styles.model_card}>
 				<div className={styles.model_title}>{data.name}</div>
 				<Row gutter={24}>
-					{modelLessons.length > 0 ? (modelLessons.map((item: any, index: number, dataSource: any) => (
-						<Col key={index} span={8}>
-							<Card
-								key={index}
-								size="small"
-								className={styles.card}
-								actions={[
-									<Row justify={'space-between'}>
-										<Button
-											className={styles.rowBtn}
-											onClick={() => handleMyCourse(item.lessonId)}
-										>
-											课程详情
-										</Button>
-										{item.choosed ? (
+					{modelLessons.length > 0 ? (
+						modelLessons.map((item: any, index: number, dataSource: any) => (
+							<Col key={index} span={8}>
+								<Card
+									key={index}
+									size="small"
+									className={styles.card}
+									actions={[
+										<Row justify={'space-between'}>
 											<Button
 												className={styles.rowBtn}
-												onClick={() =>
-                          handleMyDetail(
-                            item.lessonId
-                          )}
+												onClick={() => handleMyCourse(item.lessonId)}
 											>
-												我的作业
+												课程详情
 											</Button>
-										) : (
-											<Button
-												className={styles.rowBtn}
-												onClick={() => {
-													let flag = true; // 用于判断是否有课程被选中
-													dataSource.map((item: any) => {
-														if (item.choosed === true) {
-															flag = false;
-														}
-														return null;
-													});
+											{item.choosed ? (
+												<Button
+													className={styles.rowBtn}
+													onClick={() => handleMyDetail(item.lessonId)}
+												>
+													我的作业
+												</Button>
+											) : (
+												<Button
+													className={styles.rowBtn}
+													onClick={() => {
+														let flag = true; // 用于判断是否有课程被选中
+														dataSource.map((item: any) => {
+															if (item.choosed === true) {
+																flag = false;
+															}
+															return null;
+														});
 
-													if (!flag) {
-														message.warning('一个主题只能选择一门课');
-														return;
-													}
-													// @洪浩然 学生选课接口
-													// 选课接口
-													message.success('选课成功');
-												}}
-											>
-												选择课程
-											</Button>
-										)}
-									</Row>,
-								]}
-							>
-								<img
-									src={item.picUrl}
-									alt="课程图片"
-									className={styles.lesson_img}
-								/>
-								<div className={styles.lesson_top}>
-									<div className={styles.lesson_name}>{item.lessonName}</div>
-									<div>
-										{item.choosed ? (
-											<Tag color="success">已选</Tag>
-										) : (
-											<Tag color="default">未选</Tag>
-										)}
+														if (!flag) {
+															message.warning('一个主题只能选择一门课');
+															return;
+														}
+														// @洪浩然 学生选课接口
+														// 选课接口
+														message.success('选课成功');
+													}}
+												>
+													选择课程
+												</Button>
+											)}
+										</Row>,
+									]}
+								>
+									<img
+										src={item.picUrl}
+										alt="课程图片"
+										className={styles.lesson_img}
+									/>
+									<div className={styles.lesson_top}>
+										<div className={styles.lesson_name}>{item.lessonName}</div>
+										<div>
+											{item.choosed ? (
+												<Tag color="success">已选</Tag>
+											) : (
+												<Tag color="default">未选</Tag>
+											)}
+										</div>
 									</div>
-								</div>
-								<div className={styles.lesson_description}>{item.info}</div>
-							</Card>
+									<div className={styles.lesson_description}>{item.info}</div>
+								</Card>
+							</Col>
+						))
+					) : (
+						<Col span={24}>
+							<Empty description="暂无课程" />
 						</Col>
-					))) : (
-            <Col span={24}>
-              <Empty description='暂无课程' />
-            </Col>
-          )}
+					)}
 				</Row>
 			</div>
 			<Divider className={styles.divider} />
