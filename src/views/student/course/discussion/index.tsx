@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar, Button, Input, message, Tooltip } from 'antd';
-import { HeartOutlined, HeartFilled, CommentOutlined } from '@ant-design/icons';
-import styles from './index.module.scss';
+import React, { useState, useEffect } from "react";
+import { Avatar, Button, Input, message, Tooltip } from "antd";
+import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
+import styles from "./index.module.scss";
 import {
   getCommentByTermIdAndLessonId,
   postCommentByTermIdAndLessonId,
-} from '../../../../service/course';
-import store from '../../../../store';
+} from "../../../../service/course";
+import store from "../../../../store";
 
 type LessonId = {
   lessonId: string;
@@ -24,7 +24,7 @@ const Discussion = (props: LessonId) => {
   };
   useEffect(() => {
     //获取评论
-    if (props.termId !== '') {
+    if (props.termId !== "") {
       getCommentByTermIdAndLessonId(props.lessonId, props.termId).then(
         (res) => {
           if (res.status === 200) {
@@ -34,7 +34,7 @@ const Discussion = (props: LessonId) => {
               message.error(res.data.errorMsg);
             }
           } else {
-            message.error('请求失败');
+            message.error("请求失败");
           }
         }
       );
@@ -54,13 +54,13 @@ const Discussion = (props: LessonId) => {
       {/* 无评论时展示 */}
       <div
         className={styles.discussionUser}
-        style={{ display: commentList.length === 0 ? 'inline' : 'none' }}
+        style={{ display: commentList.length === 0 ? "inline" : "none" }}
       >
         <span>暂无评论，留个言再走吧！</span>
       </div>
 
       {/* 有评论时展示 */}
-      <div style={{ display: commentList.length > 0 ? 'inline' : 'none' }}>
+      <div style={{ display: commentList.length > 0 ? "inline" : "none" }}>
         {/* 评论内容 */}
         <div className={styles.commentList}>
           {/* 评论内容 */}
@@ -99,14 +99,14 @@ const DiscussionItem = (props: {
   };
 
   // 定义回复内柔，默认为空
-  const [replyContent, setReplyContent] = useState('');
+  const [replyContent, setReplyContent] = useState("");
   // 是否展开其它评论？
   const [showOthers, setShowOthers] = useState(false);
 
   //取消回复时操作：输入框消失、回复内容为空
   const handleCancelReply = () => {
     setReplyInputVisible(false);
-    setReplyContent('');
+    setReplyContent("");
   };
   // 修改回复内容时调用
   const handleReplyContentChange = (
@@ -118,20 +118,20 @@ const DiscussionItem = (props: {
     postCommentByTermIdAndLessonId({
       lessonId: lessonId,
       termId: termId,
-      clientType: 'string',
+      clientType: "string",
       content: replyContent,
       previousCommentId: commentId,
       // @ts-ignore
-      masterId: userId || '',
+      masterId: userId || "",
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
-          message.success('回复成功');
+          message.success("回复成功");
         } else {
           message.error(res.data.errorMsg);
         }
       } else {
-        message.error('请求失败');
+        message.error("请求失败");
       }
     });
   };
@@ -167,7 +167,7 @@ const DiscussionItem = (props: {
             <div className={styles.btns}>
               <Button onClick={handleCancelReply}>取消</Button>
               <Button
-                style={{ marginLeft: '10px' }}
+                style={{ marginLeft: "10px" }}
                 type="primary"
                 onClick={() => {
                   reply(comment.commentId);
