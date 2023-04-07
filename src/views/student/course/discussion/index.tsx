@@ -93,7 +93,9 @@ const DiscussionItem = (props: {
   const [replyInputVisible, setReplyInputVisible] = useState(false);
   //显示回复输入框
   const handleReply = () => {
-    setReplyInputVisible(true);
+    setReplyInputVisible((data) => {
+      return !data;
+    });
   };
 
   // 定义回复内柔，默认为空
@@ -177,19 +179,19 @@ const DiscussionItem = (props: {
           </div>
         )}
         {/* 其它评论 */}
-        {showOthers ? (
-          <div className={styles.commentList}>
-            <div
-              className={styles.showOthers}
-              onClick={() => {
-                setShowOthers(false);
-              }}
-            >
-              收起评论⋀
-            </div>
-            {comment?.commentBOList &&
-              comment?.commentBOList.length > 0 &&
-              comment?.commentBOList.map((item: any, index: number) => (
+        {comment?.commentBOList &&
+          comment?.commentBOList.length > 0 &&
+          (showOthers ? (
+            <div className={styles.commentList}>
+              <div
+                className={styles.showOthers}
+                onClick={() => {
+                  setShowOthers(false);
+                }}
+              >
+                收起回复⋀
+              </div>
+              {comment?.commentBOList.map((item: any, index: number) => (
                 <DiscussionItem
                   comment={item}
                   lessonId={props?.lessonId}
@@ -197,20 +199,17 @@ const DiscussionItem = (props: {
                   key={index}
                 />
               ))}
-          </div>
-        ) : (
-          comment?.commentBOList &&
-          comment?.commentBOList.length > 0 && (
+            </div>
+          ) : (
             <div
               className={styles.showOthers}
               onClick={() => {
                 setShowOthers(true);
               }}
             >
-              展开评论⋁
+              展开回复⋁
             </div>
-          )
-        )}
+          ))}
       </div>
     </div>
   );
