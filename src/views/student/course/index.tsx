@@ -24,16 +24,20 @@ export default function Course() {
 
   useEffect(() => {
     console.log("我是学生端");
-    getLessonInfo(lessonId).then((res) => {
-      if (res.data.success) {
-        setLessonInfo(res.data.data);
-        setTerms(res.data.data.terms);
-        setresoursBOList(res.data.data.resoursBOList);
-        setTermId(res.data.data.terms[0].termId);
-      } else {
-        message.warning(res.data.errorMsg);
-      }
-    });
+    if (lessonId) {
+      getLessonInfo(lessonId).then((res) => {
+        if (res.data.success) {
+          setLessonInfo(res.data.data);
+          setTerms(res.data.data.terms);
+          setresoursBOList(res.data.data.resoursBOList);
+          setTermId(res.data.data.terms[0].termId);
+        } else {
+          message.warning(res.data.errorMsg);
+        }
+      });
+    } else {
+      return;
+    }
   }, [lessonId]);
   return (
     <Layout className={styles.courseAll}>
