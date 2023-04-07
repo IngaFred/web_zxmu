@@ -36,7 +36,6 @@ type createBody = {
 //老师业务方法
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
-  // console.log(Lesson);
   const res = await http.post("/lesson/create", {
     picFile: Lesson.picFile,
     name: Lesson.name,
@@ -56,8 +55,6 @@ export const updateLessonCover = async (updateData: updateClassCover) => {
     picFile: updateData.picFile,
     lessonId: updateData.lessonId,
   });
-  console.log(updateData);
-  console.log(res);
   return res;
 };
 //教师修改课程名
@@ -66,7 +63,6 @@ export const updateLessonName = async (lessonId: string, name: string) => {
     lessonId: lessonId,
     name: name,
   });
-  // console.log(res);
   return res;
 };
 //教师修改课介绍
@@ -75,7 +71,6 @@ export const updateLessonInfo = async (lessonId: string, info: string) => {
     lessonId: lessonId,
     info: info,
   });
-  // console.log(res);
   return res;
 };
 //教师新建作业
@@ -93,16 +88,13 @@ export const createHomeWork = async (work: createBody) => {
 
 //用户上传资源
 export const uploadResource = async (file: File) => {
-  // console.log(file);
   const ret = await http.post("/resource/upload", file, {}, "upload");
   return ret;
 };
 //学生业务方法
 // 学生获取课程信息方法
 export const getLessonInfo = async (id: LessonId) => {
-  // console.log("id" + id);
   const ret = await http.get("/lesson?lessonId=" + id.e);
-  // console.log(ret);
   return ret;
 };
 
@@ -112,7 +104,6 @@ export const getCommentByTermIdLessonId = async (id: termedLessonId) => {
   const ret = await http.get(
     "/comment/lesson/comment?termedLessonId=" + id.termedLessonId
   );
-  console.log(ret);
   return ret;
 };
 //获取一个课程下的所有评论两个参数方法
@@ -123,7 +114,6 @@ export const getCommentByTermIdAndLessonId = async (
   const res = await http.get(
     "/comment/lesson/comment?lessonId=" + lessonId + "&termId=" + termId
   );
-  // console.log(res);
   return res;
 };
 //发表评论两个参数方法
@@ -131,6 +121,7 @@ type postCommentBody = {
   termedLessonId?: string;
   lessonId: string;
   termId: string;
+  clientType: string;
   content: string;
   previousCommentId?: string;
   masterId?: string;
@@ -138,6 +129,8 @@ type postCommentBody = {
 export const postCommentByTermIdAndLessonId = async (
   postCommentBody: postCommentBody
 ) => {
+  console.log(postCommentBody);
+
   const res = await http.post("/comment/create", {
     termedLessonId: postCommentBody.termedLessonId,
     lessonId: postCommentBody.lessonId,
@@ -147,6 +140,5 @@ export const postCommentByTermIdAndLessonId = async (
     previousCommentId: postCommentBody.previousCommentId,
     masterId: postCommentBody.masterId,
   });
-  console.log(res);
   return res;
 };

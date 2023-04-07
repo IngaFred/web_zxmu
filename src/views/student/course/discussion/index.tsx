@@ -8,8 +8,8 @@ import {
 } from "../../../../service/course";
 import store from "../../../../store";
 
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../../../store';
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../store";
 
 type LessonId = {
   lessonId: string;
@@ -90,10 +90,9 @@ const DiscussionItem = (props: {
   termId: string;
 }) => {
   // const userId = store.getState().user.infos.userId;
-  const userId = useSelector((state: RootState) => (state.user.infos.userId))
+  const userId = useSelector((state: RootState) => state.user.infos.userId);
 
   // console.log('userId',userId);
-  
 
   const { comment, lessonId, termId } = props;
   // //定义回复框是否可见，默认不可见
@@ -121,15 +120,20 @@ const DiscussionItem = (props: {
   ) => {
     setReplyContent(e.target.value);
   };
-  const reply = (commentId: string) => {
+  const reply = (
+    commentId: string,
+    masterId: string,
+    previousCommentId: string
+  ) => {
+    console.log(comment);
     postCommentByTermIdAndLessonId({
       lessonId: lessonId,
       termId: termId,
-      clientType: "string",
+      clientType: "web_client",
       content: replyContent,
-      previousCommentId: commentId,
-      // @ts-ignore
-      masterId: userId || "",
+      previousCommentId:
+        previousCommentId !== "null" ? previousCommentId : commentId,
+      masterId: masterId !== "null" ? masterId : commentId,
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
@@ -177,7 +181,11 @@ const DiscussionItem = (props: {
                 style={{ marginLeft: "10px" }}
                 type="primary"
                 onClick={() => {
-                  reply(comment.commentId);
+                  reply(
+                    comment.commentId,
+                    comment.masterId,
+                    comment.previousCommentId
+                  );
                 }}
               >
                 发送
