@@ -1,6 +1,6 @@
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
-import { message, Card, Button, Row, Col, Empty } from 'antd';
+import React, { useEffect, useState} from 'react';
+import { message, Card, Button, Row, Col, Empty,Tag } from 'antd';
 import styles from './index.module.scss';
 import { getLessons } from '../../../service/list';
 import Meta from 'antd/es/card/Meta';
@@ -59,7 +59,6 @@ export default function ClassList() {
                 className={styles.card}
                 actions={[
                   <Row justify={'space-between'}>
-                    <div>批改状态：{getStatus(item.status)}</div>
                     <Button
                       className={styles.rowBtn}
                       onClick={(id, hId) =>
@@ -68,6 +67,11 @@ export default function ClassList() {
                     >
                       我的作业
                     </Button>
+                    {getStatus(item.status) === "已批改"? (
+												<Tag color="green">已批改</Tag>
+											) : (
+												<Tag color="red">未批改</Tag>
+											)}
                   </Row>,
                 ]}
               >
