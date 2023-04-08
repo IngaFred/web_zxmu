@@ -63,33 +63,34 @@ export default function Detail() {
 		score: string;
 	};
 
-	const [scoreParam, setScoreParam] = useState<scoreParams>();
-	const handleSend = (scores: string) => {
-		if (!scores) {
-			message.warning('所打数不能为空');
-			return null;
-		}
-		const score: scoreParams = {
-			submitHomeworkId: '1638327777207640064',
-			score: scores,
-		};
-		// console.log(score);
-
-		setScoreParam(score);
-		handleInputScore(score);
-	};
-
-	const handleInputScore = (scoreParam: scoreParams) => {
-		putCourse(scoreParam).then((ret) => {
-			if (ret.status === 200) {
-				console.log(ret);
-
-				if (ret.data.success) {
-					console.log(scoreParam.score);
-
-					message.info(ret.data.errorMsg);
-				} else {
-					console.log(scoreParam.score);
+    const [scoreParam,setScoreParam] = useState<scoreParams>()
+    const handleSend = (scores: string) =>{
+      if(!scores){
+        message.warning('所打数不能为空')
+        return null;
+      }
+      const score:scoreParams={
+        submitHomeworkId:myHomework,
+        score:scores
+      }
+      // console.log(score);
+      
+      setScoreParam(score)
+      handleInputScore(score);
+    }
+    
+    const handleInputScore = (scoreParam:scoreParams) =>{
+      
+      putCourse(scoreParam).then((ret)=>{
+        if(ret.status === 200){
+          console.log(ret);
+          
+            if(ret.data.success){
+              console.log(scoreParam.score);
+              
+              message.info(ret.data.errorMsg)
+            }else{              
+              console.log(scoreParam.score);
 
 					message.warning(ret.data.errorMsg);
 				}

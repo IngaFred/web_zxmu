@@ -67,11 +67,12 @@ export default function ClassList() {
                     >
                       我的作业
                     </Button>
+                    <div>
                     {getStatus(item.status) === "已批改"? (
 												<Tag color="green">已批改</Tag>
 											) : (
 												<Tag color="red">未批改</Tag>
-											)}
+											)}</div>
                   </Row>,
                 ]}
               >

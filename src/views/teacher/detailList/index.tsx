@@ -2,6 +2,7 @@ import { Button, Card, Col, Empty, Row, Select, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { getUnSubmit, getSubmit } from '../../../service/detailList';
+import { useNavigate } from 'react-router-dom';
 // 查看作业列表（展示作业某个作业里列表所有学生提交的列表，展示分数，批改状态）
 // 吴振宇
 
@@ -107,7 +108,7 @@ export default function DetailList() {
             <Col span={24}>
               <Empty description="无暂已批改作业" />
             </Col>
-            
+
           )}
         </Row>
       </div>
@@ -117,6 +118,10 @@ export default function DetailList() {
 
 const HomeworkCard = (props: any) => {
   const { item, key, type } = props;
+  const navigate = useNavigate();
+  const goScoringTeacher = () => {
+    navigate('/scoringTeacher', { state: { homeworkId: item.homeworkId } });
+  };
   return (
     <Col span={4} key={key}>
       <div className={styles.homeworkItem}>
@@ -130,7 +135,7 @@ const HomeworkCard = (props: any) => {
           <Button style={{ alignSelf: 'flex-end' }}>修改</Button>
         )}
         {type === '未批改' && (
-          <Button style={{ alignSelf: 'flex-end' }}>批改</Button>
+          <Button style={{ alignSelf: 'flex-end' }} onClick={goScoringTeacher}>批改</Button>
         )}
       </div>
     </Col>
