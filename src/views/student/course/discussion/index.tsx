@@ -120,19 +120,14 @@ const DiscussionItem = (props: {
   ) => {
     setReplyContent(e.target.value);
   };
-  const reply = (
-    commentId: string,
-    masterId: string,
-    previousCommentId: string
-  ) => {
+  const reply = (commentId: string, masterId: string) => {
     console.log(comment);
     postCommentByTermIdAndLessonId({
       lessonId: lessonId,
       termId: termId,
       clientType: "web_client",
       content: replyContent,
-      previousCommentId:
-        previousCommentId !== "null" ? previousCommentId : commentId,
+      previousCommentId: commentId,
       masterId: masterId !== "null" ? masterId : commentId,
     }).then((res) => {
       if (res.status === 200) {
@@ -145,6 +140,8 @@ const DiscussionItem = (props: {
         message.error("请求失败");
       }
     });
+    setReplyInputVisible(false);
+    setReplyContent("");
   };
   return (
     <div className={styles.commentCard}>
@@ -175,17 +172,13 @@ const DiscussionItem = (props: {
               onChange={handleReplyContentChange}
               rows={4}
             />
-            <div className={styles.btns}>
+            <div className={styles.cancelBt}>
               <Button onClick={handleCancelReply}>取消</Button>
               <Button
                 style={{ marginLeft: "10px" }}
                 type="primary"
                 onClick={() => {
-                  reply(
-                    comment.commentId,
-                    comment.masterId,
-                    comment.previousCommentId
-                  );
+                  reply(comment.commentId, comment.masterId);
                 }}
               >
                 发送
