@@ -119,8 +119,8 @@ export default function DetailList() {
 const HomeworkCard = (props: any) => {
   const { item, key, type } = props;
   const navigate = useNavigate();
-  const goScoringTeacher = () => {
-    navigate('/scoringTeacher', { state: { homeworkId: item.homeworkId } });
+  const goScoringTeacher = (e: React.MouseEvent<HTMLButtonElement>, id: React.MouseEvent<HTMLButtonElement>) => {
+    navigate('/scoringTeacher', { state: { lessonId: e, homeworkId: id } });
   };
   return (
     <Col span={4} key={key}>
@@ -135,7 +135,7 @@ const HomeworkCard = (props: any) => {
           <Button style={{ alignSelf: 'flex-end' }}>修改</Button>
         )}
         {type === '未批改' && (
-          <Button style={{ alignSelf: 'flex-end' }} onClick={goScoringTeacher}>批改</Button>
+          <Button style={{ alignSelf: 'flex-end' }} onClick={() => goScoringTeacher(item.lessonId, item.homeworkId)}>批改</Button>
         )}
       </div>
     </Col>
