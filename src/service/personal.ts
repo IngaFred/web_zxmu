@@ -9,18 +9,30 @@ export const getUserInfo = async () => {
 
 // 上传文件
 export const postUploadFile = async (file: File) => {
-  const ret = await http.post("/resource/upload", file, {}, "upload");
+  const ret = await http.post(
+    "/resource/upload",
+    { resourceFile: file },
+    {},
+    "upload"
+  );
   return ret;
 };
 
 //上传头像
 export const postUploadImg = async (file: File) => {
-  const ret = await http.post("/userinfo/pic", file, {}, "upload");
+  const ret = await http.post(
+    "/userinfo/pic",
+    { picFile: file },
+    {},
+    "upload"
+  );
   return ret;
 };
 
 //上传密码
-export const postUploadPsd = async (file: File) => {
-  const ret = await http.post("/resource/upload", file, {}, "upload");
+export const postUploadPsd = async (params: {
+  password:string
+}) => {
+  const ret = await http.post("/user/pwd", params);
   return ret;
 };

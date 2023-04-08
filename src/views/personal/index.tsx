@@ -60,7 +60,7 @@ export default function Personal() {
         <Upload
           {...props}
           customRequest={(res) => {
-            /* console.log(res); */
+            console.log(res);
             postUploadImg(res.file as File);
           }}
         >
