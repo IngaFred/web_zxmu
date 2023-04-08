@@ -186,6 +186,7 @@ export default function Detail() {
 							onChange={handleChange}
 							onRemove={handleRemove}
 							disabled={false}
+							setFileList={setFileList}
 						/>
 					</Card>
 				</Col>

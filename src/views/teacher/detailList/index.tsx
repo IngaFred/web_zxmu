@@ -87,9 +87,11 @@ export default function DetailList() {
 
         <Row gutter={24}>
           {unSubimtStudent.length > 0 ? (
-            unSubimtStudent.map((item, index) => (
-              <StuCard key={index} item={item} />
-            ))
+            unSubimtStudent.map((item,index) => {              
+              return <StuCard key={index} item={item} />
+
+            }
+            )
           ) : (
             <Col span={24}>
               <Empty description="无暂未提交作业" />
@@ -117,13 +119,13 @@ export default function DetailList() {
 }
 
 const HomeworkCard = (props: any) => {
-  const { item, key, type } = props;
+  const { item, type } = props;
   const navigate = useNavigate();
   const goScoringTeacher = (e: React.MouseEvent<HTMLButtonElement>, id: React.MouseEvent<HTMLButtonElement>) => {
     navigate('/scoringTeacher', { state: { lessonId: e, submitId: id } });
   };
   return (
-    <Col span={4} key={key}>
+    <Col span={4} >
       <div className={styles.homeworkItem}>
         {item?.user?.userName && (
           <div className={styles.stuName}>{item?.user?.userName}</div>
@@ -132,7 +134,7 @@ const HomeworkCard = (props: any) => {
           <div className={styles.score}>分数：{item?.score}分</div>
         )}
         {type === '已批改' && (
-          <Button style={{ alignSelf: 'flex-end' }}>修改</Button>
+          <Button style={{ alignSelf: 'flex-end' }} onClick={() => goScoringTeacher(item.lessonId, item.submitId)}>修改</Button>
         )}
         {type === '未批改' && (
           <Button style={{ alignSelf: 'flex-end' }} onClick={() => goScoringTeacher(item.lessonId, item.submitId)}>批改</Button>
@@ -143,9 +145,10 @@ const HomeworkCard = (props: any) => {
 };
 
 const StuCard = (props: any) => {
-  const { item, key } = props;
+  const { item} = props;
+  
   return (
-    <Col span={4} key={key}>
+    <Col span={4}>
       <div className={styles.homeworkItem}>
         {item?.userName && (
           <div className={styles.stuName}>{item?.userName}</div>
