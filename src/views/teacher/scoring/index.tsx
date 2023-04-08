@@ -42,7 +42,7 @@ interface Resource {
 
 export default function Detail() {
 	const location = useLocation();
-	const { lessonId: myLesson, homeworkId: myHomework } = location?.state || {}; // 解构赋值
+	const { lessonId: lessonId, submitId: submitId } = location?.state || {}; // 解构赋值
 
 	const [homeworkBOList, setHomeworkBOList] = useState<Homework | null>();
 	const [myResoursBOList, setMyResoursBOList] = useState([]);
@@ -57,7 +57,8 @@ export default function Detail() {
 	const handleRemove = (file: UploadFile) => {
 		setFileList(fileList.filter((f) => f.uid !== file.uid));
 	};
-
+  // const location = useLocation();
+  // const lessonId: LessonId = location.state?.lessonId;
 	type scoreParams = {
 		submitHomeworkId: string;
 		score: string;
@@ -71,7 +72,7 @@ export default function Detail() {
         return null;
       }
       const score:scoreParams={
-        submitHomeworkId:myHomework,
+        submitHomeworkId:submitId,
         score:scores
       }
       // console.log(score);
