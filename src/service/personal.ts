@@ -20,19 +20,12 @@ export const postUploadFile = async (file: File) => {
 
 //上传头像
 export const postUploadImg = async (file: File) => {
-  const ret = await http.post(
-    "/userinfo/pic",
-    { picFile: file },
-    {},
-    "upload"
-  );
+  const ret = await http.post("/userinfo/pic", { picFile: file }, {}, "upload");
   return ret;
 };
 
 //上传密码
-export const postUploadPsd = async (params: {
-  password:string
-}) => {
+export const postUploadPsd = async (params: { password: string }) => {
   const ret = await http.post("/user/pwd", params);
   return ret;
 };

@@ -20,7 +20,6 @@ const List = lazy(() => import('../views/student/list'));
 const Show = lazy(() => import('../views/student/show'));
 
 // teacher端
-const HomeTeacher = lazy(() => import('../views/teacher/teaHome'));
 const DetailTeacher = lazy(() => import('../views/teacher/detail'));
 const CourseTeacher = lazy(() => import('../views/teacher/course'));
 const DetailListTeacher = lazy(() => import('../views/teacher/detailList'));
@@ -157,17 +156,6 @@ export const routes: RouteObject[] = [
 			},
 
 			// teacher
-			{
-				path: 'homeTeacher',
-				element: <HomeTeacher />,
-				meta: {
-					menu: true,
-					title: '教师主页',
-					icon: <CalendarOutlined />,
-					auth: true,
-				},
-				name: 'homeTeacher',
-			},
 			{
 				path: 'courseList',
 				element: <LessonListTeacher />,
