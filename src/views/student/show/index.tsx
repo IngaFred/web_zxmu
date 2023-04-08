@@ -32,7 +32,8 @@ export default function Show() {
 				state={true}
 				children={fun1(3, 3)}
 			/>
-            <TermsSelect />
+      
+			<TermsSelect />
 		</>
 	);
 }
