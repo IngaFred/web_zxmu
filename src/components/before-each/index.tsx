@@ -6,13 +6,13 @@ import { routes } from '../../router';
 // 获取dispatch
 import { useAppDispatch } from '../../store';
 // 引入 获取用户信息的infosAction方法 update 更新
-import { updateInfos } from '../../store/modules/user';
+import { Terms, updateInfos, updateTerms } from '../../store/modules/user';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import type { Infos } from '../../store/modules/user';
 // 判断对象是否为空 ts引入js 要引入对应的d.ts文件
 import _ from 'lodash';
-import { infosAction } from '../../service/login';
+import { infosAction, termsAction } from '../../service/login';
 
 interface BeforeEachProps {
   children?: React.ReactNode;
@@ -33,13 +33,21 @@ export default function BeforeEach(props: BeforeEachProps) {
     if (meta?.auth && _.isEmpty(infos)) {
       if (token) {
         infosAction().then((res) => {
-          const { success } = res?.data || {};       
+          const { success, data } = res?.data || {};       
           // 正确拿到infos了
           if (success) {
             // 更新infos
-            dispatch(updateInfos(res?.data.data as Infos));
+            dispatch(updateInfos(data as Infos));
           }
         });
+        termsAction().then((res) => {
+          const { success, data } = res?.data || {};       
+          // 正确拿到terms了
+          if (success) {
+            // 更新terms
+            dispatch(updateTerms(data as Terms));
+          }
+        })
       } else {
         return <Navigate to="/login" />;
       }

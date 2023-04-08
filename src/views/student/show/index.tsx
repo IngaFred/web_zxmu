@@ -1,6 +1,7 @@
 import { Button, Col, Empty, Row, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
+import TermsSelect from '../../../components/terms-select';
 // 优秀成果展示 （展示某个作业的具体内容）
 // 邱致彬
 export default function Show() {
@@ -31,6 +32,7 @@ export default function Show() {
 				state={true}
 				children={fun1(3, 3)}
 			/>
+            <TermsSelect />
 		</>
 	);
 }

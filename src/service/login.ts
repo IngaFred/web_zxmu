@@ -21,3 +21,9 @@ export const infosAction =  async () => {
   // console.log(ret.data);
   return ret;
 };
+// 获取学期信息列表
+export const termsAction =  async () => {
+  const ret = await http.get('/lesson/term');
+  // console.log(ret.data);
+  return ret;
+};
