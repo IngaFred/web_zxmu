@@ -67,6 +67,7 @@ export default function Detail() {
 
     const [scoreParam,setScoreParam] = useState<scoreParams>()
     const handleSend = (scores: string) =>{
+      console.log('location?.state',location?.state)
       if(!scores){
         message.warning('所打数不能为空')
         return null;
