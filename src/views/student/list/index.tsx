@@ -1,6 +1,6 @@
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
-import { message, Card, Button, Row, Col, Empty } from 'antd';
+import React, { useEffect, useState} from 'react';
+import { message, Card, Button, Row, Col, Empty,Tag } from 'antd';
 import styles from './index.module.scss';
 import { getLessons } from '../../../service/list';
 import Meta from 'antd/es/card/Meta';
@@ -11,78 +11,83 @@ import _ from 'lodash';
 // 娄竞楷
 
 type LessonId = {
-	e: string;
+  e: string;
 };
 
 export default function ClassList() {
-	const location = useLocation();
+  const [lessonAll, setLessonAll] = useState([]);
 
-	const lessonId: LessonId = location.state?.lessonId;
+  useEffect(() => {
+    getLessons().then((ret) => {
+      if (ret.data.success) {
+        message.success(ret.data.errorMsg);
+        setLessonAll(ret.data.data);
+      } else {
+        message.error('获取作业列表失败');
+      }
+    });
+  }, []);
 
-	const [lessonAll, setLessonAll] = useState([]);
+  console.log(lessonAll);
+  console.log(_.isEmpty(lessonAll));
 
-	useEffect(() => {
-		getLessons(lessonId).then((ret) => {
-			if (ret.data.success) {
-				message.success(ret.data.errorMsg);
-				setLessonAll(ret.data.data);
-			} else {
-				message.error('获取作业列表失败');
-			}
-		});
-	}, []);
+  const navigate = useNavigate();
+  const handleMyDetail = (
+    id: React.MouseEvent<HTMLButtonElement>,
+    hId: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    navigate('/detail', { state: { lessonId: { id }, homeworkId: { hId } } });
+  };
+  const getStatus = (status: string) => {
+    switch (status) {
+      case 'SUBMIT_SCORED':
+        return '已批改';
+      case 'UN_SUBMIT':
+        return '未批改';
+    }
+    return '未批改';
+  };
 
-	console.log(lessonAll);
-	console.log(_.isEmpty(lessonAll));
-
-	const navigate = useNavigate();
-	const handleMyDetail = (
-		id: React.MouseEvent<HTMLButtonElement>,
-		hId: React.MouseEvent<HTMLButtonElement>
-	) => {
-		navigate('/detail', { state: { lessonId: { id }, homeworkId: { hId } } });
-	};
-
-	return (
-		<div className={styles.all}>
-			<Row gutter={24}>
-				{_.isEmpty(lessonAll) ? (
-					<Col span={24}>
-						<Empty description="没有对应的课程，暂无作业列表" />
-					</Col>
-				) : (
-					<Col span={6}>
-						<Card
-							size="small"
-							className={styles.card}
-							actions={[
-								<Row justify={'space-between'}>
-									<Button
-										className={styles.rowBtn}
-										onClick={(id, hId) =>
-											handleMyDetail(
-												lessonAll.lessonId,
-												lessonAll.homeworkId,
-												id,
-												hId
-											)
-										}
-									>
-										我的作业详情
-									</Button>
-								</Row>,
-							]}
-						>
-							<Meta
-								title={lessonAll.lessonName}
-								description={lessonAll.name}
-								style={{ height: '80px' }}
-							/>
-							<p>{lessonAll.info}</p>
-						</Card>
-					</Col>
-				)}
-			</Row>
-		</div>
-	);
+  return (
+    <div className={styles.all}>
+      <Row gutter={24}>
+        {lessonAll.map((item, index) => {
+          return (
+            <Col span={6} key={index}>
+              <Card
+                size="small"
+                className={styles.card}
+                actions={[
+                  <Row justify={'space-between'}>
+                    <Button
+                      className={styles.rowBtn}
+                      onClick={(id, hId) =>
+                        handleMyDetail(item.lessonId, item.homeworkId, id, hId)
+                      }
+                    >
+                      我的作业
+                    </Button>
+                    {getStatus(item.status) === "已批改"? (
+												<Tag color="green">已批改</Tag>
+											) : (
+												<Tag color="red">未批改</Tag>
+											)}
+                  </Row>,
+                ]}
+              >
+                <Meta
+                  title={item.lessonName}
+                  description={item.name}
+                  style={{ height: '80px' }}
+                />
+                <div className={styles.row}>
+                  分数：{item?.subHomework?.score}
+                </div>
+              </Card>
+            </Col>
+          );
+        })}
+      </Row>
+    </div>
+  );
 }

@@ -38,7 +38,6 @@ const usersSlice = createSlice({
   },
 });
 
-
 // 将同步方法给从reducers中解构出来
 export const { updateToken, updateInfos, clearToken } = usersSlice.actions;
 

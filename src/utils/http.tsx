@@ -90,7 +90,9 @@ const http: Http = {
     // 上传文件
     if (type === 'upload') {
       const formData = new FormData();
-      formData.append('resourceFile', data);
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data?.[key]);
+      });
       return instance
         .post(url, formData, {
           headers: {
