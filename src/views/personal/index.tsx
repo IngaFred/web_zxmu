@@ -61,14 +61,22 @@ export default function Personal() {
           {...props}
           customRequest={(res) => {
             console.log(res);
-            postUploadImg(res.file as File);
+            postUploadImg(res.file as File).then((res) => {
+              console.log(res);
+              /* if (res?.data?.success) {
+                getUserInfo().then((res) => {
+                  console.log(res);
+                  if (res?.data?.success) {
+                    setUserInfo(res.data.data);
+                  } else {
+                    message.error(res.data.errorMsg);
+                  }
+                });
+              } */
+            });
           }}
         >
-          <Button
-            /* icon={<UploadOutlined />} */ className={styles.modifyavatar}
-          >
-            修改头像
-          </Button>
+          <Button className={styles.modifyavatar}>修改头像</Button>
         </Upload>
       </div>
 
