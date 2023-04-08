@@ -72,7 +72,7 @@ export default function Detail() {
         return null;
       }
       const score:scoreParams={
-        submitHomeworkId:"1638327777207640064",
+        submitHomeworkId:myHomework,
         score:scores
       }
       // console.log(score);
