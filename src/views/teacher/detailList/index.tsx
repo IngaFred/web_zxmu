@@ -75,7 +75,9 @@ export default function DetailList() {
               </>
             ))
           ) : (
-            <Empty description="无暂未批改作业" />
+            <Col span={24}>
+              <Empty description="无暂未批改作业" />
+            </Col>
           )}
         </Row>
       </div>
@@ -88,7 +90,9 @@ export default function DetailList() {
               <StuCard key={index} item={item} />
             ))
           ) : (
-            <Empty description="无暂未提交作业" />
+            <Col span={24}>
+              <Empty description="无暂未提交作业" />
+            </Col>
           )}
         </Row>
       </div>
@@ -100,7 +104,10 @@ export default function DetailList() {
               <HomeworkCard key={index} item={item} type="已批改" />
             ))
           ) : (
-            <Empty description="无暂未已批改作业" />
+            <Col span={24}>
+              <Empty description="无暂已批改作业" />
+            </Col>
+            
           )}
         </Row>
       </div>
