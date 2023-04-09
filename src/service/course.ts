@@ -51,6 +51,11 @@ export const postCreateLesson = async (Lesson: Lesson) => {
   );
   return res;
 };
+//老师删除自己的课程
+export const delLessonByLessonId = async (lessonId: LessonId) => {
+  const res = await http.delete("/lesson?lessonId=" + lessonId.e);
+  return res;
+};
 //老师获取自己创建的课程列表
 export const getTeacherClassList = async () => {
   const res = await http.get("/lesson/teacher/created/simple");
