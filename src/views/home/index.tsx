@@ -58,7 +58,10 @@ const ModelCard = (props: any) => {
                         className={styles.rowBtn}
                         onClick={() =>
                           //@ts-ignore
-                          handleMyCourse(item.lessonId, item?.term?.termId)
+                          handleMyCourse(
+                            item.lessonId,
+                            item.term === null ? "" : item.term.termId
+                          )
                         }
                       >
                         课程详情
