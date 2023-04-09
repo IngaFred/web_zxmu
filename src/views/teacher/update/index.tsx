@@ -1,41 +1,37 @@
-import {
-  UploadOutlined,
-  InboxOutlined,
-  ContainerTwoTone,
-} from "@ant-design/icons";
+import { UploadOutlined, ContainerTwoTone } from "@ant-design/icons";
 import {
   Layout,
   Input,
   Button,
   Upload,
-  Card,
   Image,
-  Empty,
   Tooltip,
   message,
   UploadProps,
 } from "antd";
-import styles from "../index.module.scss";
+import styles from "./index.module.scss";
 import {
   getLessonInfo,
   updateLessonCover,
   updateLessonInfo,
   updateLessonName,
-} from "../../../../service/course";
+} from "../../../service/course";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const { Header, Content } = Layout;
-type LessonId = {
+interface LessonId {
   //课程id
   e: string;
-};
+}
 type updateCover = {
   picFile: File;
   lessonId: string;
 };
 
-const UpdateLesson = (id: LessonId) => {
+const UpdateLesson = () => {
   const { TextArea } = Input;
+  const location = useLocation();
+  const lessonId: LessonId = location.state?.lessonId;
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [lessonName, setLessonName] = useState("");
   const [lessonDetail, setLessonDetail] = useState("");
@@ -48,12 +44,12 @@ const UpdateLesson = (id: LessonId) => {
   const handleUploadCover = (cover: File) => {
     const formData: updateCover = {
       picFile: cover,
-      lessonId: id.e,
+      lessonId: lessonId.e,
     };
     updateLessonCover(formData);
   };
   const handleUpName = () => {
-    updateLessonName(id.e, lessonName).then((res) => {
+    updateLessonName(lessonId.e, lessonName).then((res) => {
       if (res.data.success) {
         message.success(res.data.errorMsg);
       } else {
@@ -63,7 +59,7 @@ const UpdateLesson = (id: LessonId) => {
   };
 
   const handleUpInfo = () => {
-    updateLessonInfo(id.e, lessonDetail).then((res) => {
+    updateLessonInfo(lessonId.e, lessonDetail).then((res) => {
       if (res.data.success) {
         message.success(res.data.errorMsg);
       } else {
@@ -74,25 +70,29 @@ const UpdateLesson = (id: LessonId) => {
   const navigate = useNavigate();
   const handleCreateWork = () => {
     // setIsCreateWork(false);
-    navigate("/detailTeacher", { state: { lessonId: { id } } });
+    navigate("/detailTeacher", { state: { lessonId: { lessonId } } });
   };
 
   useEffect(() => {
-    getLessonInfo(id).then((res) => {
-      if (res.status === 200) {
-        if (res.data.success) {
-          setLessonInfo(res.data.data);
-          setLessonName(res.data.data.lessonName);
-          setLessonDetail(res.data.data.info);
-          setresoursBOList(res.data.data.resoursBOList);
+    if (lessonId) {
+      getLessonInfo(lessonId).then((res) => {
+        if (res.status === 200) {
+          if (res.data.success) {
+            setLessonInfo(res.data.data);
+            setLessonName(res.data.data.lessonName);
+            setLessonDetail(res.data.data.info);
+            setresoursBOList(res.data.data.resoursBOList);
+          } else {
+            message.warning(res.data.errorMsg);
+          }
         } else {
-          message.warning(res.data.errorMsg);
+          message.warning("请求失败!");
         }
-      } else {
-        message.warning("请求失败!");
-      }
-    });
-  }, [id]);
+      });
+    } else {
+      return;
+    }
+  }, [lessonId]);
   return (
     <Layout className={styles.courseAll}>
       <>

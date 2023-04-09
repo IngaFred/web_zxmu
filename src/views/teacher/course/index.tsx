@@ -16,7 +16,7 @@ import { ContainerTwoTone } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Discussion from "../../student/course/discussion";
 import { getLessonInfo } from "../../../service/course";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
 export default function Course() {
@@ -26,12 +26,19 @@ export default function Course() {
   const [termId, setTermId] = useState("");
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
-
+  const navigate = useNavigate();
+  const handleAddLesson = () => {
+    navigate("/addLesson");
+  };
+  const handleUpdateLesson = () => {
+    navigate("/updateLesson", { state: { lessonId: lessonId } });
+  };
   interface LessonId {
     e: string;
   }
   useEffect(() => {
     console.log("我是教师端");
+    console.log(lessonId);
     if (lessonId) {
       getLessonInfo(lessonId).then((res) => {
         if (res.data.success) {
@@ -60,6 +67,9 @@ export default function Course() {
                     <h1>课程名：{lessonInfo.lessonName}</h1>
                   </div>
                   <div>
+                    <Button onClick={handleAddLesson}>新建课程</Button>
+                    <Button onClick={handleUpdateLesson}>修改课程</Button>
+
                     <DatePicker
                       format="YYYY-MM-DD HH:mm:ss"
                       showTime={{ defaultValue: dayjs("00:00:00", "HH:mm:ss") }}

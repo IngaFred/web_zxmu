@@ -1,75 +1,165 @@
-// 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
-// 鄢浩其
-import React, { useState, useEffect } from "react";
-import { Col, Row, Empty, Button, message, Select } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import {
+  Layout,
+  Input,
+  Button,
+  Upload,
+  Card,
+  Image,
+  UploadFile,
+  UploadProps,
+} from "antd";
 import styles from "./index.module.scss";
-import { useLocation } from "react-router-dom";
-import { getTeacherClassList } from "../../../service/course";
-import DisplayAdd from "./pages/addLesson";
-import UpdateLesson from "./pages/updateLesson";
-
-export default function New() {
-  //控制创建课程前后的显示状态
-  const location = useLocation();
-
-  const [isDisplay, setIsDisplay] = useState(true);
-  const [isCreate, setIsCreate] = useState(true);
-  const [ownClassList, setOwnClassList] = useState<any[]>([]);
-
-  const [lessonId, setLessonId] = useState("");
-  useEffect(() => {
-    getTeacherClassList().then((res) => {
-      if (res.status === 200) {
-        if (res.data.success) {
-          setOwnClassList(res.data.data);
-        } else {
-          message.warning(res.data.errorMsg);
-        }
-      } else {
-        message.warning("请求失败!");
-      }
+import defaultClassCover from "../../../assets/images/course/defaultClassCover.jpg";
+import { postCreateLesson } from "../../../service/course";
+import { useEffect, useState } from "react";
+import MyUpload from "./components/lessonSourceUpload";
+const { Header, Content } = Layout;
+const DisplayAdd = () => {
+  //创建课程数据接口
+  type Lesson = {
+    picFile?: File;
+    name: string;
+    info: string;
+    resourceList: string[];
+  };
+  const { TextArea } = Input;
+  const [newInfo, setNewInfo] = useState("输入简介");
+  const [newResourceList, setNewResourceList] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [newName, setNewName] = useState("输入课程名");
+  //上传封面
+  const defaultImg = new File([defaultClassCover], "defaultClassCover.jpg", {
+    type: "image/jpeg",
+  });
+  const props: UploadProps = {
+    onChange({ file }) {
+      file.status = "success";
+    },
+  };
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const handleChange = (info: { fileList: UploadFile[] }) => {
+    setFileList(info.fileList);
+    info.fileList.forEach((file) => {
+      file.status = "success";
     });
-  }, []);
-  const handleCreate = () => {
-    setIsDisplay(false);
+  };
+  const handleRemove = (file: UploadFile) => {
+    setFileList(fileList.filter((f) => f.uid !== file.uid));
+  };
+  const [createLesson, setCreateLesson] = useState<Lesson>({
+    picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
+      type: "image/jpeg",
+    }),
+    name: "",
+    info: "",
+    resourceList: [],
+  });
+
+  const [newCover, setNewCover] = useState(
+    new File([defaultClassCover], "defaultClassCover.jpg", {
+      type: "image/jpeg",
+    })
+  );
+  const submitCreateLesson = () => {
+    setCreateLesson({
+      picFile: newCover,
+      name: newName,
+      info: newInfo,
+      resourceList: newResourceList,
+    });
+    setIsSubmit(true);
   };
 
-  const handleUpdate = (lessonId: string) => {
-    setLessonId(lessonId);
-    setIsDisplay(false);
-    setIsCreate(false);
-  };
+  useEffect(() => {
+    if (isSubmit) {
+      postCreateLesson(createLesson);
+    } else {
+      return;
+    }
+  }, [createLesson, isSubmit, newCover]);
+  console.log(createLesson);
+  console.log(newCover);
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      {isDisplay ? (
-        <>
-          <Row>
-            <Col className={styles.rowButton}>
-              <Button onClick={handleCreate}>新建课程</Button>
-              <Select
-                defaultValue="修改课程"
-                style={{ width: "100px", marginLeft: "10px" }}
-                onChange={(lessonId) => handleUpdate(lessonId)}
-                options={ownClassList.map((item) => {
-                  return {
-                    value: item.lessonId,
-                    label: item.lessonName,
-                  };
-                })}
+    <Layout className={styles.courseAll}>
+      <Header className={styles.header}>
+        <div>
+          <div>
+            <div className={styles.title}>
+              <h1>课程名:</h1>
+              <Input
+                style={{ width: "300px" }}
+                value={newName}
+                onChange={(event) => {
+                  setNewName(event.target.value);
+                }}
+              ></Input>
+              <Button
+                className={styles.saveButton}
+                type="primary"
+                size="large"
+                onClick={submitCreateLesson}
+              >
+                保存
+              </Button>
+            </div>
+            <div className={styles.box}>
+              <Image
+                preview={false}
+                style={{
+                  width: "450px",
+                  height: "320px",
+                  borderRadius: "5px",
+                }}
+                src={defaultClassCover}
               />
-            </Col>
-          </Row>
-          <Row className={styles.rowEmpty}>
-            <Col span={24}>
-              <Empty description={"暂无课程信息，请添加课程！"}> </Empty>
-            </Col>
-          </Row>
-        </>
-      ) : isCreate ? (
-        <DisplayAdd />
-      ) : (
-        <UpdateLesson e={lessonId}></UpdateLesson>
-      )}
-    </div>
+              <TextArea
+                className={styles.card}
+                value={newInfo}
+                onChange={(e) => {
+                  setNewInfo(e.target.value);
+                }}
+              ></TextArea>
+            </div>
+          </div>
+          <div className={styles.upload}>
+            <Upload
+              {...props}
+              customRequest={(res) => {
+                setNewCover(res.file as File);
+              }}
+            >
+              <Button
+                className={styles.uploadButton1}
+                icon={<UploadOutlined />}
+              >
+                上传课程封面
+              </Button>
+            </Upload>
+          </div>
+        </div>
+      </Header>
+      <Content>
+        <div className={styles.outline}>
+          <div>
+            <div className={styles.resoursListTitle}>
+              <h1>课程资源</h1>
+            </div>
+            <Card className={styles.outlineCard}>
+              <div className={styles.outlineCardContent}>
+                <MyUpload
+                  fileList={fileList}
+                  onChange={handleChange}
+                  onRemove={handleRemove}
+                  disabled={false}
+                ></MyUpload>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </Content>
+    </Layout>
   );
-}
+};
+
+export default DisplayAdd;
