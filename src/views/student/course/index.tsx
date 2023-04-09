@@ -16,9 +16,8 @@ type LessonId = {
 export default function Course() {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
-
-  const [terms, setTerms] = useState<any>([]);
-  const [termId, setTermId] = useState("");
+  const defaultTermId = location.state?.termId;
+  const [termId, setTermId] = useState(defaultTermId);
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
@@ -28,9 +27,8 @@ export default function Course() {
       getLessonInfo(lessonId).then((res) => {
         if (res.data.success) {
           setLessonInfo(res.data.data);
-          setTerms(res.data.data.terms);
+          // setTerms(res.data.data.terms);
           setresoursBOList(res.data.data.resoursBOList);
-          setTermId(res.data.data.terms[0].termId);
         } else {
           message.warning(res.data.errorMsg);
         }
