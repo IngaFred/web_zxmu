@@ -5,7 +5,7 @@ import { Layout, Image, Card, message, Tooltip, Button, Empty } from "antd";
 import dayjs from "dayjs";
 import { ContainerTwoTone } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import Discussion from "../../student/course/discussion";
+import Discussion from "./discussion";
 import { delLessonByLessonId, getLessonInfo } from "../../../service/course";
 import { useLocation, useNavigate } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
@@ -148,7 +148,7 @@ export default function Course() {
         </div>
       </Content>
       <Footer className={styles.footer}>
-        <Discussion lessonId={lessonId?.e} termId={termId}></Discussion>
+        <Discussion lessonId={lessonId?.e}></Discussion>
       </Footer>
     </Layout>
   );
