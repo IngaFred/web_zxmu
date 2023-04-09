@@ -2,7 +2,6 @@
 // 鄢浩其
 import React, { useState, useEffect } from "react";
 import { Layout, Image, Card, message, Tooltip, Button, Empty } from "antd";
-import dayjs from "dayjs";
 import { ContainerTwoTone } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import Discussion from "./discussion";
@@ -13,8 +12,6 @@ const { Header, Content, Footer } = Layout;
 export default function Course() {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
-  const [terms, setTerms] = useState<any>([]);
-  const [termId, setTermId] = useState("");
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -46,9 +43,7 @@ export default function Course() {
       getLessonInfo(lessonId).then((res) => {
         if (res.data.success) {
           setLessonInfo(res.data.data);
-          setTerms(res.data.data.terms);
           setresoursBOList(res.data.data.resoursBOList);
-          setTermId(res.data.data.terms[0].termId);
         } else {
           message.warning(res.data.errorMsg);
         }
