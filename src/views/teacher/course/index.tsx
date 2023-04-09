@@ -35,7 +35,7 @@ export default function Course() {
     });
   };
   const handleCorrectWork = () => {
-    navigate("/correctWork", { state: { lessonId: lessonId } });
+    navigate("/detailListTeacher", { state: { lessonId: lessonId } });
   };
   useEffect(() => {
     console.log("我是教师端");

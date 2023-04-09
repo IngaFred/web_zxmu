@@ -137,7 +137,6 @@ export const getCommentByTermIdAndLessonId = async (
   lessonId: string,
   termId: string
 ) => {
-  console.log(lessonId, termId);
   const res = await http.get(
     "/comment/lesson/comment?lessonId=" + lessonId + "&termId=" + termId
   );
