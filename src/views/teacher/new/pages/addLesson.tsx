@@ -1,5 +1,14 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Layout, Input, Button, Upload, Card, Image, UploadFile } from "antd";
+import {
+  Layout,
+  Input,
+  Button,
+  Upload,
+  Card,
+  Image,
+  UploadFile,
+  UploadProps,
+} from "antd";
 import styles from "../index.module.scss";
 import defaultClassCover from "../../../../assets/images/course/defaultClassCover.jpg";
 import { postCreateLesson } from "../../../../service/course";
@@ -19,6 +28,12 @@ const DisplayAdd = () => {
   const [newResourceList, setNewResourceList] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [newName, setNewName] = useState("输入课程名");
+  //上传封面
+  const props: UploadProps = {
+    onChange({ file }) {
+      file.status = "success";
+    },
+  };
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange = (info: { fileList: UploadFile[] }) => {
     setFileList(info.fileList);
@@ -103,6 +118,7 @@ const DisplayAdd = () => {
           </div>
           <div className={styles.upload}>
             <Upload
+              {...props}
               customRequest={(res) => {
                 setNewCover(res.file as File);
               }}
