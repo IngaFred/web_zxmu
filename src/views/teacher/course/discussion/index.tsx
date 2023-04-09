@@ -115,7 +115,6 @@ const DiscussionItem = (props: {
     setReplyContent(e.target.value);
   };
   const reply = (commentId: string, masterId: string) => {
-    console.log(comment);
     postCommentByTermIdAndLessonId({
       lessonId: lessonId,
       termId: termId,
