@@ -35,10 +35,17 @@ const DisplayAdd = () => {
   const [modelList, setModelList] = useState([]);
   const [modelData, setModelData] = useState<any[]>([]);
   const [modelId, setModelId] = useState("");
+  const handleGetModelId = (modelId: string) => [setModelId(modelId)];
   //上传封面
-  const defaultImg = new File([defaultClassCover], "defaultClassCover.jpg", {
-    type: "image/jpeg",
-  });
+  const [newCover, setNewCover] = useState<File>();
+  const getDefaultImgFile = async () => {
+    const response = await fetch(defaultClassCover);
+    const blob = await response.blob();
+    const file = new File([blob], "defaultClassCover.jpg", {
+      type: "image/jpeg",
+    });
+    setNewCover(file);
+  };
   const props: UploadProps = {
     onChange({ file }) {
       file.status = "success";
@@ -56,19 +63,11 @@ const DisplayAdd = () => {
   };
   const [createLesson, setCreateLesson] = useState<Lesson>({
     modelId: "",
-    picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
-      type: "image/jpeg",
-    }),
+    picFile: newCover,
     name: "",
     info: "",
     resourceList: [],
   });
-  const handleGetModelId = (modelId: string) => [setModelId(modelId)];
-  const [newCover, setNewCover] = useState(
-    new File([defaultClassCover], "defaultClassCover.jpg", {
-      type: "image/jpeg",
-    })
-  );
   const submitCreateLesson = () => {
     setCreateLesson({
       modelId: modelId,
@@ -80,6 +79,7 @@ const DisplayAdd = () => {
     setIsSubmit(true);
   };
   useEffect(() => {
+    getDefaultImgFile();
     getModel().then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
@@ -90,7 +90,6 @@ const DisplayAdd = () => {
       } else {
         message.error("请求数据失败！");
       }
-      // console.log(res);
     });
   }, []);
   useEffect(() => {
@@ -103,7 +102,6 @@ const DisplayAdd = () => {
         } else {
           message.error("请求数据失败！");
         }
-        // console.log(res);
       });
     } else {
       return;

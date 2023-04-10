@@ -42,7 +42,6 @@ export const getModel = async () => {
 };
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
-  // console.log(Lesson);
   const res = await http.post(
     "/lesson/create",
     {
