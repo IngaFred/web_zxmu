@@ -8,16 +8,19 @@ import {
   Image,
   UploadFile,
   UploadProps,
+  Select,
+  message,
 } from "antd";
 import styles from "./index.module.scss";
 import defaultClassCover from "../../../assets/images/course/defaultClassCover.jpg";
-import { postCreateLesson } from "../../../service/course";
+import { getModel, postCreateLesson } from "../../../service/course";
 import { useEffect, useState } from "react";
 import MyUpload from "./components/lessonSourceUpload";
 const { Header, Content } = Layout;
 const DisplayAdd = () => {
   //创建课程数据接口
   type Lesson = {
+    modelId: string;
     picFile?: File;
     name: string;
     info: string;
@@ -28,6 +31,10 @@ const DisplayAdd = () => {
   const [newResourceList, setNewResourceList] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [newName, setNewName] = useState("输入课程名");
+  //模块
+  const [modelList, setModelList] = useState([]);
+  const [modelData, setModelData] = useState<any[]>([]);
+  const [modelId, setModelId] = useState("");
   //上传封面
   const defaultImg = new File([defaultClassCover], "defaultClassCover.jpg", {
     type: "image/jpeg",
@@ -48,6 +55,7 @@ const DisplayAdd = () => {
     setFileList(fileList.filter((f) => f.uid !== file.uid));
   };
   const [createLesson, setCreateLesson] = useState<Lesson>({
+    modelId: "",
     picFile: new File([defaultClassCover], "defaultClassCover.jpg", {
       type: "image/jpeg",
     }),
@@ -55,7 +63,7 @@ const DisplayAdd = () => {
     info: "",
     resourceList: [],
   });
-
+  const handleGetModelId = (modelId: string) => [setModelId(modelId)];
   const [newCover, setNewCover] = useState(
     new File([defaultClassCover], "defaultClassCover.jpg", {
       type: "image/jpeg",
@@ -63,6 +71,7 @@ const DisplayAdd = () => {
   );
   const submitCreateLesson = () => {
     setCreateLesson({
+      modelId: modelId,
       picFile: newCover,
       name: newName,
       info: newInfo,
@@ -70,21 +79,59 @@ const DisplayAdd = () => {
     });
     setIsSubmit(true);
   };
-
+  useEffect(() => {
+    getModel().then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          setModelList(res.data.data);
+        } else {
+          message.warning(res.data.errorMsg);
+        }
+      } else {
+        message.error("请求数据失败！");
+      }
+      // console.log(res);
+    });
+  }, []);
   useEffect(() => {
     if (isSubmit) {
-      postCreateLesson(createLesson);
+      postCreateLesson(createLesson).then((res) => {
+        if (res.status === 200) {
+          if (res.data.success) {
+            message.success(res.data.errorMsg);
+          }
+        } else {
+          message.error("请求数据失败！");
+        }
+        // console.log(res);
+      });
     } else {
       return;
     }
   }, [createLesson, isSubmit, newCover]);
-  console.log(createLesson);
-  console.log(newCover);
+  useEffect(() => {
+    setModelData(
+      modelList.map((item: any) => {
+        return {
+          value: item.modelId,
+          label: item.name,
+        };
+      })
+    );
+  }, [modelList]);
   return (
     <Layout className={styles.courseAll}>
       <Header className={styles.header}>
         <div>
           <div>
+            <div>
+              <h1>模块选择：</h1>
+              <Select
+                defaultValue={"请选择模块"}
+                options={modelData}
+                onChange={handleGetModelId}
+              />
+            </div>
             <div className={styles.title}>
               <h1>课程名:</h1>
               <Input

@@ -8,6 +8,7 @@ type LessonId = {
 };
 //创建课程数据接口
 type Lesson = {
+  modelId: string;
   picFile?: File;
   name: string;
   info: string;
@@ -34,13 +35,18 @@ type createBody = {
 };
 
 //老师业务方法
+//获取所有模块
+export const getModel = async () => {
+  const res = await http.get("/lesson/model");
+  return res;
+};
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
-  console.log(Lesson);
+  // console.log(Lesson);
   const res = await http.post(
     "/lesson/create",
     {
-      modelId: "1642563145146961920",
+      modelId: Lesson.modelId,
       picFile: Lesson.picFile,
       name: Lesson.name,
       info: Lesson.info,
