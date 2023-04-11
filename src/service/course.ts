@@ -8,6 +8,7 @@ type LessonId = {
 };
 //创建课程数据接口
 type Lesson = {
+  modelId: string;
   picFile?: File;
   name: string;
   info: string;
@@ -34,14 +35,30 @@ type createBody = {
 };
 
 //老师业务方法
+//获取所有模块
+export const getModel = async () => {
+  const res = await http.get("/lesson/model");
+  return res;
+};
 //教师创建课程
 export const postCreateLesson = async (Lesson: Lesson) => {
-  const res = await http.post("/lesson/create", {
-    picFile: Lesson.picFile,
-    name: Lesson.name,
-    info: Lesson.info,
-    resourceList: Lesson.resourceList,
-  });
+  const res = await http.post(
+    "/lesson/create",
+    {
+      modelId: Lesson.modelId,
+      picFile: Lesson.picFile,
+      name: Lesson.name,
+      info: Lesson.info,
+      resourceList: Lesson.resourceList,
+    },
+    {},
+    "upload"
+  );
+  return res;
+};
+//老师删除自己的课程
+export const delLessonByLessonId = async (lessonId: LessonId) => {
+  const res = await http.delete("/lesson?lessonId=" + lessonId.e);
   return res;
 };
 //老师获取自己创建的课程列表
@@ -51,10 +68,17 @@ export const getTeacherClassList = async () => {
 };
 //教师修改课程封面
 export const updateLessonCover = async (updateData: updateClassCover) => {
-  const res = await http.put("/lesson/pic", {
-    picFile: updateData.picFile,
-    lessonId: updateData.lessonId,
-  });
+  console.log(updateData);
+  const res = await http.put(
+    "/lesson/pic",
+    {
+      picFile: updateData.picFile,
+      lessonId: updateData.lessonId,
+    },
+    {},
+    "upload"
+  );
+  console.log(res);
   return res;
 };
 //教师修改课程名
@@ -88,7 +112,14 @@ export const createHomeWork = async (work: createBody) => {
 
 //用户上传资源
 export const uploadResource = async (file: File) => {
-  const ret = await http.post("/resource/upload", file, {}, "upload");
+  const ret = await http.post(
+    "/resource/upload",
+    {
+      resourceFile: file,
+    },
+    {},
+    "upload"
+  );
   return ret;
 };
 //学生业务方法

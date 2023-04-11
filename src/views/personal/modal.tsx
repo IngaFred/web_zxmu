@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Input } from "antd";
+import { Modal, Button, Form, Input, message } from "antd";
 import styles from "./index.module.scss";
+import { postUploadPsd } from "../../service/personal";
+import { mapValues, values } from "lodash";
 
 //用open取代了visible
 const formItemLayout = {
@@ -24,14 +26,29 @@ const formItemLayout = {
 // modal 对话框
 const LocalizedModal = () => {
   const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
+
   const showModal = () => {
     setOpen(true);
   };
-  const hideModal = () => {
+  const hideModal1 = () => {
     setOpen(false);
   };
+  const hideModal2 = () => {
+    const psd = form.getFieldValue("password");
+    const psd1 = form.getFieldValue("confirm");
+    if (psd === psd1 && psd) {
+      postUploadPsd({
+        password: psd,
+      }).then((res) => {
+        console.log(res);
+        message.success(res.data.errorMsg);
+      });
+      setOpen(false);
+    }
+  };
+
   //密码输入框
-  const [form] = Form.useForm();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -44,8 +61,8 @@ const LocalizedModal = () => {
       <Modal
         title="修改密码"
         open={open}
-        onOk={hideModal}
-        onCancel={hideModal}
+        onOk={hideModal2}
+        onCancel={hideModal1}
         okText="确认"
         cancelText="取消"
       >
@@ -88,11 +105,7 @@ const LocalizedModal = () => {
                   if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error(
-                      "The two passwords that you entered do not match!"
-                    )
-                  );
+                  return Promise.reject(new Error("你输入的两个密码不一致!"));
                 },
               }),
             ]}

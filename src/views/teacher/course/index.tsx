@@ -1,44 +1,49 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
 import React, { useState, useEffect } from "react";
-import {
-  Layout,
-  Image,
-  Card,
-  message,
-  Tooltip,
-  Button,
-  Empty,
-  DatePicker,
-} from "antd";
-import dayjs from "dayjs";
+import { Layout, Image, Card, message, Tooltip, Button, Empty } from "antd";
 import { ContainerTwoTone } from "@ant-design/icons";
 import styles from "./index.module.scss";
-import Discussion from "../../student/course/discussion";
-import { getLessonInfo } from "../../../service/course";
-import { useLocation } from "react-router-dom";
+import Discussion from "./discussion";
+import { delLessonByLessonId, getLessonInfo } from "../../../service/course";
+import { useLocation, useNavigate } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
 export default function Course() {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
-  const [terms, setTerms] = useState<any>([]);
-  const [termId, setTermId] = useState("");
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
-
+  const navigate = useNavigate();
+  const handleAddLesson = () => {
+    navigate("/addLesson");
+  };
+  const handleUpdateLesson = () => {
+    navigate("/updateLesson", { state: { lessonId: lessonId } });
+  };
   interface LessonId {
     e: string;
   }
+  const handleLesson = () => {
+    delLessonByLessonId(lessonId).then((res) => {
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+        navigate("courseList");
+      } else {
+        message.error(res.data.errorMsg);
+      }
+    });
+  };
+  const handleCorrectWork = () => {
+    navigate("/detailListTeacher", { state: { lessonId: lessonId } });
+  };
   useEffect(() => {
     console.log("我是教师端");
     if (lessonId) {
       getLessonInfo(lessonId).then((res) => {
         if (res.data.success) {
           setLessonInfo(res.data.data);
-          setTerms(res.data.data.terms);
           setresoursBOList(res.data.data.resoursBOList);
-          setTermId(res.data.data.terms[0].termId);
         } else {
           message.warning(res.data.errorMsg);
         }
@@ -60,11 +65,18 @@ export default function Course() {
                     <h1>课程名：{lessonInfo.lessonName}</h1>
                   </div>
                   <div>
-                    <DatePicker
-                      format="YYYY-MM-DD HH:mm:ss"
-                      showTime={{ defaultValue: dayjs("00:00:00", "HH:mm:ss") }}
-                    />
-                    <Button type="primary">批改作业</Button>
+                    <Button type="primary" onClick={handleAddLesson}>
+                      新建课程
+                    </Button>
+                    <Button type="primary" onClick={handleUpdateLesson}>
+                      修改课程
+                    </Button>
+                    <Button type="primary" onClick={handleLesson}>
+                      删除课程
+                    </Button>
+                    <Button type="primary" onClick={handleCorrectWork}>
+                      批改作业
+                    </Button>
                   </div>
                 </div>
                 <div>
@@ -131,7 +143,7 @@ export default function Course() {
         </div>
       </Content>
       <Footer className={styles.footer}>
-        <Discussion lessonId={lessonId?.e} termId={termId}></Discussion>
+        <Discussion lessonId={lessonId?.e}></Discussion>
       </Footer>
     </Layout>
   );

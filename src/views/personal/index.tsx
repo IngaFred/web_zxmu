@@ -60,20 +60,28 @@ export default function Personal() {
         <Upload
           {...props}
           customRequest={(res) => {
-            /* console.log(res); */
-            postUploadImg(res.file as File);
+            console.log(res);
+            postUploadImg(res.file as File).then((res) => {
+              console.log(res);
+              /* if (res?.data?.success) {
+                getUserInfo().then((res) => {
+                  console.log(res);
+                  if (res?.data?.success) {
+                    setUserInfo(res.data.data);
+                  } else {
+                    message.error(res.data.errorMsg);
+                  }
+                });
+              } */
+            });
           }}
         >
-          <Button
-            /* icon={<UploadOutlined />} */ className={styles.modifyavatar}
-          >
-            修改头像
-          </Button>
+          <Button className={styles.modifyavatar}>修改头像</Button>
         </Upload>
       </div>
 
       <div className={styles.box}>学号：{userInfo.stuId}</div>
-      <div className={styles.box}>姓名；{userInfo.userName}</div>
+      <div className={styles.box}>姓名: {userInfo.userName}</div>
 
       <Space>
         <LocalizedModal />
