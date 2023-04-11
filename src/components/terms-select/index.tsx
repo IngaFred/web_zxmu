@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import { Select } from 'antd';
 
-const TermsSelect = () => {
+const TermsSelect = (props: any) => {
 	const terms = useSelector((state: RootState) => state.user.terms);
 	const options = [];
 	for (let i = 0; i < terms.length; i++) {
@@ -13,7 +13,7 @@ const TermsSelect = () => {
 		});
 	}
 	const handleChange = (value: string) => {
-        console.log(`termId ${value}`);
+		props.setTermId(value);
 	};
 	return (
 		<div>

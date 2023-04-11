@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { getUnSubmit, getSubmit } from '../../../service/detailList';
 import { useNavigate } from 'react-router-dom';
+import TermsSelect from '../../../components/terms-select';
+import { useSelector } from "react-redux";
+import type { RootState } from '../../../store';
+
 // 查看作业列表（展示作业某个作业里列表所有学生提交的列表，展示分数，批改状态）
 // 吴振宇
 
@@ -14,17 +18,22 @@ export default function DetailList() {
   const [unSubimtStudent, setUnSubimtStudent] = useState<any[]>([]);
   const [SubimtStudent1, setSubimtStudent1] = useState<any[]>([]);
   const [SubimtStudent2, setSubimtStudent2] = useState<any[]>([]);
+  const terms = useSelector((state: RootState) => state.user.terms);
+  const [termId, setTermId] = useState(terms[0]?.termId);
 
   useEffect(() => {
     const uId: homeworkId = {
       homeworkId: '1642606856576876544',
-      termId: '1642563145096630272',
+      termId: termId
     };
     getUnSubmit(uId).then((ret) => {
       if (ret.data.success) {
         message.success(ret.data.errorMsg);
 
         setUnSubimtStudent(ret.data.data);
+
+        console.log(termId);
+        
       } else {
         message.error('获取作业列表失败');
       }
@@ -43,26 +52,13 @@ export default function DetailList() {
   return (
     <div className={styles.wrap}>
       <Row className={styles['top']}>
-        <h1>xxx/xxx/批改作业</h1>
+        <h1>批改作业</h1>
         <div className={styles['topCenter']}>
           <Space size={20}>
             <h1>标题：课程名 | </h1>
-            <h1>数量：</h1>
+            <h1>数量：{SubimtStudent2.length}/{unSubimtStudent.length+SubimtStudent1.length+SubimtStudent2.length}</h1>
           </Space>
-          <Select
-            defaultValue="2023年"
-            style={{ width: '170px', marginRight: '20px' }}
-            options={[
-              {
-                value: '2022年',
-                lable: '2022年',
-              },
-              {
-                value: '2021年',
-                lable: '2021年',
-              },
-            ]}
-          />
+          <TermsSelect  setTermId={setTermId}/>
         </div>
       </Row>
 
@@ -130,7 +126,7 @@ const HomeworkCard = (props: any) => {
         {item?.user?.userName && (
           <div className={styles.stuName}>{item?.user?.userName}</div>
         )}
-        {item?.score && (
+        {item?.score && item.score !=-1 &&(
           <div className={styles.score}>分数：{item?.score}分</div>
         )}
         {type === '已批改' && (
