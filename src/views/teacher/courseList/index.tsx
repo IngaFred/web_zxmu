@@ -146,11 +146,13 @@ export default function List() {
 								</Row>,
 							]}
 						>
-							<img
-								src={item?.picUrl}
-								alt='课程图片'
-								className={styles.lesson_img}
-							/>
+							<div className={styles.lesson_img}>
+								<img
+									src={item?.picUrl}
+									alt='课程图片'
+									className={styles.lesson_img}
+								/>
+							</div>
 							<div className={styles.lesson_top}>
 								<div className={styles.lesson_name}> {item.lessonName} </div>
 							</div>
