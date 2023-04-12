@@ -161,7 +161,6 @@ export const postCommentByTermIdAndLessonId = async (
   postCommentBody: postCommentBody
 ) => {
   console.log(postCommentBody);
-
   const res = await http.post("/comment/create", {
     termedLessonId: postCommentBody.termedLessonId,
     lessonId: postCommentBody.lessonId,

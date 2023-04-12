@@ -15,7 +15,7 @@
   height: 50px;
   border-radius: 50%;
 }
-.discussionUser span {
+.discussionUserSpan {
   display: flex;
   width: 99%;
   height: 50px;
@@ -68,7 +68,15 @@
   justify-content: center;
   color: #1677ff;
 }
-
+.firstCommentInput {
+  margin: 10px 0px 10px 0px;
+}
+.firstCommentButton {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 10px 0;
+}
 .commentList {
   display: flex;
   flex-direction: column;
@@ -88,7 +96,7 @@
   color: #1677ff;
 }
 
-.btns {
+.cancelBt {
   display: flex;
   justify-content: end;
   align-items: center;
