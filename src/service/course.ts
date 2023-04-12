@@ -173,4 +173,15 @@ export const postCommentByTermIdAndLessonId = async (
 		masterId: postCommentBody.masterId,
 	});
 	return res;
+	console.log(postCommentBody);
+	const res = await http.post('/comment/create', {
+		termedLessonId: postCommentBody.termedLessonId,
+		lessonId: postCommentBody.lessonId,
+		termId: postCommentBody.termId,
+		clientType: 'web_client',
+		content: postCommentBody.content,
+		previousCommentId: postCommentBody.previousCommentId,
+		masterId: postCommentBody.masterId,
+	});
+	return res;
 };

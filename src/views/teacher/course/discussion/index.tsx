@@ -20,8 +20,39 @@ const Discussion = (props: LessonId) => {
   const [displayCommentList, setDisplayCommentList] = useState<any[]>([]);
   const terms = useSelector((state: RootState) => state.user.terms);
   const [termId, setTermId] = useState(terms[0]?.termId);
+  // 定义回复内柔，默认为空
+  const [replyContent, setReplyContent] = useState("");
+  //取消回复时操作：输入框消失、回复内容为空
+  const handleCancelReply = () => {
+    setReplyContent("");
+  };
   const handleMoreComments = () => {
     setDisplayedComments(displayedComments + DISPLAY_COUNT);
+  };
+  //评论业务
+  const handleReplyContentChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setReplyContent(e.target.value);
+  };
+  const reply = () => {
+    postCommentByTermIdAndLessonId({
+      lessonId: props.lessonId,
+      termId: termId,
+      clientType: "web_client",
+      content: replyContent,
+    }).then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          message.success("回复成功");
+        } else {
+          message.error(res.data.errorMsg);
+        }
+      } else {
+        message.error("请求失败");
+      }
+    });
+    setReplyContent("");
   };
   useEffect(() => {
     //获取评论
@@ -54,7 +85,29 @@ const Discussion = (props: LessonId) => {
         className={styles.discussionUser}
         style={{ display: commentList.length === 0 ? "inline" : "none" }}
       >
-        <span>暂无评论，留个言再走吧！</span>
+        <span className={styles.discussionUserSpan}>
+          暂无评论，留个言再走吧！
+        </span>
+        <div className={styles.firstCommentInput}>
+          <Input.TextArea
+            value={replyContent}
+            onChange={handleReplyContentChange}
+            rows={4}
+            style={{ width: "1198px" }}
+          />
+          <div className={styles.cancelBt}>
+            <Button onClick={handleCancelReply}>取消</Button>
+            <Button
+              style={{ marginLeft: "10px" }}
+              type="primary"
+              onClick={() => {
+                reply();
+              }}
+            >
+              发送
+            </Button>
+          </div>
+        </div>
       </div>
       {/* 有评论时展示 */}
       <div style={{ display: commentList.length > 0 ? "inline" : "none" }}>
