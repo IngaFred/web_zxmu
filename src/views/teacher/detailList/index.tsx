@@ -2,7 +2,7 @@ import { Button, Card, Col, Empty, Row, Select, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { getUnSubmit, getSubmit } from '../../../service/detailList';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import TermsSelect from '../../../components/terms-select';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store';
@@ -11,21 +11,19 @@ import type { RootState } from '../../../store';
 // 吴振宇
 
 export default function DetailList() {
-  type homeworkId = {
-    homeworkId: string;
-    termId: String;
-  };
+  const location = useLocation();
+  const lessonInfo = location.state?.lessonInfo;
+
   const [unSubimtStudent, setUnSubimtStudent] = useState<any[]>([]);
   const [SubimtStudent1, setSubimtStudent1] = useState<any[]>([]);
   const [SubimtStudent2, setSubimtStudent2] = useState<any[]>([]);
   const termId = useSelector((state: RootState) => state.user.termId);
 
   useEffect(() => {
-    const uId: homeworkId = {
-      homeworkId: '1642606856576876544',
+    getUnSubmit({
+      homeworkId: lessonInfo?.homeworkId,
       termId: termId,
-    };
-    getUnSubmit(uId).then((ret) => {
+    }).then((ret) => {
       if (ret.data.success) {
         message.success(ret.data.errorMsg);
 
@@ -36,7 +34,10 @@ export default function DetailList() {
         message.error('获取作业列表失败');
       }
     });
-    getSubmit(uId).then((ret) => {
+    getSubmit({
+      homeworkId: lessonInfo?.homeworkId,
+      termId: termId,
+    }).then((ret) => {
       if (ret.data.success) {
         message.success(ret.data.errorMsg);
         console.log(ret.data.data);
@@ -46,7 +47,7 @@ export default function DetailList() {
         message.error('获取作业列表失败');
       }
     });
-  }, [termId]);
+  }, [termId, lessonInfo]);
   return (
     <div className={styles.wrap}>
       <Row className={styles['top']}>

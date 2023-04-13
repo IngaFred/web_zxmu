@@ -16,9 +16,6 @@ export default function Course() {
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
   const navigate = useNavigate();
-  const handleAddLesson = () => {
-    navigate('/addLesson');
-  };
   const handleUpdateLesson = () => {
     navigate('/updateLesson', { state: { lessonId: lessonId } });
   };
@@ -35,7 +32,11 @@ export default function Course() {
       }
     });
   };
-
+  const handleCorrectWork = () => {
+    navigate('/detailListTeacher', {
+      state: { lessonInfo: lessonInfo },
+    });
+  };
   useEffect(() => {
     console.log('我是教师端');
     if (lessonId) {
@@ -64,14 +65,14 @@ export default function Course() {
                     <h1>课程名：{lessonInfo.lessonName}</h1>
                   </div>
                   <div>
-                    <Button type="primary" onClick={handleAddLesson}>
-                      新建课程
-                    </Button>
                     <Button type="primary" onClick={handleUpdateLesson}>
                       修改课程
                     </Button>
                     <Button type="primary" onClick={handleLesson}>
                       删除课程
+                    </Button>
+                    <Button type="primary" onClick={handleCorrectWork}>
+                      批改作业
                     </Button>
                   </div>
                 </div>

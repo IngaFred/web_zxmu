@@ -24,9 +24,9 @@ const permission = {
   stu: [
     'home',
     // 'personal',
-    'course',
+    // 'course',
     'list',
-    'detail',
+    // 'detail',
     'show',
     'information',
   ],
@@ -41,7 +41,7 @@ const permission = {
     // 'showTeacher',
     'newTeacher',
     'information',
-    'detailListTeacher',
+    // 'detailListTeacher',
   ],
 };
 // 定义过滤函数
