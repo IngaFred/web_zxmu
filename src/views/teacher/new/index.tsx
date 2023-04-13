@@ -29,7 +29,6 @@ const DisplayAdd = () => {
   const { TextArea } = Input;
   const [newInfo, setNewInfo] = useState('输入简介');
   const [newResourceList, setNewResourceList] = useState([]);
-  const [isSubmit, setIsSubmit] = useState(false);
   const [newName, setNewName] = useState('输入课程名');
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
@@ -61,22 +60,22 @@ const DisplayAdd = () => {
   const handleRemove = (file: UploadFile) => {
     setFileList(fileList.filter((f) => f.uid !== file.uid));
   };
-  const [createLesson, setCreateLesson] = useState<Lesson>({
-    modelId: '',
-    picFile: newCover,
-    name: '',
-    info: '',
-    resourceList: [],
-  });
   const submitCreateLesson = () => {
-    setCreateLesson({
+    postCreateLesson({
       modelId: modelId,
       picFile: newCover,
       name: newName,
       info: newInfo,
       resourceList: newResourceList,
+    }).then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          message.success(res.data.errorMsg);
+        }
+      } else {
+        message.error('请求数据失败！');
+      }
     });
-    setIsSubmit(true);
   };
   useEffect(() => {
     getDefaultImgFile();
@@ -92,21 +91,7 @@ const DisplayAdd = () => {
       }
     });
   }, []);
-  useEffect(() => {
-    if (isSubmit) {
-      postCreateLesson(createLesson).then((res) => {
-        if (res.status === 200) {
-          if (res.data.success) {
-            message.success(res.data.errorMsg);
-          }
-        } else {
-          message.error('请求数据失败！');
-        }
-      });
-    } else {
-      return;
-    }
-  }, [createLesson, isSubmit, newCover]);
+
   useEffect(() => {
     setModelData(
       modelList.map((item: any) => {

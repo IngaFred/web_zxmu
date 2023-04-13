@@ -1,4 +1,4 @@
-import { UploadOutlined, ContainerTwoTone } from "@ant-design/icons";
+import { UploadOutlined, ContainerTwoTone } from '@ant-design/icons';
 import {
   Layout,
   Input,
@@ -8,16 +8,24 @@ import {
   Tooltip,
   message,
   UploadProps,
-} from "antd";
-import styles from "./index.module.scss";
+  Select,
+  UploadFile,
+  Card,
+} from 'antd';
+import styles from './index.module.scss';
 import {
   getLessonInfo,
+  getModel,
+  postCreateLesson,
   updateLessonCover,
   updateLessonInfo,
   updateLessonName,
-} from "../../../service/course";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+} from '../../../service/course';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import MyUpload from '../new/components/lessonSourceUpload';
+import defaultClassCover from '../../../assets/images/course/defaultClassCover.jpg';
+
 const { Header, Content } = Layout;
 interface LessonId {
   //课程id
@@ -33,9 +41,31 @@ const UpdateLesson = () => {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
   const [lessonInfo, setLessonInfo] = useState<any>({});
-  const [lessonName, setLessonName] = useState("");
-  const [lessonDetail, setLessonDetail] = useState("");
+  const [lessonName, setLessonName] = useState('');
+  const [lessonDetail, setLessonDetail] = useState('');
+  const [newResourceList, setNewResourceList] = useState([]);
+
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
+
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const handleChange = (info: { fileList: UploadFile[] }) => {
+    setFileList(info.fileList);
+    info.fileList.forEach((file) => {
+      file.status = 'success';
+    });
+  };
+  const handleRemove = (file: UploadFile) => {
+    setFileList(fileList.filter((f) => f.uid !== file.uid));
+  };
+
+  //模块
+  const [modelList, setModelList] = useState<any[]>([]);
+  const [modelData, setModelData] = useState<any[]>([]);
+  const [modelId, setModelId] = useState('');
+  const handleGetModelId = (modelId: string) => [setModelId(modelId)];
+  //上传封面
+  const [newCover, setNewCover] = useState<File>();
+
   const uploadCoverProps: UploadProps = {
     progress: {
       size: 3,
@@ -48,29 +78,36 @@ const UpdateLesson = () => {
     };
     updateLessonCover(formData);
   };
-  const handleUpName = () => {
-    updateLessonName(lessonId.e, lessonName).then((res) => {
-      if (res.data.success) {
-        message.success(res.data.errorMsg);
-      } else {
-        message.error(res.data.errorMsg);
-      }
-    });
-  };
 
-  const handleUpInfo = () => {
-    updateLessonInfo(lessonId.e, lessonDetail).then((res) => {
-      if (res.data.success) {
-        message.success(res.data.errorMsg);
+  useEffect(() => {
+    getModel().then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          setModelList(res.data.data);
+        } else {
+          message.warning(res.data.errorMsg);
+        }
       } else {
-        message.error(res.data.errorMsg);
+        message.error('请求数据失败！');
       }
     });
-  };
+  }, []);
+
+  useEffect(() => {
+    setModelData(
+      modelList.map((item: any) => {
+        return {
+          value: item.modelId,
+          label: item.name,
+        };
+      })
+    );
+    setModelId(modelList?.[0]?.modelId || '');
+  }, [modelList]);
+
   const navigate = useNavigate();
   const handleCreateWork = () => {
-    // setIsCreateWork(false);
-    navigate("/detailTeacher", { state: { lessonId: { lessonId } } });
+    navigate('/detailTeacher', { state: { lessonId: { lessonId } } });
   };
 
   useEffect(() => {
@@ -86,47 +123,97 @@ const UpdateLesson = () => {
             message.warning(res.data.errorMsg);
           }
         } else {
-          message.warning("请求失败!");
+          message.warning('请求失败!');
         }
       });
     } else {
       return;
     }
   }, [lessonId]);
+  const submitCreateLesson = () => {
+    postCreateLesson({
+      modelId: modelId,
+      picFile: newCover,
+      name: lessonName,
+      info: lessonInfo,
+      resourceList: newResourceList,
+    }).then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          message.success(res.data.errorMsg);
+        }
+      } else {
+        message.error('请求数据失败！');
+      }
+    });
+  };
+  const updateLesson = () => {
+    updateLessonName(lessonId.e, lessonName).then((res) => {
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+      } else {
+        message.error(res.data.errorMsg);
+      }
+    });
+    updateLessonInfo(lessonId.e, lessonDetail).then((res) => {
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+      } else {
+        message.error(res.data.errorMsg);
+      }
+    });
+  };
   return (
     <Layout className={styles.courseAll}>
       <>
         <Header className={styles.header}>
           <div>
             <div className={styles.title}>
-              <h1>课程名:</h1>
-              <Input
-                style={{ width: "300px" }}
-                value={lessonName}
-                onChange={(e) => {
-                  setLessonName(e.target.value);
-                }}
-              ></Input>
-              <Button className={styles.saveButtons} onClick={handleUpName}>
+              <div className={styles.title}>
+                <h1>模块选择：</h1>
+                <Select
+                  value={modelId}
+                  options={modelData}
+                  onChange={handleGetModelId}
+                />
+              </div>
+              <Button
+                className={styles.saveButton}
+                type="primary"
+                size="large"
+                onClick={true ? updateLesson : submitCreateLesson}
+              >
                 保存
               </Button>
-
+            </div>
+            <div className={styles.title}>
+              <div className={styles.title}>
+                <h1>课程名:</h1>
+                <Input
+                  style={{ width: '300px' }}
+                  value={lessonName}
+                  onChange={(e) => {
+                    setLessonName(e.target.value);
+                  }}
+                ></Input>
+              </div>
               <Button
                 className={styles.newButtonDiv}
                 onClick={handleCreateWork}
               >
-                新建作业
+                设置作业
               </Button>
             </div>
+
             <div className={styles.box}>
               <Image
                 preview={false}
                 style={{
-                  width: "450px",
-                  height: "320px",
-                  borderRadius: "5px",
+                  width: '450px',
+                  height: '320px',
+                  borderRadius: '5px',
                 }}
-                src={lessonInfo.picUrl}
+                src={lessonInfo.picUrl || defaultClassCover}
               />
               <TextArea
                 className={styles.card}
@@ -142,6 +229,7 @@ const UpdateLesson = () => {
               {...uploadCoverProps}
               customRequest={(res) => {
                 handleUploadCover(res.file as File);
+                setNewCover(res.file as File);
               }}
             >
               <Button
@@ -151,9 +239,6 @@ const UpdateLesson = () => {
                 上传课程封面
               </Button>
             </Upload>
-            <Button className={styles.updateButton} onClick={handleUpInfo}>
-              保存修改
-            </Button>
           </div>
         </Header>
         <Content>
@@ -165,7 +250,7 @@ const UpdateLesson = () => {
               <div className={styles.outlineCardContent}>
                 <div
                   style={{
-                    display: resoursBOList.length === 0 ? "inline" : "none",
+                    display: resoursBOList.length === 0 ? 'inline' : 'none',
                   }}
                 >
                   暂无资源
@@ -175,7 +260,7 @@ const UpdateLesson = () => {
                     <Tooltip
                       className={styles.resoursTooltip}
                       key={index}
-                      title={"Download   " + item.name}
+                      title={'Download   ' + item.name}
                     >
                       <a
                         href={item.url}
@@ -188,6 +273,16 @@ const UpdateLesson = () => {
                     </Tooltip>
                   ))}
                 </div>
+                <Card className={styles.outlineCard}>
+                  <div className={styles.outlineCardContent}>
+                    <MyUpload
+                      fileList={fileList}
+                      onChange={handleChange}
+                      onRemove={handleRemove}
+                      disabled={false}
+                    ></MyUpload>
+                  </div>
+                </Card>
               </div>
             </div>
           </div>
