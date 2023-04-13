@@ -1,25 +1,26 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
-import React, { useState, useEffect } from "react";
-import { Layout, Image, Card, message, Tooltip, Button, Empty } from "antd";
-import { ContainerTwoTone } from "@ant-design/icons";
-import styles from "./index.module.scss";
-import Discussion from "./discussion";
-import { delLessonByLessonId, getLessonInfo } from "../../../service/course";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Layout, Image, Card, message, Tooltip, Button, Empty } from 'antd';
+import { ContainerTwoTone } from '@ant-design/icons';
+import styles from './index.module.scss';
+import Discussion from './discussion';
+import { delLessonByLessonId, getLessonInfo } from '../../../service/course';
+import { useLocation, useNavigate } from 'react-router-dom';
 const { Header, Content, Footer } = Layout;
 
 export default function Course() {
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
+
   const [lessonInfo, setLessonInfo] = useState<any>({});
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
   const navigate = useNavigate();
   const handleAddLesson = () => {
-    navigate("/addLesson");
+    navigate('/addLesson');
   };
   const handleUpdateLesson = () => {
-    navigate("/updateLesson", { state: { lessonId: lessonId } });
+    navigate('/updateLesson', { state: { lessonId: lessonId } });
   };
   interface LessonId {
     e: string;
@@ -28,17 +29,15 @@ export default function Course() {
     delLessonByLessonId(lessonId).then((res) => {
       if (res.data.success) {
         message.success(res.data.errorMsg);
-        navigate("courseList");
+        navigate('courseList');
       } else {
         message.error(res.data.errorMsg);
       }
     });
   };
-  const handleCorrectWork = () => {
-    navigate("/detailListTeacher", { state: { lessonId: lessonId } });
-  };
+
   useEffect(() => {
-    console.log("我是教师端");
+    console.log('我是教师端');
     if (lessonId) {
       getLessonInfo(lessonId).then((res) => {
         if (res.data.success) {
@@ -74,15 +73,12 @@ export default function Course() {
                     <Button type="primary" onClick={handleLesson}>
                       删除课程
                     </Button>
-                    <Button type="primary" onClick={handleCorrectWork}>
-                      批改作业
-                    </Button>
                   </div>
                 </div>
                 <div>
                   <h1>
                     任课教师：
-                    {lessonInfo.creater ? lessonInfo.creater.userName : ""}
+                    {lessonInfo.creater ? lessonInfo.creater.userName : ''}
                   </h1>
                 </div>
               </div>
@@ -90,9 +86,9 @@ export default function Course() {
                 <Image
                   preview={false}
                   style={{
-                    width: "450px",
-                    height: "320px",
-                    borderRadius: "5px",
+                    width: '450px',
+                    height: '320px',
+                    borderRadius: '5px',
                   }}
                   src={lessonInfo.picUrl}
                 />
@@ -115,7 +111,7 @@ export default function Course() {
             <div className={styles.outlineCardContent}>
               <div
                 style={{
-                  display: resoursBOList.length === 0 ? "inline" : "none",
+                  display: resoursBOList.length === 0 ? 'inline' : 'none',
                 }}
               >
                 暂无资源
@@ -125,7 +121,7 @@ export default function Course() {
                   <Tooltip
                     className={styles.resoursTooltip}
                     key={index}
-                    title={"Download   " + item.name}
+                    title={'Download   ' + item.name}
                   >
                     <a
                       href={item.url}

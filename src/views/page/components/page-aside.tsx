@@ -21,16 +21,24 @@ interface Perm {
 }
 // 定义常量对象，表示路由权限数组
 const permission = {
-  stu: ['home', 'personal', 'course', 'list', 'detail', 'show', 'information'],
+  stu: [
+    'home',
+    // 'personal',
+    'course',
+    'list',
+    'detail',
+    'show',
+    'information',
+  ],
   tea: [
     'home',
-    'personal',
+    // 'personal',
     'courseList',
-    'courseTeacher',
-    'detailTeacher',
+    // 'courseTeacher',
+    // 'detailTeacher',
     'listTeacher',
-    'scoringTeacher',
-    'showTeacher',
+    // 'scoringTeacher',
+    // 'showTeacher',
     'newTeacher',
     'information',
     'detailListTeacher',

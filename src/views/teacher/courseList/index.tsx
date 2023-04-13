@@ -28,9 +28,6 @@ export default function List() {
   const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
     navigate('/courseTeacher', { state: { lessonId: { e } } });
   };
-  const handleMyDetail = (e: React.MouseEvent<HTMLButtonElement>) => {
-    navigate('/detailListTeacher', { state: { lessonId: { e } } });
-  };
 
   return (
     <div className={styles['big']}>
@@ -57,12 +54,6 @@ export default function List() {
                     onClick={(e) => handleMyCourse(item.lessonId, e)}
                   >
                     课程详情
-                  </Button>
-                  <Button
-                    className={styles.rowBtn}
-                    onClick={(e) => handleMyDetail(item.lessonId, e)}
-                  >
-                    作业列表
                   </Button>
                 </Row>,
               ]}

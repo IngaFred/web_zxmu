@@ -53,7 +53,6 @@ export default function DetailList() {
         <h1>批改作业</h1>
         <div className={styles['topCenter']}>
           <Space size={20}>
-            <h1>标题：课程名 | </h1>
             <h1>
               数量：{SubimtStudent2.length}/
               {unSubimtStudent.length +
