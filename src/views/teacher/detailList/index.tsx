@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import { getUnSubmit, getSubmit } from '../../../service/detailList';
 import { useNavigate } from 'react-router-dom';
 import TermsSelect from '../../../components/terms-select';
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store';
 
 // 查看作业列表（展示作业某个作业里列表所有学生提交的列表，展示分数，批改状态）
@@ -18,13 +18,12 @@ export default function DetailList() {
   const [unSubimtStudent, setUnSubimtStudent] = useState<any[]>([]);
   const [SubimtStudent1, setSubimtStudent1] = useState<any[]>([]);
   const [SubimtStudent2, setSubimtStudent2] = useState<any[]>([]);
-  const terms = useSelector((state: RootState) => state.user.terms);
-  const [termId, setTermId] = useState(terms[0]?.termId);
+  const termId = useSelector((state: RootState) => state.user.termId);
 
   useEffect(() => {
     const uId: homeworkId = {
       homeworkId: '1642606856576876544',
-      termId: termId
+      termId: termId,
     };
     getUnSubmit(uId).then((ret) => {
       if (ret.data.success) {
@@ -33,7 +32,6 @@ export default function DetailList() {
         setUnSubimtStudent(ret.data.data);
 
         console.log(termId);
-        
       } else {
         message.error('获取作业列表失败');
       }
@@ -48,7 +46,7 @@ export default function DetailList() {
         message.error('获取作业列表失败');
       }
     });
-  }, []);
+  }, [termId]);
   return (
     <div className={styles.wrap}>
       <Row className={styles['top']}>
@@ -56,9 +54,14 @@ export default function DetailList() {
         <div className={styles['topCenter']}>
           <Space size={20}>
             <h1>标题：课程名 | </h1>
-            <h1>数量：{SubimtStudent2.length}/{unSubimtStudent.length+SubimtStudent1.length+SubimtStudent2.length}</h1>
+            <h1>
+              数量：{SubimtStudent2.length}/
+              {unSubimtStudent.length +
+                SubimtStudent1.length +
+                SubimtStudent2.length}
+            </h1>
           </Space>
-          <TermsSelect  setTermId={setTermId}/>
+          <TermsSelect />
         </div>
       </Row>
 
@@ -83,11 +86,9 @@ export default function DetailList() {
 
         <Row gutter={24}>
           {unSubimtStudent.length > 0 ? (
-            unSubimtStudent.map((item,index) => {              
-              return <StuCard key={index} item={item} />
-
-            }
-            )
+            unSubimtStudent.map((item, index) => {
+              return <StuCard key={index} item={item} />;
+            })
           ) : (
             <Col span={24}>
               <Empty description="无暂未提交作业" />
@@ -106,7 +107,6 @@ export default function DetailList() {
             <Col span={24}>
               <Empty description="无暂已批改作业" />
             </Col>
-
           )}
         </Row>
       </div>
@@ -117,23 +117,36 @@ export default function DetailList() {
 const HomeworkCard = (props: any) => {
   const { item, type } = props;
   const navigate = useNavigate();
-  const goScoringTeacher = (e: React.MouseEvent<HTMLButtonElement>, id: React.MouseEvent<HTMLButtonElement>) => {
+  const goScoringTeacher = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: React.MouseEvent<HTMLButtonElement>
+  ) => {
     navigate('/scoringTeacher', { state: { lessonId: e, submitId: id } });
   };
   return (
-    <Col span={4} >
+    <Col span={4}>
       <div className={styles.homeworkItem}>
         {item?.user?.userName && (
           <div className={styles.stuName}>{item?.user?.userName}</div>
         )}
-        {item?.score && item.score !=-1 &&(
+        {item?.score && item.score != -1 && (
           <div className={styles.score}>分数：{item?.score}分</div>
         )}
         {type === '已批改' && (
-          <Button style={{ alignSelf: 'flex-end' }} onClick={() => goScoringTeacher(item.lessonId, item.submitId)}>修改</Button>
+          <Button
+            style={{ alignSelf: 'flex-end' }}
+            onClick={() => goScoringTeacher(item.lessonId, item.submitId)}
+          >
+            修改
+          </Button>
         )}
         {type === '未批改' && (
-          <Button style={{ alignSelf: 'flex-end' }} onClick={() => goScoringTeacher(item.lessonId, item.submitId)}>批改</Button>
+          <Button
+            style={{ alignSelf: 'flex-end' }}
+            onClick={() => goScoringTeacher(item.lessonId, item.submitId)}
+          >
+            批改
+          </Button>
         )}
       </div>
     </Col>
@@ -141,8 +154,8 @@ const HomeworkCard = (props: any) => {
 };
 
 const StuCard = (props: any) => {
-  const { item} = props;
-  
+  const { item } = props;
+
   return (
     <Col span={4}>
       <div className={styles.homeworkItem}>

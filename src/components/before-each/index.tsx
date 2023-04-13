@@ -6,7 +6,12 @@ import { routes } from '../../router';
 // 获取dispatch
 import { useAppDispatch } from '../../store';
 // 引入 获取用户信息的infosAction方法 update 更新
-import { Terms, updateInfos, updateTerms } from '../../store/modules/user';
+import {
+  Terms,
+  updateInfos,
+  updateTerms,
+  updateTermId,
+} from '../../store/modules/user';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import type { Infos } from '../../store/modules/user';
@@ -27,13 +32,13 @@ export default function BeforeEach(props: BeforeEachProps) {
 
   // 通过useAppDispatch 获取dispatch
   const dispatch = useAppDispatch();
-  
+
   if (Array.isArray(matchs)) {
     const meta = matchs[matchs.length - 1].route.meta;
     if (meta?.auth && _.isEmpty(infos)) {
       if (token) {
         infosAction().then((res) => {
-          const { success, data } = res?.data || {};       
+          const { success, data } = res?.data || {};
           // 正确拿到infos了
           if (success) {
             // 更新infos
@@ -41,13 +46,14 @@ export default function BeforeEach(props: BeforeEachProps) {
           }
         });
         termsAction().then((res) => {
-          const { success, data } = res?.data || {};       
+          const { success, data } = res?.data || {};
           // 正确拿到terms了
           if (success) {
             // 更新terms
             dispatch(updateTerms(data as Terms));
+            dispatch(updateTermId(data?.[0]?.termId));
           }
-        })
+        });
       } else {
         return <Navigate to="/login" />;
       }

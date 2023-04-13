@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Avatar, Button, Input, message, Tooltip } from "antd";
-import { HeartOutlined, HeartFilled, CommentOutlined } from "@ant-design/icons";
-import styles from "./index.module.scss";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Avatar, Button, Input, message, Tooltip } from 'antd';
+import { HeartOutlined, HeartFilled, CommentOutlined } from '@ant-design/icons';
+import styles from './index.module.scss';
 import {
   getCommentByTermIdAndLessonId,
   postCommentByTermIdAndLessonId,
-} from "../../../../service/course";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../../store";
-import TermsSelect from "../components";
+} from '../../../../service/course';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../../store';
+import TermsSelect from '../../../../components/terms-select';
 type LessonId = {
   lessonId: string;
 };
@@ -18,13 +18,13 @@ const Discussion = (props: LessonId) => {
   const [displayedComments, setDisplayedComments] = useState(DISPLAY_COUNT);
   const [commentList, setCommentList] = useState<any[]>([]);
   const [displayCommentList, setDisplayCommentList] = useState<any[]>([]);
-  const terms = useSelector((state: RootState) => state.user.terms);
-  const [termId, setTermId] = useState(terms[0]?.termId);
+  const termId = useSelector((state: RootState) => state.user.termId);
+
   // 定义回复内柔，默认为空
-  const [replyContent, setReplyContent] = useState("");
+  const [replyContent, setReplyContent] = useState('');
   //取消回复时操作：输入框消失、回复内容为空
   const handleCancelReply = () => {
-    setReplyContent("");
+    setReplyContent('');
   };
   const handleMoreComments = () => {
     setDisplayedComments(displayedComments + DISPLAY_COUNT);
@@ -39,24 +39,25 @@ const Discussion = (props: LessonId) => {
     postCommentByTermIdAndLessonId({
       lessonId: props.lessonId,
       termId: termId,
-      clientType: "web_client",
+      clientType: 'web_client',
       content: replyContent,
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
-          message.success("回复成功");
+          message.success('回复成功');
         } else {
           message.error(res.data.errorMsg);
         }
       } else {
-        message.error("请求失败");
+        message.error('请求失败');
       }
     });
-    setReplyContent("");
+    setReplyContent('');
   };
-  useEffect(() => {
+
+  const getCommentInfo = useCallback(() => {
     //获取评论
-    if (termId !== "") {
+    if (termId !== '') {
       getCommentByTermIdAndLessonId(props.lessonId, termId).then((res) => {
         if (res.status === 200) {
           if (res.data.success) {
@@ -65,12 +66,15 @@ const Discussion = (props: LessonId) => {
             message.error(res.data.errorMsg);
           }
         } else {
-          message.error("请求失败");
+          message.error('请求失败');
         }
       });
     } else {
       return;
     }
+  }, [props, termId]);
+  useEffect(() => {
+    getCommentInfo();
   }, [props, termId]);
   useEffect(() => {
     setDisplayCommentList(commentList.slice(0, displayedComments));
@@ -79,52 +83,53 @@ const Discussion = (props: LessonId) => {
     <div className={styles.discussion}>
       {/* 标题 */}
       <h1>评论</h1>
-      <TermsSelect setTermId={setTermId} />
+      <TermsSelect />
       {/* 无评论时展示 */}
-      <div
-        className={styles.discussionUser}
-        style={{ display: commentList.length === 0 ? "inline" : "none" }}
-      >
-        <span className={styles.discussionUserSpan}>
-          暂无评论，留个言再走吧！
-        </span>
-        <div className={styles.firstCommentInput}>
-          <Input.TextArea
-            value={replyContent}
-            onChange={handleReplyContentChange}
-            rows={4}
-            style={{ width: "1198px" }}
-          />
-          <div className={styles.cancelBt}>
-            <Button onClick={handleCancelReply}>取消</Button>
-            <Button
-              style={{ marginLeft: "10px" }}
-              type="primary"
-              onClick={() => {
-                reply();
-              }}
-            >
-              发送
-            </Button>
+      {/* 有评论时展示 */}
+      {commentList.length > 0 ? (
+        <div>
+          {/* 评论内容 */}
+          <div className={styles.commentList}>
+            {/* 评论内容 */}
+            {displayCommentList.map((comment, index) => (
+              <DiscussionItem
+                comment={comment}
+                lessonId={props?.lessonId}
+                termId={termId}
+                key={index}
+              />
+            ))}
+            <div className={styles.moreReplay} onClick={handleMoreComments}>
+              更多评论
+            </div>
           </div>
         </div>
-      </div>
-      {/* 有评论时展示 */}
-      <div style={{ display: commentList.length > 0 ? "inline" : "none" }}>
-        {/* 评论内容 */}
-        <div className={styles.commentList}>
-          {/* 评论内容 */}
-          {displayCommentList.map((comment, index) => (
-            <DiscussionItem
-              comment={comment}
-              lessonId={props?.lessonId}
-              termId={termId}
-              key={index}
-            />
-          ))}
-          <div className={styles.moreReplay} onClick={handleMoreComments}>
-            更多评论
-          </div>
+      ) : (
+        <div className={styles.discussionUser}>
+          <span className={styles.discussionUserSpan}>
+            暂无评论，留个言再走吧！
+          </span>
+        </div>
+      )}
+
+      <div className={styles.firstCommentInput}>
+        <Input.TextArea
+          value={replyContent}
+          onChange={handleReplyContentChange}
+          rows={4}
+          style={{ width: '1198px' }}
+        />
+        <div className={styles.cancelBt}>
+          <Button onClick={handleCancelReply}>取消</Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="primary"
+            onClick={() => {
+              reply();
+            }}
+          >
+            发送
+          </Button>
         </div>
       </div>
     </div>
@@ -152,14 +157,14 @@ const DiscussionItem = (props: {
   };
 
   // 定义回复内柔，默认为空
-  const [replyContent, setReplyContent] = useState("");
+  const [replyContent, setReplyContent] = useState('');
   // 是否展开其它评论？
   const [showOthers, setShowOthers] = useState(false);
 
   //取消回复时操作：输入框消失、回复内容为空
   const handleCancelReply = () => {
     setReplyInputVisible(false);
-    setReplyContent("");
+    setReplyContent('');
   };
   // 修改回复内容时调用
   const handleReplyContentChange = (
@@ -171,23 +176,23 @@ const DiscussionItem = (props: {
     postCommentByTermIdAndLessonId({
       lessonId: lessonId,
       termId: termId,
-      clientType: "web_client",
+      clientType: 'web_client',
       content: replyContent,
       previousCommentId: commentId,
-      masterId: masterId !== "null" ? masterId : commentId,
+      masterId: masterId !== 'null' ? masterId : commentId,
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
-          message.success("回复成功");
+          message.success('回复成功');
         } else {
           message.error(res.data.errorMsg);
         }
       } else {
-        message.error("请求失败");
+        message.error('请求失败');
       }
     });
     setReplyInputVisible(false);
-    setReplyContent("");
+    setReplyContent('');
   };
   return (
     <div className={styles.commentCard}>
@@ -221,7 +226,7 @@ const DiscussionItem = (props: {
             <div className={styles.cancelBt}>
               <Button onClick={handleCancelReply}>取消</Button>
               <Button
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: '10px' }}
                 type="primary"
                 onClick={() => {
                   reply(comment.commentId, comment.masterId);
