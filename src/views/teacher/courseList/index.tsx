@@ -36,6 +36,13 @@ export default function List() {
     <div className={styles['big']}>
       <div className={styles['header-xxx']}>
         <h1>我的课程</h1>
+        <Button
+          onClick={() => {
+            navigate('/addLesson');
+          }}
+        >
+          新建课程
+        </Button>
       </div>
       <Row gutter={[8, 16]} className={styles['row-big']}>
         {lesson.map((item, index) => (

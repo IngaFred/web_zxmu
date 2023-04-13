@@ -7,7 +7,6 @@ import { Select } from 'antd';
 const TermsSelect = () => {
   const terms = useSelector((state: RootState) => state.user.terms);
   const termId = useSelector((state: RootState) => state.user.termId);
-  console.log('termId', termId);
   const dispatch = useAppDispatch();
 
   const options = terms?.map((item) => {

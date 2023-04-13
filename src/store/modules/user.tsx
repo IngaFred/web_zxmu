@@ -18,6 +18,7 @@ export type UsersState = {
   token: Token;
   infos: Infos;
   terms: Terms;
+  myPrem: string;
   termId: string;
 };
 
@@ -28,6 +29,7 @@ const usersSlice = createSlice({
   initialState: {
     token: '',
     infos: {},
+    myPrem: '',
     terms: {},
     termId: '',
   } as UsersState,
@@ -45,6 +47,9 @@ const usersSlice = createSlice({
     updateTermId(state, action: PayloadAction<string>) {
       state.termId = action.payload;
     },
+    updateMyPrem(state, action: PayloadAction<string>) {
+      state.myPrem = action.payload;
+    },
     clearToken(state) {
       state.token = '';
     },
@@ -57,6 +62,7 @@ export const {
   updateInfos,
   updateTerms,
   updateTermId,
+  updateMyPrem,
   clearToken,
 } = usersSlice.actions;
 

@@ -10,6 +10,9 @@ import _ from 'lodash';
 import { useLocation, matchRoutes, Link } from 'react-router-dom';
 // 拿到对应用户权限
 import { getPerm } from '../../../service/page';
+import { RootState, useAppDispatch } from '../../../store';
+import { useSelector } from 'react-redux';
+import { updateMyPrem } from '../../../store/modules/user';
 // 定义一个接口，表示HomeAside组件的props类型
 interface HomeAsideProps {}
 // 定义一个接口，表示getPerm函数的返回值类型
@@ -53,9 +56,8 @@ const filter = (menus: RouteObject[], p: string[]) => {
 };
 // 定义一个组件，使用HomeAsideProps接口作为props类型
 const HomeAside: React.FC<HomeAsideProps> = () => {
-  // console.log('000');
   // 定义一个状态变量，表示权限数据
-  const [myPerm, setMyPerm] = useState<Perm | null>(null);
+  const dispatch = useAppDispatch();
   // 定义一个状态变量，表示菜单项数据
   const [myItems, setMyItems] = useState<RouteObject[] | null>([]);
   // 使用useEffect钩子函数，在组件挂载后，获取权限数据和菜单项数据
@@ -68,8 +70,7 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
       const { success } = ret?.data || undefined;
       const perm = ret?.data?.data?.[0] || [];
       if (success) {
-        // console.log(perm?.permName);
-        setMyPerm(perm?.permName);
+        dispatch(updateMyPrem(perm?.permName));
         // 根据权限数据，使用过滤函数的对象映射，过滤菜单项，并存储在items状态变量中
         if (perm?.permName === '学生权限') {
           const items = filter(routes, permission.stu);
