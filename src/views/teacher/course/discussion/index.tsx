@@ -45,6 +45,7 @@ const Discussion = (props: LessonId) => {
       if (res.status === 200) {
         if (res.data.success) {
           message.success('回复成功');
+          getCommentInfo();
         } else {
           message.error(res.data.errorMsg);
         }
@@ -75,15 +76,18 @@ const Discussion = (props: LessonId) => {
   }, [props, termId]);
   useEffect(() => {
     getCommentInfo();
-  }, [props, termId]);
+  }, [props, termId, getCommentInfo]);
   useEffect(() => {
     setDisplayCommentList(commentList.slice(0, displayedComments));
   }, [displayedComments, commentList]);
   return (
     <div className={styles.discussion}>
       {/* 标题 */}
-      <h1>评论</h1>
-      <TermsSelect />
+      <div className={styles.title}>
+        评论
+        <TermsSelect />
+      </div>
+
       {/* 无评论时展示 */}
       {/* 有评论时展示 */}
       {commentList.length > 0 ? (

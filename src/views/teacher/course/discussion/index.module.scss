@@ -103,3 +103,12 @@
   align-items: center;
   margin: 10px 0;
 }
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 0;
+}
