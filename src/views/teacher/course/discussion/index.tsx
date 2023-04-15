@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Avatar, Button, Input, message, Tooltip } from 'antd';
-import { HeartOutlined, HeartFilled, CommentOutlined } from '@ant-design/icons';
+import { CommentOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import {
   getCommentByTermIdAndLessonId,
@@ -56,7 +56,7 @@ const Discussion = (props: LessonId) => {
     setReplyContent('');
   };
 
-  const getCommentInfo = useCallback(() => {
+  const getCommentInfo = () => {
     //获取评论
     if (termId !== '') {
       getCommentByTermIdAndLessonId(props.lessonId, termId).then((res) => {
@@ -73,10 +73,13 @@ const Discussion = (props: LessonId) => {
     } else {
       return;
     }
-  }, [props, termId]);
+  };
+
   useEffect(() => {
+    console.log('getCommentInfo();');
     getCommentInfo();
-  }, [props, termId, getCommentInfo]);
+  }, [termId]);
+
   useEffect(() => {
     setDisplayCommentList(commentList.slice(0, displayedComments));
   }, [displayedComments, commentList]);
@@ -97,6 +100,7 @@ const Discussion = (props: LessonId) => {
             {/* 评论内容 */}
             {displayCommentList.map((comment, index) => (
               <DiscussionItem
+                getCommentInfo={getCommentInfo}
                 comment={comment}
                 lessonId={props?.lessonId}
                 termId={termId}
@@ -140,17 +144,13 @@ const Discussion = (props: LessonId) => {
   );
 };
 
-const DiscussionItem = (props: {
+export const DiscussionItem = (props: {
   comment: any;
   lessonId: string;
   termId: string;
+  getCommentInfo: () => void;
 }) => {
-  // const userId = store.getState().user.infos.userId;
-  const userId = useSelector((state: RootState) => state.user.infos.userId);
-
-  // console.log('userId',userId);
-
-  const { comment, lessonId, termId } = props;
+  const { comment, lessonId, termId, getCommentInfo } = props;
   // //定义回复框是否可见，默认不可见
   const [replyInputVisible, setReplyInputVisible] = useState(false);
   //显示回复输入框
@@ -183,11 +183,12 @@ const DiscussionItem = (props: {
       clientType: 'web_client',
       content: replyContent,
       previousCommentId: commentId,
-      masterId: masterId !== 'null' ? masterId : commentId,
+      masterId: masterId === 'null' ? commentId : masterId,
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
           message.success('回复成功');
+          getCommentInfo();
         } else {
           message.error(res.data.errorMsg);
         }
@@ -256,6 +257,7 @@ const DiscussionItem = (props: {
               </div>
               {comment?.commentBOList.map((item: any, index: number) => (
                 <DiscussionItem
+                  getCommentInfo={getCommentInfo}
                   comment={item}
                   lessonId={props?.lessonId}
                   termId={props?.termId}
