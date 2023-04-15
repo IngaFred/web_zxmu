@@ -8,6 +8,7 @@ type LessonId = {
 };
 //创建课程数据接口
 type Lesson = {
+  lessonId?: string;
   modelId: string;
   picFile?: File;
   name: string;
@@ -45,6 +46,23 @@ export const postCreateLesson = async (Lesson: Lesson) => {
   const res = await http.post(
     '/lesson/create',
     {
+      modelId: Lesson.modelId,
+      picFile: Lesson.picFile,
+      name: Lesson.name,
+      info: Lesson.info,
+      resourceList: Lesson.resourceList,
+    },
+    {},
+    'upload'
+  );
+  return res;
+};
+//教师创建课程
+export const postUpdateLesson = async (Lesson: Lesson) => {
+  const res = await http.post(
+    '/lesson/update',
+    {
+      lessonId: Lesson.lessonId,
       modelId: Lesson.modelId,
       picFile: Lesson.picFile,
       name: Lesson.name,

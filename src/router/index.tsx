@@ -26,7 +26,6 @@ const DetailListTeacher = lazy(() => import('../views/teacher/detailList'));
 const ShowTeacher = lazy(() => import('../views/teacher/show'));
 const ScoringTeacher = lazy(() => import('../views/teacher/scoring'));
 const LessonListTeacher = lazy(() => import('../views/teacher/courseList'));
-const AddLesson = lazy(() => import('../views/teacher/new'));
 const UpdateLesson = lazy(() => import('../views/teacher/update'));
 
 // 懒加载的形式引入
@@ -174,17 +173,6 @@ export const routes: RouteObject[] = [
         meta: {
           menu: true,
           title: '课程详情',
-          icon: <CalendarOutlined />,
-          auth: true,
-        },
-        name: 'courseTeacher',
-      },
-      {
-        path: 'addLesson',
-        element: <AddLesson />,
-        meta: {
-          menu: true,
-          title: '新建课程',
           icon: <CalendarOutlined />,
           auth: true,
         },

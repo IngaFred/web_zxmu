@@ -17,13 +17,14 @@ import {
   getLessonInfo,
   getModel,
   postCreateLesson,
+  postUpdateLesson,
   updateLessonCover,
   updateLessonInfo,
   updateLessonName,
 } from '../../../service/course';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import MyUpload from '../new/components/lessonSourceUpload';
+import MyUpload from './components/my-upload';
 import defaultClassCover from '../../../assets/images/course/defaultClassCover.jpg';
 
 const { Header, Content } = Layout;
@@ -40,23 +41,18 @@ const UpdateLesson = () => {
   const { TextArea } = Input;
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
-  const [lessonInfo, setLessonInfo] = useState<any>({});
+  const [lessonInfo, setLessonInfo] = useState('');
   const [lessonName, setLessonName] = useState('');
-  const [lessonDetail, setLessonDetail] = useState('');
-  const [newResourceList, setNewResourceList] = useState([]);
+  const [lessonDetail, setLessonDetail] = useState<any>({});
+  const [newResourceList, setNewResourceList] = useState<any[]>([]);
 
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleChange = (info: { fileList: UploadFile[] }) => {
-    setFileList(info.fileList);
-    info.fileList.forEach((file) => {
-      file.status = 'success';
-    });
-  };
-  const handleRemove = (file: UploadFile) => {
-    setFileList(fileList.filter((f) => f.uid !== file.uid));
-  };
+  useEffect(() => {
+    console.log('newResourceList', newResourceList);
+    const newResourceListIds = newResourceList.map((item) => item.resourceId);
+    console.log('newResourceListIds', newResourceListIds);
+  }, [newResourceList]);
 
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
@@ -110,59 +106,71 @@ const UpdateLesson = () => {
     navigate('/detailTeacher', { state: { lessonId: { lessonId } } });
   };
 
+  const fetchLessonInfo = useCallback(() => {
+    getLessonInfo(lessonId).then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          setLessonInfo(res.data.data.info);
+          setLessonName(res.data.data.lessonName);
+          setLessonDetail(res.data.data);
+          setresoursBOList(res.data.data.resoursBOList);
+        } else {
+          message.warning(res.data.errorMsg);
+        }
+      } else {
+        message.warning('请求失败!');
+      }
+    });
+  }, [lessonId]);
   useEffect(() => {
     if (lessonId) {
-      getLessonInfo(lessonId).then((res) => {
-        if (res.status === 200) {
-          if (res.data.success) {
-            setLessonInfo(res.data.data);
-            setLessonName(res.data.data.lessonName);
-            setLessonDetail(res.data.data.info);
-            setresoursBOList(res.data.data.resoursBOList);
-          } else {
-            message.warning(res.data.errorMsg);
-          }
-        } else {
-          message.warning('请求失败!');
-        }
-      });
+      fetchLessonInfo();
     } else {
       return;
     }
   }, [lessonId]);
   const submitCreateLesson = () => {
+    const newResourceListIds = newResourceList.map((item) => item.resourceId);
+    if (lessonId) {
+      postUpdateLesson({
+        lessonId: lessonId.e,
+        modelId: modelId,
+        picFile: newCover,
+        name: lessonName,
+        info: lessonInfo,
+        resourceList: newResourceListIds,
+      }).then((res) => {
+        if (res?.data?.success) {
+          message.success(res?.data?.errorMsg);
+          console.log('res?.data', res?.data);
+          navigate('/courseTeacher', {
+            state: { lessonId: { e: res?.data?.data?.lessonId } },
+          });
+        } else {
+          message.error('请求数据失败！');
+        }
+      });
+      return;
+    }
     postCreateLesson({
       modelId: modelId,
       picFile: newCover,
       name: lessonName,
       info: lessonInfo,
-      resourceList: newResourceList,
+      resourceList: newResourceListIds,
     }).then((res) => {
-      if (res.status === 200) {
-        if (res.data.success) {
-          message.success(res.data.errorMsg);
-        }
+      if (res.data.success) {
+        message.success(res?.data?.errorMsg);
+        console.log('res?.data', res?.data);
+        navigate('/courseTeacher', {
+          state: { lessonId: { e: res?.data?.data?.lessonId } },
+        });
       } else {
         message.error('请求数据失败！');
       }
     });
   };
-  const updateLesson = () => {
-    updateLessonName(lessonId.e, lessonName).then((res) => {
-      if (res.data.success) {
-        message.success(res.data.errorMsg);
-      } else {
-        message.error(res.data.errorMsg);
-      }
-    });
-    updateLessonInfo(lessonId.e, lessonDetail).then((res) => {
-      if (res.data.success) {
-        message.success(res.data.errorMsg);
-      } else {
-        message.error(res.data.errorMsg);
-      }
-    });
-  };
+
   return (
     <Layout className={styles.courseAll}>
       <>
@@ -181,7 +189,7 @@ const UpdateLesson = () => {
                 className={styles.saveButton}
                 type="primary"
                 size="large"
-                onClick={true ? updateLesson : submitCreateLesson}
+                onClick={submitCreateLesson}
               >
                 保存
               </Button>
@@ -213,13 +221,13 @@ const UpdateLesson = () => {
                   height: '320px',
                   borderRadius: '5px',
                 }}
-                src={lessonInfo.picUrl || defaultClassCover}
+                src={lessonDetail.picUrl || defaultClassCover}
               />
               <TextArea
                 className={styles.card}
-                value={lessonDetail}
+                value={lessonInfo}
                 onChange={(e) => {
-                  setLessonDetail(e.target.value);
+                  setLessonInfo(e.target.value);
                 }}
               ></TextArea>
             </div>
@@ -276,10 +284,11 @@ const UpdateLesson = () => {
                 <Card className={styles.outlineCard}>
                   <div className={styles.outlineCardContent}>
                     <MyUpload
-                      fileList={fileList}
-                      onChange={handleChange}
-                      onRemove={handleRemove}
-                      disabled={false}
+                      // fileList={fileList}
+                      // onChange={handleChange}
+                      // onRemove={handleRemove}
+                      resourceList={newResourceList}
+                      setNewResourceList={setNewResourceList}
                     ></MyUpload>
                   </div>
                 </Card>
