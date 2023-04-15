@@ -26,6 +26,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MyUpload from './components/my-upload';
 import defaultClassCover from '../../../assets/images/course/defaultClassCover.jpg';
+import { RcFile } from 'antd/es/upload';
+const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
 
 const { Header, Content } = Layout;
 interface LessonId {
@@ -45,7 +51,14 @@ const UpdateLesson = () => {
   const [lessonName, setLessonName] = useState('');
   const [lessonDetail, setLessonDetail] = useState<any>({});
   const [newResourceList, setNewResourceList] = useState<any[]>([]);
+  //上传封面
+  const [picFile, setPicFile] = useState<File>();
 
+  const [imageUrl, setImageUrl] = useState<string>();
+
+  useEffect(() => {
+    console.log('picFile', picFile);
+  }, [picFile]);
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -59,20 +72,14 @@ const UpdateLesson = () => {
   const [modelData, setModelData] = useState<any[]>([]);
   const [modelId, setModelId] = useState('');
   const handleGetModelId = (modelId: string) => [setModelId(modelId)];
-  //上传封面
-  const [newCover, setNewCover] = useState<File>();
 
-  const uploadCoverProps: UploadProps = {
-    progress: {
-      size: 3,
-    },
-  };
   const handleUploadCover = (cover: File) => {
     const formData: updateCover = {
       picFile: cover,
       lessonId: lessonId.e,
     };
-    updateLessonCover(formData);
+    setPicFile(cover);
+    // updateLessonCover(formData);
   };
 
   useEffect(() => {
@@ -135,7 +142,7 @@ const UpdateLesson = () => {
       postUpdateLesson({
         lessonId: lessonId.e,
         modelId: modelId,
-        picFile: newCover,
+        picFile: picFile,
         name: lessonName,
         info: lessonInfo,
         resourceList: newResourceListIds,
@@ -154,7 +161,7 @@ const UpdateLesson = () => {
     }
     postCreateLesson({
       modelId: modelId,
-      picFile: newCover,
+      picFile: picFile,
       name: lessonName,
       info: lessonInfo,
       resourceList: newResourceListIds,
@@ -214,15 +221,48 @@ const UpdateLesson = () => {
             </div>
 
             <div className={styles.box}>
-              <Image
-                preview={false}
+              <Upload
+                listType="picture-card"
+                showUploadList={false}
+                customRequest={(res) => {
+                  setPicFile(res.file as File);
+                }}
+                onChange={(info) => {
+                  console.log(' onChange info', info);
+
+                  // Get this url from response in real world.
+                  getBase64(info.file.originFileObj as RcFile, (url) => {
+                    setImageUrl(url);
+                  });
+                }}
                 style={{
                   width: '450px',
                   height: '320px',
                   borderRadius: '5px',
                 }}
-                src={lessonDetail.picUrl || defaultClassCover}
-              />
+              >
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{
+                      width: '450px',
+                      height: '320px',
+                      borderRadius: '5px',
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={lessonDetail.picUrl}
+                    alt="avatar"
+                    style={{
+                      width: '450px',
+                      height: '320px',
+                      borderRadius: '5px',
+                    }}
+                  />
+                )}
+              </Upload>
               <TextArea
                 className={styles.card}
                 value={lessonInfo}
@@ -231,22 +271,6 @@ const UpdateLesson = () => {
                 }}
               ></TextArea>
             </div>
-          </div>
-          <div className={styles.upload}>
-            <Upload
-              {...uploadCoverProps}
-              customRequest={(res) => {
-                handleUploadCover(res.file as File);
-                setNewCover(res.file as File);
-              }}
-            >
-              <Button
-                className={styles.uploadButton1}
-                icon={<UploadOutlined />}
-              >
-                上传课程封面
-              </Button>
-            </Upload>
           </div>
         </Header>
         <Content>

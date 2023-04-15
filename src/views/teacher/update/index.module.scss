@@ -123,3 +123,14 @@
 .resoursListTitle {
   margin-top: 20px;
 }
+
+:global {
+  .ant-upload {
+    width: 450px !important;
+    height: 320px !important;
+  }
+  .ant-upload-select {
+    width: 450px;
+    height: 320px;
+  }
+}
