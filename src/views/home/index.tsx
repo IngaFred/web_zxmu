@@ -13,7 +13,7 @@ import {
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { getModel, getModelLessons, getMyLessons } from '../../service/home';
-import store, { RootState } from '../../store';
+import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
@@ -116,7 +116,7 @@ const ModelCard = (props: any) => {
                   <div className={styles.lesson_top}>
                     <div className={styles.lesson_name}>{item.lessonName}</div>
                     {isStu && (
-                      <div>
+                      <div className={styles.tag}>
                         {item.choosed ? (
                           <Tag color="success">已选</Tag>
                         ) : (
