@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getDetails, getLessons, postSubmit } from '../../../service/detail';
 import MyEditor from './components/myEditor';
-import MyUpload from './components/myUpload';
+import MyUpload from '../../../components/upload';
 import styles from './index.module.scss';
 // 作业详情（查看作业，修改作业，提交作业，成果展示列表）
 // 邱致彬
@@ -118,7 +118,7 @@ export default function Detail() {
 			</Row>
 
 			<Row gutter={24}>
-				<Col span={20}>
+				<Col span={24}>
 					<Row className={styles.head}>
 						<h1>
 							{lessonName} | {name}
@@ -156,8 +156,8 @@ export default function Detail() {
 					<MyEditor />
 				</Col>
 				{/* 资源下载控件 */}
-				<Col span={4}>
-					<Card size="small" title="作业资源">
+				{/* <Col span={4}> */}
+					{/* <Card size="small" title="作业资源">
 						<Space direction={'vertical'} align={'center'}>
 							<Row gutter={24}>
 								{myResoursBOList?.length > 0 ? (
@@ -178,7 +178,8 @@ export default function Detail() {
 								)}
 							</Row>
 						</Space>
-					</Card>
+					</Card> */}
+
 					{/* 文件上传控件 */}
 					{/* <Card size="small" title="文件选择" className={styles.upload}>
 						<MyUpload
@@ -189,61 +190,11 @@ export default function Detail() {
 							setFileList={setFileList}
 						/>
 					</Card> */}
-				</Col>
+				{/* </Col> */}
 			</Row>
-			{/* <Row  gutter={24}>
-			<div className={styles.box}>
-              <Upload
-                listType="picture-card"
-                showUploadList={false}
-                customRequest={(res) => {
-                  setPicFile(res.file as File);
-                }}
-                onChange={(info) => {
-                  console.log(' onChange info', info);
-
-                  // Get this url from response in real world.
-                  getBase64(info.file.originFileObj as RcFile, (url) => {
-                    setImageUrl(url);
-                  });
-                }}
-                style={{
-                  width: '560px',
-                  height: '320px',
-                  borderRadius: '5px',
-                }}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '560px',
-                      height: '320px',
-                      borderRadius: '5px',
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={lessonDetail.picUrl}
-                    alt="avatar"
-                    style={{
-                      width: '560px',
-                      height: '320px',
-                      borderRadius: '5px',
-                    }}
-                  />
-                )}
-              </Upload>
-              <TextArea
-                className={styles.card}
-                value={lessonInfo}
-                onChange={(e) => {
-                  setLessonInfo(e.target.value);
-                }}
-              ></TextArea>
-            </div>
-			</Row> */}
+			<Row gutter={24}>
+				<MyUpload />
+			</Row>
 		</div>
 	);
 }
