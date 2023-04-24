@@ -34,7 +34,7 @@ export default function Detail() {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
-        style={{ maxWidth: 600 }}
+        // style={{ maxWidth: 600 }}
       >
         <div className={styles.detailALL}>
           <Row justify={"space-between"} className={styles.detailHeader}>
@@ -76,12 +76,8 @@ export default function Detail() {
             <Input />
           </Form.Item>
 
-          {/* <Form.Item name="time" label="作业时间">
-            <RangePicker />
-          </Form.Item> */}
-
           <Form.Item name="info" label="作业内容介绍">
-            <TextArea rows={4} />
+            <TextArea className={styles.text}  style={{width: '1000px'}} />
           </Form.Item>
         </div>
 

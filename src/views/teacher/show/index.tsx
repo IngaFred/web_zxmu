@@ -16,7 +16,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getDetails } from '../../../service/detail';
 import MyEditor from './components/myEditor';
-import MyUpload from './components/myUpload';
 import styles from "./index.module.scss";
 
 

@@ -20,13 +20,10 @@ import {
 	getModel,
 	postCreateLesson,
 	postUpdateLesson,
-	updateLessonCover,
-	updateLessonInfo,
-	updateLessonName,
 } from '../../../../../service/course';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import defaultClassCover from '../../../assets/images/course/defaultClassCover.jpg';
+import defaultClassCover from '../../../../../assets/images/course/defaultClassCover.jpg';
 import { RcFile } from 'antd/es/upload';
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
@@ -96,6 +93,7 @@ const UpdateLesson = () => {
 				message.error('请求数据失败！');
 			}
 		});
+		isImageAndSet()
 	}, []);
 
 	useEffect(() => {
@@ -130,6 +128,7 @@ const UpdateLesson = () => {
 				message.warning('请求失败!');
 			}
 		});
+		
 	}, [lessonId]);
 	useEffect(() => {
 		if (lessonId) {
@@ -179,6 +178,10 @@ const UpdateLesson = () => {
 			}
 		});
 	};
+
+	const isImageAndSet = () => {
+		typeof imageUrl === 'undefined' && (lessonDetail.picUrl = (defaultClassCover))
+	}
 
 	return (
 		<Layout className={styles.courseAll}>
@@ -247,7 +250,7 @@ const UpdateLesson = () => {
 									{imageUrl ? (
 										<img
 											src={imageUrl}
-											alt="avatar"
+											alt="点击添加图片"
 											style={{
 												width: '560px',
 												height: '320px',
@@ -257,7 +260,7 @@ const UpdateLesson = () => {
 									) : (
 										<img
 											src={lessonDetail.picUrl}
-											alt="avatar"
+											alt="点击添加图片"
 											style={{
 												width: '560px',
 												height: '320px',
@@ -267,7 +270,7 @@ const UpdateLesson = () => {
 									)}
 								</Upload>
 							</Space.Compact>
-							<Space.Compact className={styles.box} style={{ width: '100%' }}>
+							<Space.Compact className={styles.box} style={{ width: '200%' }}>
 								<TextArea
 									className={styles.card}
 									value={lessonInfo}
