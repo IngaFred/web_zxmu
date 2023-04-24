@@ -292,6 +292,7 @@ const UpdateLesson = () => {
                     <Tooltip
                       className={styles.resoursTooltip}
                       key={index}
+                      placement='bottomLeft'
                       title={'Download   ' + item.name}
                     >
                       <a
