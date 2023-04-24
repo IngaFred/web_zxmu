@@ -12,6 +12,7 @@ import {
   UploadFile,
   Card,
   Row,
+  Space,
 } from 'antd';
 import styles from './index.module.scss';
 import {
@@ -221,7 +222,7 @@ const UpdateLesson = () => {
               </Button>
             </div>
 
-            <div className={styles.box}>
+            <Space className={styles.box}>
               <Upload
                 listType="picture-card"
                 showUploadList={false}
@@ -266,12 +267,13 @@ const UpdateLesson = () => {
               </Upload>
               <TextArea
                 className={styles.card}
+                // size={'560px'}
                 value={lessonInfo}
                 onChange={(e) => {
                   setLessonInfo(e.target.value);
                 }}
               ></TextArea>
-            </div>
+            </Space>
           </div>
         </Header>
       </>
