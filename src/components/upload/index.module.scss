@@ -125,10 +125,10 @@
 }
 
 :global {
-	// .ant-upload {
-	// 	width: 560px !important;
-	// 	height: 320px !important;
-	// }
+	.ant-upload {
+		width: 100% !important;
+		height: 140px !important;
+	}
 	.ant-upload-select {
 		width: 450px;
 		height: 320px;

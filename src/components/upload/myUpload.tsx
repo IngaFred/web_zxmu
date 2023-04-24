@@ -77,6 +77,7 @@ const MyUpload = (props: MyUploadProps) => {
       onRemove={handleRemove}
       // 使用customRequest函数作为自定义的上传行为
       customRequest={customRequest}
+      // className={styles['ant-upload-up']}
     >
       <>
         <p className="ant-upload-drag-icon">
