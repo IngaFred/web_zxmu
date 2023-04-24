@@ -32,6 +32,7 @@ const contentStyle: React.CSSProperties = {
  */
 const ModelCard = (props: any) => {
   const myPrem = useSelector((state: RootState) => state.user.myPrem);
+  const termId = useSelector((state: RootState) => state.user.termId);
   const isStu = myPrem === '学生权限';
   const { data, modelLessons } = props;
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const ModelCard = (props: any) => {
                           //@ts-ignore
                           handleMyCourse(
                             item.lessonId,
-                            item.term === null ? '' : item.term.termId
+                            item.term === null ? termId : item.term.termId
                           )
                         }
                       >

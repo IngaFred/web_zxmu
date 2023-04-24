@@ -48,10 +48,10 @@ export default function Course() {
                   <h1>课程名：{lessonInfo.lessonName}</h1>
                 </div>
                 <div>
-                  <h1>
+                  <h2>
                     任课教师：
                     {lessonInfo.creater ? lessonInfo.creater.userName : ''}
-                  </h1>
+                  </h2>
                 </div>
               </div>
               <div className={styles.box}>

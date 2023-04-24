@@ -77,10 +77,10 @@ export default function Course() {
                   </div>
                 </div>
                 <div>
-                  <h1>
+                  <h2>
                     任课教师：
                     {lessonInfo.creater ? lessonInfo.creater.userName : ''}
-                  </h1>
+                  </h2>
                 </div>
               </div>
               <div className={styles.box}>
