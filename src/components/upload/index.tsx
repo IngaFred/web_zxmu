@@ -99,9 +99,10 @@ const UpdateLesson = () => {
                 <div
                   style={{
                     display: resoursBOList.length === 0 ? 'inline' : 'none',
+                    marginLeft: '20px',
                   }}
                 >
-                  暂无资源
+                   暂无资源
                 </div>
                 <div className={styles.resoursList}>
                   {resoursBOList.map((item, index) => (

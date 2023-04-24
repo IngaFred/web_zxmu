@@ -77,15 +77,13 @@ const MyUpload = (props: MyUploadProps) => {
       onRemove={handleRemove}
       // 使用customRequest函数作为自定义的上传行为
       customRequest={customRequest}
-    //   style={{width: '100%', height: '200px'}}
-    // className={styles['ant-upload']}
     >
       <>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
         {fileList.length === 0 && (
-          <p className={styles['ant-upload-text']}>暂无课程资源</p>
+          <p>暂无课程资源</p>
         )}
         <p className="ant-upload-hint">
           把文件拖入指定区域，完成上传，同样支持点击上传，可以一次上传多个文件。
