@@ -82,3 +82,9 @@
 .resoursListTitle {
   margin-top: 20px;
 }
+
+:global {
+  .ant-card-body {
+    padding: 12px !important;
+  }
+}

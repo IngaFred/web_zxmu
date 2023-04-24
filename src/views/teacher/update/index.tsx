@@ -236,7 +236,7 @@ const UpdateLesson = () => {
                   });
                 }}
                 style={{
-                  width: '450px',
+                  width: '560px',
                   height: '320px',
                   borderRadius: '5px',
                 }}
@@ -246,7 +246,7 @@ const UpdateLesson = () => {
                     src={imageUrl}
                     alt="avatar"
                     style={{
-                      width: '450px',
+                      width: '560px',
                       height: '320px',
                       borderRadius: '5px',
                     }}
@@ -256,7 +256,7 @@ const UpdateLesson = () => {
                     src={lessonDetail.picUrl}
                     alt="avatar"
                     style={{
-                      width: '450px',
+                      width: '560px',
                       height: '320px',
                       borderRadius: '5px',
                     }}

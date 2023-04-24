@@ -125,7 +125,7 @@ const Discussion = (props: LessonId) => {
           value={replyContent}
           onChange={handleReplyContentChange}
           rows={4}
-          style={{ width: '1198px' }}
+          style={{ width: '100%' }}
         />
         <div className={styles.cancelBt}>
           <Button onClick={handleCancelReply}>取消</Button>

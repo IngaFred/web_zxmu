@@ -87,7 +87,7 @@ export default function Course() {
                 <Image
                   preview={false}
                   style={{
-                    width: '450px',
+                    width: '560px',
                     height: '320px',
                     borderRadius: '5px',
                   }}
