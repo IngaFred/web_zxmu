@@ -222,8 +222,8 @@ const UpdateLesson = () => {
 							</Button>
 						</div>
 
-						<Space className={styles.box}>
-							<Space.Compact className={styles.box} style={{width: '84%'}}>
+						<Space size={60} className={styles.box} style={{ width: '100%' }}>
+							<Space.Compact className={styles.box} style={{ width: '100%' }}>
 								<Upload
 									listType="picture-card"
 									showUploadList={false}
@@ -267,10 +267,9 @@ const UpdateLesson = () => {
 									)}
 								</Upload>
 							</Space.Compact>
-							<Space.Compact className={styles.box}  style={{width: '', }}>
+							<Space.Compact className={styles.box} style={{ width: '100%' }}>
 								<TextArea
 									className={styles.card}
-									// size={'560px'}
 									value={lessonInfo}
 									onChange={(e) => {
 										setLessonInfo(e.target.value);
