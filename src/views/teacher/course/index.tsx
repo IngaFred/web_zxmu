@@ -119,20 +119,15 @@ export default function Course() {
               </div>
               <div className={styles.resoursList}>
                 {resoursBOList.map((item, index) => (
-                  <Tooltip
-                    className={styles.resoursTooltip}
+                  <a
+                    href={item.url}
+                    download={item.name}
+                    className={styles.download}
                     key={index}
-                    title={'Download   ' + item.name}
                   >
-                    <a
-                      href={item.url}
-                      download={item.name}
-                      className={styles.download}
-                    >
-                      <ContainerTwoTone className={styles.downloadIcon} />
-                      {item.name}
-                    </a>
-                  </Tooltip>
+                    <ContainerTwoTone className={styles.downloadIcon} />
+                    {item.name}
+                  </a>
                 ))}
               </div>
             </div>
