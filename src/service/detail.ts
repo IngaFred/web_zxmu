@@ -14,6 +14,7 @@ type HomeworkList = {
   termId: string;
   resourceList: UploadFile[] | null;
 };
+
 // 获取课程作业详情
 export const getDetails = async (myLesson: Lesson) => {
   const ret = await http.get('/homework/lesson?lessonId=' + myLesson.id);
@@ -30,15 +31,15 @@ export const getLessons = async (myHomework: Homework) => {
 };
 // 上传文件
 export const postUploadFile = async (file: File) => {
-  const ret = await http.post(
-    '/resource/upload',
-    {
-      resourceFile: file,
-    },
-    {},
-    'upload'
-  );
-  return ret;
+	const ret = await http.post(
+	  '/resource/upload',
+	  {
+		resourceFile: file,
+	  },
+	  {},
+	  'upload'
+	);
+	return ret;
 };
 // 学生不用删除文件，是修改文件
 // 提交作业
@@ -53,13 +54,25 @@ export const postSubmit = async (payload: HomeworkList) => {
 };
 // 自定义上传Image. 并得到图片 url alt href
 export const postUploadImage = async (file: File) => {
-  const ret = await http.post('/resource/upload', file, {}, 'upload');
-  console.log('postUploadImage use');
-  return ret;
+	const ret = await http.post(
+	  '/resource/upload',
+	  {
+		resourceFile: file,
+	  },
+	  {},
+	  'upload'
+	);
+	return ret;
 };
 // 自定义上传Video. 并得到视频 url
 export const postUploadVideo = async (file: File) => {
-  const ret = await http.post('/resource/upload', file, {}, 'upload');
-  console.log('postUploadVideo use');
-  return ret;
+	const ret = await http.post(
+	  '/resource/upload',
+	  {
+		resourceFile: file,
+	  },
+	  {},
+	  'upload'
+	);
+	return ret;
 };

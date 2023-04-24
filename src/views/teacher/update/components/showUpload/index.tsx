@@ -274,6 +274,7 @@ const UpdateLesson = () => {
 								<TextArea
 									className={styles.card}
 									value={lessonInfo}
+									defaultValue='填写课程简介'
 									onChange={(e) => {
 										setLessonInfo(e.target.value);
 									}}

@@ -16,3 +16,15 @@ export const getModel = async () => {
 	const res = await http.get('/lesson/model');
 	return res;
 };
+//用户上传资源
+export const uploadResource = async (file: File) => {
+	const ret = await http.post(
+	  '/resource/upload',
+	  {
+		resourceFile: file,
+	  },
+	  {},
+	  'upload'
+	);
+	return ret;
+  };

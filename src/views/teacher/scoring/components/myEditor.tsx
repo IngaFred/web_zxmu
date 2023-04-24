@@ -17,7 +17,7 @@ function MyEditor() {
     // 编辑器配置
     const editorConfig: Partial<IEditorConfig> = {    // TS 语法
         placeholder: '请输入内容...',
-        readOnly:true,
+        readOnly: true
     }
 
     // 及时销毁 editor ，重要！
