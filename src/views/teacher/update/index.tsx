@@ -309,9 +309,6 @@ const UpdateLesson = () => {
                 <Card className={styles.outlineCard}>
                   <div className={styles.outlineCardContent}>
                     <MyUpload
-                      // fileList={fileList}
-                      // onChange={handleChange}
-                      // onRemove={handleRemove}
                       resourceList={newResourceList}
                       setNewResourceList={setNewResourceList}
                     ></MyUpload>
