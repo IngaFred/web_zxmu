@@ -6,6 +6,7 @@ import { lazy } from 'react';
 // icons
 import { CopyOutlined, CalendarOutlined } from '@ant-design/icons';
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
+import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
 
 // 使用lazy中的回调函数导入页面路径
 const Login = lazy(() => import('../views/login'));
@@ -40,6 +41,7 @@ declare module 'react-router' {
       // 优化特定类型
       icon?: React.ReactElement<AntdIconProps>;
       auth?: boolean;
+      propRouter?: ItemType[];
     };
     name: string;
   }
@@ -49,6 +51,7 @@ declare module 'react-router' {
       title?: string;
       icon?: React.ReactElement<AntdIconProps>;
       auth?: boolean;
+      propRouter?: ItemType[];
     };
     name: string;
   }
@@ -175,6 +178,12 @@ export const routes: RouteObject[] = [
           title: '课程详情',
           icon: <CalendarOutlined />,
           auth: true,
+          propRouter: [
+            {
+              key: 'courseList',
+              title: '我的课程',
+            },
+          ],
         },
         name: 'courseTeacher',
       },
@@ -186,6 +195,33 @@ export const routes: RouteObject[] = [
           title: '修改课程',
           icon: <CalendarOutlined />,
           auth: true,
+          propRouter: [
+            {
+              key: 'courseList',
+              title: '我的课程',
+            },
+            {
+              key: 'courseTeacher',
+              title: '课程详情',
+            },
+          ],
+        },
+        name: 'courseTeacher',
+      },
+      {
+        path: 'createLesson',
+        element: <UpdateLesson />,
+        meta: {
+          menu: true,
+          title: '新建课程',
+          icon: <CalendarOutlined />,
+          auth: true,
+          propRouter: [
+            {
+              key: 'courseList',
+              title: '我的课程',
+            },
+          ],
         },
         name: 'courseTeacher',
       },
@@ -197,6 +233,20 @@ export const routes: RouteObject[] = [
           title: '作业发布',
           icon: <CalendarOutlined />,
           auth: true,
+          propRouter: [
+            {
+              key: 'courseList',
+              title: '我的课程',
+            },
+            {
+              key: 'courseTeacher',
+              title: '课程详情',
+            },
+            {
+              key: 'updateLesson',
+              title: '修改课程',
+            },
+          ],
         },
         name: 'detailTeacher',
       },
@@ -208,6 +258,16 @@ export const routes: RouteObject[] = [
           title: '我的作业列表',
           icon: <CalendarOutlined />,
           auth: true,
+          propRouter: [
+            {
+              key: 'courseList',
+              title: '我的课程',
+            },
+            {
+              key: 'courseTeacher',
+              title: '课程详情',
+            },
+          ],
         },
         name: 'detailListTeacher',
       },

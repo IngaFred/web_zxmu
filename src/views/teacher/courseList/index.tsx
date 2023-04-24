@@ -35,7 +35,7 @@ export default function List() {
         <h1>我的课程</h1>
         <Button
           onClick={() => {
-            navigate('/updateLesson');
+            navigate('/createLesson');
           }}
         >
           新建课程
