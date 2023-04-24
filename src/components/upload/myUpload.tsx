@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd';
 import { Button, message, Upload } from 'antd';
-import { uploadResource } from '../../../../service/course';
+import { uploadResource } from '../../service/course';
 
 // 定义一个MyUploadProps接口，用来描述props的类型
 interface MyUploadProps {
@@ -66,7 +66,6 @@ const MyUpload = (props: MyUploadProps) => {
     uploadFile(file);
   };
 
-  
   return (
     <Dragger
       multiple={true}
