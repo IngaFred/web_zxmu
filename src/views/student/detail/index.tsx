@@ -180,7 +180,7 @@ export default function Detail() {
 						</Space>
 					</Card>
 					{/* 文件上传控件 */}
-					<Card size="small" title="文件选择" className={styles.upload}>
+					{/* <Card size="small" title="文件选择" className={styles.upload}>
 						<MyUpload
 							fileList={fileList}
 							onChange={handleChange}
@@ -188,9 +188,62 @@ export default function Detail() {
 							disabled={false}
 							setFileList={setFileList}
 						/>
-					</Card>
+					</Card> */}
 				</Col>
 			</Row>
+			{/* <Row  gutter={24}>
+			<div className={styles.box}>
+              <Upload
+                listType="picture-card"
+                showUploadList={false}
+                customRequest={(res) => {
+                  setPicFile(res.file as File);
+                }}
+                onChange={(info) => {
+                  console.log(' onChange info', info);
+
+                  // Get this url from response in real world.
+                  getBase64(info.file.originFileObj as RcFile, (url) => {
+                    setImageUrl(url);
+                  });
+                }}
+                style={{
+                  width: '560px',
+                  height: '320px',
+                  borderRadius: '5px',
+                }}
+              >
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{
+                      width: '560px',
+                      height: '320px',
+                      borderRadius: '5px',
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={lessonDetail.picUrl}
+                    alt="avatar"
+                    style={{
+                      width: '560px',
+                      height: '320px',
+                      borderRadius: '5px',
+                    }}
+                  />
+                )}
+              </Upload>
+              <TextArea
+                className={styles.card}
+                value={lessonInfo}
+                onChange={(e) => {
+                  setLessonInfo(e.target.value);
+                }}
+              ></TextArea>
+            </div>
+			</Row> */}
 		</div>
 	);
 }
