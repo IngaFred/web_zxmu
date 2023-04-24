@@ -50,11 +50,12 @@
   .card {
     display: flex;
     flex-wrap: wrap;
-    margin-left: 60px;
+    // margin-left: 60px;
     height: 320px !important;
     font-size: large;
-    width: 860px;
-    margin-top: 23px;
+    width: 100% !important;
+    // max-width: 960px !important;
+    // margin-top: 15px;
   }
   .card p {
     margin: 0;
@@ -135,6 +136,14 @@
     .ant-upload-select {
       width: 450px;
       height: 320px;
+    }
+  }
+  :global {
+    .ant-space-item {
+      width: 100%;
+    }
+    .ant-space-align-center{
+      width: 80%;
     }
   }
   
