@@ -236,7 +236,7 @@ export const routes: RouteObject[] = [
         element: <DetailTeacher />,
         meta: {
           menu: true,
-          title: '作业发布',
+          title: '新建作业',
           icon: <CalendarOutlined />,
           auth: true,
           propRouter: [

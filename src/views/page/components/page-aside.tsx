@@ -40,6 +40,7 @@ const permission = {
     // 'scoringTeacher',
     // 'showTeacher',
     'newTeacher',
+    // 'createLesson',
     'information',
     // 'detailListTeacher',
   ],

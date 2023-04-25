@@ -9,11 +9,13 @@ import {
 	DatePicker,
 	Upload,
 } from 'antd';
-import type { UploadProps } from 'antd';
 import styles from './index.module.scss';
 import { PlusOutlined } from '@ant-design/icons';
 import { postFile, postUploadFile } from '../../../service/teacherdetail';
-//蔡启航
+import 'dayjs/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
+import MyUpload from './components';
+
 export default function Detail() {
 	const [form] = Form.useForm();
 	const [fileList, setFileList] = useState([]);
@@ -28,61 +30,72 @@ export default function Detail() {
 		setFileList(fileList);
 	}, [fileList]);
 	return (
-		<>
+		<div className={styles.detailALL}>
+			<div className={styles.detailHeader}>
+				<div className={styles.title}>
+					<h2>新建作业</h2>
+				</div>
+				<div>
+					<Button className={styles.btn}>保存</Button>
+					<Button
+						className={styles.btn}
+						type="primary"
+						onClick={() => {
+							console.log('form', form);
+							const values = form?.getFieldsValue();
+							console.log(' form?.getFieldsValue()', values);
+							const resourceList = fileList.map((item) => {
+								// @ts-ignore
+								return item?.resourceId;
+							});
+							const newObj = {
+								lessonId: values.lessonId,
+								name: values.name,
+								info: values.info,
+								resourceList: resourceList,
+								/* start: values.time?.[0]?.valueOf?.(),
+                    end: values.time?.[1]?.valueOf?.(), */
+							};
+							console.log('newObj', newObj);
+							postUploadFile(newObj);
+						}}
+					>
+						作业发布
+					</Button>
+				</div>
+			</div>
+
 			<Form
 				form={form}
 				labelCol={{ span: 4 }}
 				wrapperCol={{ span: 14 }}
 				layout="horizontal"
-				// style={{ maxWidth: 600 }}
+				className={styles.form}
 			>
-				<div className={styles.detailALL}>
-					<Row justify={'space-between'} className={styles.detailHeader}>
-						<h2>作业发布</h2>
-						<Space size={'middle'}>
-							{/* <Button>保存</Button> */}
-							<Button
-								type="primary"
-								onClick={() => {
-									console.log('form', form);
-									const values = form?.getFieldsValue();
-									console.log(' form?.getFieldsValue()', values);
-									const resourceList = fileList.map((item) => {
-										// @ts-ignore
-										return item?.resourceId;
-									});
-									const newObj = {
-										lessonId: values.lessonId,
-										name: values.name,
-										info: values.info,
-										resourceList: resourceList,
-										/* start: values.time?.[0]?.valueOf?.(),
-                    end: values.time?.[1]?.valueOf?.(), */
-									};
-									console.log('newObj', newObj);
-									postUploadFile(newObj);
-								}}
-							>
-								新建作业
-							</Button>
-						</Space>
-					</Row>
-
-					<Form.Item name="lessonId" label="作业所属课程">
+				<div>
+					<Form.Item name="LessonId" label="所属课程">
 						<Input />
 					</Form.Item>
 
-					<Form.Item name="name" label="作业名称">
+					<Form.Item name="Name" label="作业名称">
 						<Input />
 					</Form.Item>
 
-					<Form.Item name="info" label="作业内容介绍">
+					<Form.Item name="RangePicker" label="作业名称">
+						<RangePicker showTime  locale={locale} />
+					</Form.Item>
+
+					<Form.Item name="Info" label="作业内容">
 						<TextArea className={styles.text} style={{ width: '1000px' }} />
 					</Form.Item>
 				</div>
 
 				<Form.Item label="上传资料" valuePropName="fileList">
-					<Upload
+					<div>
+						<MyUpload />
+					</div>
+
+					{/* <Upload
 						action="/upload.do"
 						listType="picture-card"
 						customRequest={(fileInfo) => {
@@ -117,9 +130,9 @@ export default function Detail() {
 							<PlusOutlined />
 							<div style={{ marginTop: 8 }}>Upload</div>
 						</div>
-					</Upload>
+					</Upload> */}
 				</Form.Item>
 			</Form>
-		</>
+		</div>
 	);
 }

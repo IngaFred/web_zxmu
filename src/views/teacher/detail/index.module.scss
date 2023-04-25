@@ -2,10 +2,23 @@
     margin: 20px;
 }
 .detailHeader{
-    // padding: 0px 50px 0px 50px;
-    margin-bottom: 30px;
+    display: flex;
+    margin: 30px;
+    justify-content: space-between;
+    .title{
+        display: flex;
+        line-height: 32px;
+    }
+    .btn{
+        margin-left: 20px;
+    }
+}
+.form{
+    max-width: 2000px;
+    margin: 20px;
+    margin-left: 30px;
 }
 .text{
     margin-right: 20px;
-    width: 400px;
+    height: 250px !important;
 }

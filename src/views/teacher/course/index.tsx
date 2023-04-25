@@ -37,6 +37,11 @@ export default function Course() {
 			state: { lessonInfo: lessonInfo },
 		});
 	};
+	const handleCreateWork = () => {
+		navigate('/detailTeacher', {
+			state: { lessonInfo: lessonInfo },
+		});
+	}
 	useEffect(() => {
 		console.log('我是教师端');
 		if (lessonId) {
@@ -70,6 +75,9 @@ export default function Course() {
 										</Button>
 										<Button type="primary" onClick={handleLesson}>
 											删除课程
+										</Button>
+										<Button type="primary" onClick={handleCreateWork}>
+											新建作业
 										</Button>
 										<Button type="primary" onClick={handleCorrectWork}>
 											批改作业
