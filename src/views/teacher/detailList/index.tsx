@@ -30,8 +30,6 @@ export default function DetailList() {
         setUnSubimtStudent(ret.data.data);
 
         console.log(termId);
-      } else {
-        message.error('获取作业列表失败');
       }
     });
     getSubmit({
@@ -43,8 +41,6 @@ export default function DetailList() {
         console.log(ret.data.data);
         setSubimtStudent1(ret.data.data[0]);
         setSubimtStudent2(ret.data.data[1]);
-      } else {
-        message.error('获取作业列表失败');
       }
     });
   }, [termId, lessonInfo]);

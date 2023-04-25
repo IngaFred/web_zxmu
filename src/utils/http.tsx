@@ -78,11 +78,13 @@ interface Http {
 
 // 接口统一报错处理
 const goLogin = (res: any) => {
+  console.log('res', res);
   if (res && res.status === 200 && res.data && res.data.success) {
     return res;
   }
   if (res?.data?.errorMsg === 'token验证失败，可能已经过期,请重新登录') {
-    window.location.replace('/');
+    window.location.replace('#/login');
+    message.error('登录失效，请重新登录');
     return res;
   }
   message.error(res?.data?.errorMsg || '请求失败');
@@ -91,10 +93,14 @@ const goLogin = (res: any) => {
 
 const http: Http = {
   get(url, data, config) {
-    return instance.get(url, {
-      params: data,
-      ...config,
-    });
+    return instance
+      .get(url, {
+        params: data,
+        ...config,
+      })
+      .then((res) => {
+        return goLogin(res);
+      });
   },
   post(url, data, config, type) {
     if (!data) {
