@@ -1,14 +1,14 @@
-import axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from 'axios';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 // 引入store
-import store from "../store";
-import { message } from "antd";
+import store from '../store';
+import { message } from 'antd';
 // 引入定义好的clearToken
-import { clearToken } from "../store/modules/user";
+import { clearToken } from '../store/modules/user';
 
 // 创建实例
 const instance = axios.create({
-  baseURL: "https://zcmu.vxpage.top/",
+  baseURL: 'https://zcmu.vxpage.top/',
   timeout: 5000,
 });
 
@@ -31,12 +31,12 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   function (response) {
     // token 出错在响应头里的处理 返回login
-    if (response.data.errmsg === "token error") {
-      message.error("token error");
+    if (response.data.errmsg === 'token error') {
+      message.error('token error');
       store.dispatch(clearToken());
       // 刷新页面
       setTimeout(() => {
-        window.location.replace("/login");
+        window.location.replace('/login');
       }, 1000);
     }
     return response;
@@ -56,13 +56,13 @@ interface Http {
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-    type?: "upload"
+    type?: 'upload'
   ) => Promise<AxiosResponse>;
   put: (
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-    type?: "upload"
+    type?: 'upload'
   ) => Promise<AxiosResponse>;
   patch: (
     url: string,
@@ -76,6 +76,19 @@ interface Http {
   ) => Promise<AxiosResponse>;
 }
 
+// 接口统一报错处理
+const goLogin = (res: any) => {
+  if (res && res.status === 200 && res.data && res.data.success) {
+    return res;
+  }
+  if (res?.data?.errorMsg === 'token验证失败，可能已经过期,请重新登录') {
+    window.location.replace('/');
+    return res;
+  }
+  message.error(res?.data?.errorMsg || '请求失败');
+  return res;
+};
+
 const http: Http = {
   get(url, data, config) {
     return instance.get(url, {
@@ -85,11 +98,13 @@ const http: Http = {
   },
   post(url, data, config, type) {
     if (!data) {
-      return instance.post(url, data, config);
+      return instance.post(url, data, config).then((res) => {
+        return goLogin(res);
+      });
     }
 
     // 上传文件
-    if (type === "upload") {
+    if (type === 'upload') {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         formData.append(key, data?.[key]);
@@ -97,33 +112,23 @@ const http: Http = {
       return instance
         .post(url, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
           ...config,
         })
         .then((res) => {
-          // 接口统一报错处理
-          if (res && res.status === 200 && res.data && res.data.success) {
-            return res;
-          }
-          message.error(res?.data?.errorMsg || "请求失败");
-          return res;
+          return goLogin(res);
         });
     }
 
     // 一般接口直接注入参数
     let params = new URLSearchParams();
     Object.keys(data).forEach((key) => {
-      params.append(key, data?.[key]?.toString() || "");
+      params.append(key, data?.[key]?.toString() || '');
     });
 
     return instance.post(url, params, config).then((res) => {
-      // 接口统一报错处理
-      if (res && res.status === 200 && res.data && res.data.success) {
-        return res;
-      }
-      message.error(res?.data?.errorMsg || "请求失败");
-      return res;
+      return goLogin(res);
     });
   },
   put(url, data, config, type) {
@@ -132,7 +137,7 @@ const http: Http = {
     }
 
     // 上传文件
-    if (type === "upload") {
+    if (type === 'upload') {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         formData.append(key, data?.[key]);
@@ -140,32 +145,22 @@ const http: Http = {
       return instance
         .put(url, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
           ...config,
         })
         .then((res) => {
-          // 接口统一报错处理
-          if (res && res.status === 200 && res.data && res.data.success) {
-            return res;
-          }
-          message.error(res?.data?.errorMsg || "请求失败");
-          return res;
+          return goLogin(res);
         });
     }
     // 一般接口直接注入参数
     let params = new URLSearchParams();
     Object.keys(data).forEach((key) => {
-      params.append(key, data?.[key]?.toString() || "");
+      params.append(key, data?.[key]?.toString() || '');
     });
 
     return instance.put(url, params, config).then((res) => {
-      // 接口统一报错处理
-      if (res && res.status === 200 && res.data && res.data.success) {
-        return res;
-      }
-      message.error(res?.data?.errorMsg || "请求失败");
-      return res;
+      return goLogin(res);
     });
   },
   patch(url, data, config) {
