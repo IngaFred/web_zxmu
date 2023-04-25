@@ -226,7 +226,7 @@ const UpdateLesson = () => {
             </div>
 
             <div className={styles.box}>
-              <div className={styles.box}>
+              <div className={styles.boxUpload} style={{ }}>
                 <Upload
                   listType="picture-card"
                   showUploadList={false}
@@ -270,7 +270,7 @@ const UpdateLesson = () => {
                   )}
                 </Upload>
               </div>
-              <div className={styles.box}>
+              <div className={styles.boxTextArea}>
                 <TextArea
                   className={styles.card}
                   value={lessonInfo}
