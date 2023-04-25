@@ -10,22 +10,22 @@ import { Layout } from 'antd';
 const { Header, Content, Sider } = Layout;
 
 export default function Page() {
-  return (
-    <Layout>
-      <Header className="header">
-        <HomeHeader />
-      </Header>
-      <Layout>
-        <Sider width={220} theme={'light'}>
-          <HomeAside />
-        </Sider>
-        <Layout style={{ padding: '20px' }}>
-          <HomeBreadcrumb />
-          <Content className={styles['home-main']}>
-            <HomeMain />
-          </Content>
-        </Layout>
-      </Layout>
-    </Layout>
-  );
+	return (
+		<Layout>
+			<Header className="header">
+				<HomeHeader />
+			</Header>
+			<Layout>
+				<Sider width={220} theme={'light'}>
+					<HomeAside />
+				</Sider>
+				<Layout style={{ padding: '20px' }}>
+					<HomeBreadcrumb />
+					<Content className={styles['home-main']}>
+						<HomeMain />
+					</Content>
+				</Layout>
+			</Layout>
+		</Layout>
+	);
 }

@@ -157,7 +157,7 @@ export default function Detail() {
 				</Col>
 				{/* 资源下载控件 */}
 				{/* <Col span={4}> */}
-					{/* <Card size="small" title="作业资源">
+				{/* <Card size="small" title="作业资源">
 						<Space direction={'vertical'} align={'center'}>
 							<Row gutter={24}>
 								{myResoursBOList?.length > 0 ? (
@@ -180,8 +180,8 @@ export default function Detail() {
 						</Space>
 					</Card> */}
 
-					{/* 文件上传控件 */}
-					{/* <Card size="small" title="文件选择" className={styles.upload}>
+				{/* 文件上传控件 */}
+				{/* <Card size="small" title="文件选择" className={styles.upload}>
 						<MyUpload
 							fileList={fileList}
 							onChange={handleChange}
