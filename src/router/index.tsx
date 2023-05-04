@@ -83,7 +83,7 @@ export const routes: RouteObject[] = [
     name: 'home',
     meta: {
       menu: true,
-      title: '页面',
+      title: '返回主页',
       icon: <CopyOutlined />,
       auth: true,
     },
@@ -143,12 +143,12 @@ export const routes: RouteObject[] = [
           title: '作业详情',
           icon: <CalendarOutlined />,
           auth: true,
-          propRouter: [
-            {
-              key: 'list',
-              title: '作业列表',
-            },
-          ],
+          // propRouter: [
+          //   {
+          //     key: 'list',
+          //     title: '作业列表',
+          //   },
+          // ],
         },
         name: 'detail',
       },

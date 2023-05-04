@@ -32,7 +32,7 @@ export default function List() {
   return (
     <div className={styles['big']}>
       <div className={styles['header-xxx']}>
-        <div style={{fontSize: '24px', fontWeight: 'bold'}}>我的课程</div>
+        <div style={{fontSize: '24px', fontWeight: 'bold'}}>我的教学课程</div>
         <Button
           onClick={() => {
             navigate('/createLesson');

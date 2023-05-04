@@ -20,9 +20,9 @@ import Information from '../../components/information-teacher';
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 
 const contentStyle: React.CSSProperties = {
-	height: '200px',
+	height: '420px',
 	color: '#fff',
-	lineHeight: '160px',
+	lineHeight: '340px',
 	textAlign: 'center',
 	background: '#364d79',
 };
@@ -231,15 +231,52 @@ export default function Home() {
 	return (
 		<div className={styles.homeAll}>
 			{/* 公告栏 */}
+			<div className={styles.infoTitle}>公告栏</div>
 			<Carousel autoplay>
 				<div>
-					<h3 style={contentStyle}>公告1</h3>
+					<div style={contentStyle}>
+						<a
+							href="https://hlxy.zcmu.edu.cn/info/1054/5763.htm"
+							target="_blank"
+							title="护理学院诚邀海内外英才加盟，共创学科辉煌！"
+						>
+							<img
+								src="https://hlxy.zcmu.edu.cn/__local/7/6A/9F/58F0A63CBDB46EA662683B9290A_81AECD58_1FF9D.png"
+								height={'100%'}
+								width={'100%'}
+							/>
+						</a>
+					</div>
 				</div>
 				<div>
-					<h3 style={contentStyle}>公告2</h3>
+					<div style={contentStyle}>
+						<a
+							href="https://hlxy.zcmu.edu.cn/info/1054/6735.htm"
+							target="_blank"
+							title="最美护理·“浙”里等你——浙江中医药大学护理学院诚聘天下英才"
+						>
+							<img
+								src="https://hlxy.zcmu.edu.cn/__local/F/4F/BF/39E592CADD7B8E86109BA3D7626_07F801C4_20B5B.png"
+								height={'100%'}
+								width={'100%'}
+							/>
+						</a>
+					</div>
 				</div>
 				<div>
-					<h3 style={contentStyle}>公告3</h3>
+					<div style={contentStyle}>
+						<a
+							href="https://hlxy.zcmu.edu.cn/info/1054/5763.htm"
+							target="_blank"
+							title="浙江省新一届护理学类教学指导委员会工作会议顺利召开"
+						>
+							<img
+								src="https://hlxy.zcmu.edu.cn/__local/1/33/2E/2D34790319E566B0FD664DA9452_B4F8A987_69B1E.png"
+								height={'100%'}
+								width={'100%'}
+							/>
+						</a>
+					</div>
 				</div>
 			</Carousel>
 
@@ -255,6 +292,5 @@ export default function Home() {
 			</Row>
 			<Information />
 		</div>
-		
 	);
 }
