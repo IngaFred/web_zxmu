@@ -157,7 +157,7 @@ export const routes: RouteObject[] = [
         element: <Show />,
         meta: {
           menu: true,
-          title: '优秀成果展示',
+          title: '优秀作业',
           icon: <CalendarOutlined />,
           auth: true,
         },
@@ -170,7 +170,7 @@ export const routes: RouteObject[] = [
         element: <LessonListTeacher />,
         meta: {
           menu: true,
-          title: '我的课程',
+          title: '我的教学课程',
           icon: <CalendarOutlined />,
           auth: true,
         },
@@ -304,7 +304,7 @@ export const routes: RouteObject[] = [
         element: <Information />,
         meta: {
           menu: true,
-          title: '教师团队信息',
+          title: '教师团队',
           icon: <CalendarOutlined />,
           auth: true,
         },

@@ -38,11 +38,11 @@ const ModelCard = (props: any) => {
 	const isStu = myPrem === '学生权限';
 	const { data, modelLessons } = props;
 	const navigate = useNavigate();
-	useEffect(() => {
-		if (myPrem === '教师权限') {
-			navigate('/courseList');
-		}
-	}, [myPrem]);
+	// useEffect(() => {
+	// 	if (myPrem === '教师权限') {
+	// 		navigate('/courseList');
+	// 	}
+	// }, [myPrem]);
 	const handleMyCourse = (e: string, termId?: string) => {
 		navigate('/course', { state: { lessonId: { e }, termId: termId } });
 	};

@@ -41,43 +41,51 @@ export default function ClassList() {
 
 	return (
 		<div className={styles.all}>
+			<div className={styles.title}>我的作业</div>
 			<Row gutter={24}>
 				{lessonAll.map((item, index) => {
 					return (
-						<Col span={6} key={index}>
-							<Card
-								size="small"
-								className={styles.card}
-								actions={[
-									<Row justify={'space-between'}>
-										<Button
-											className={styles.rowBtn}
-											onClick={(id, hId) =>
-												handleMyDetail(item.lessonId, item.homeworkId, id, hId)
-											}
-										>
-											我的作业
-										</Button>
-										<div>
-											{getStatus(item.status) === '已批改' ? (
-												<Tag color="green">已批改</Tag>
-											) : (
-												<Tag color="red">未批改</Tag>
-											)}
-										</div>
-									</Row>,
-								]}
-							>
-								<Meta
-									title={item.lessonName}
-									description={item.name}
-									style={{ height: '80px' }}
-								/>
-								<div className={styles.row}>
-									分数：{item?.subHomework?.score}
-								</div>
-							</Card>
-						</Col>
+						<>
+							<Col span={6} key={index}>
+								<Card
+									size="small"
+									className={styles.card}
+									actions={[
+										<Row justify={'space-between'}>
+											<Button
+												className={styles.rowBtn}
+												onClick={(id, hId) =>
+													handleMyDetail(
+														item.lessonId,
+														item.homeworkId,
+														id,
+														hId
+													)
+												}
+											>
+												我的作业
+											</Button>
+											<div>
+												{getStatus(item.status) === '已批改' ? (
+													<Tag color="green">已批改</Tag>
+												) : (
+													<Tag color="red">未批改</Tag>
+												)}
+											</div>
+										</Row>,
+									]}
+								>
+									<Meta
+										title={item.lessonName}
+										description={item.name}
+										style={{ height: '80px' }}
+									/>
+									<div className={styles.row}>
+										分数：{item?.subHomework?.score}
+									</div>
+								</Card>
+							</Col>
+						</>
 					);
 				})}
 			</Row>
