@@ -1,18 +1,25 @@
 .detailALL{
-    margin: 20px;
+    margin: 20px 220px;
 }
 .detailHeader{
     // padding: 0px 50px 0px 50px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .head{
     margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.detailTitle{
+    font-size: 22px;
+    font-weight: bold;
 }
 .infoHead {
     margin-top: 10px;
     margin-left: 20px;
     overflow: hidden;
-    color: #A8A8B3;
+    color: #86868e;
     line-height: 16px;
     font-size: 14px;
     white-space: nowrap;
@@ -21,9 +28,10 @@
 .info{
     margin-top: 20px;
     margin-left: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     .info-p{
-        white-space: normal; // 正常换行
+        white-space: normal;
+        font-size: 16px; // 正常换行
     }
 }
 .upload{

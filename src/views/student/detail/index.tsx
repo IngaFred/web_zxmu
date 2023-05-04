@@ -3,6 +3,7 @@ import {
 	Button,
 	Card,
 	Col,
+	Divider,
 	Empty,
 	message,
 	Row,
@@ -108,7 +109,7 @@ export default function Detail() {
 	return (
 		<div className={styles.detailALL}>
 			<Row justify={'space-between'} className={styles.detailHeader}>
-				<h2>作业作答</h2>
+				<div className={styles.detailTitle}>作业作答</div>
 				<Space size={'middle'}>
 					{/* <Button>保存</Button> */}
 					<Button type="primary" onClick={SubmitEvent}>
@@ -120,9 +121,7 @@ export default function Detail() {
 			<Row gutter={24}>
 				<Col span={24}>
 					<Row className={styles.head}>
-						<h1>
-							{lessonName} | {name}
-						</h1>
+						{lessonName} | {name}
 					</Row>
 					{/* InfoRow 封装组件 */}
 					<InfoRow label="发布人：" value={userName} />
@@ -149,8 +148,9 @@ export default function Detail() {
 							minute: '2-digit',
 						})}
 					/>
+					<Divider />
 					<Row className={styles.info}>
-						<p className={styles['info-p']}>{info}</p>
+						<p className={styles['info-p']}>题目：{info}</p>
 					</Row>
 					{/* 富文本控件 */}
 					<MyEditor />
@@ -192,7 +192,7 @@ export default function Detail() {
 					</Card> */}
 				{/* </Col> */}
 			</Row>
-			
+
 			<Row gutter={24}>
 				<MyUpload />
 			</Row>

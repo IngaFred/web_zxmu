@@ -89,13 +89,14 @@ const UpdateLesson = () => {
 				<div className={styles.outline}>
 					<div>
 						<div className={styles.resoursListTitle}>
-							<h1>课程资源</h1>
+							<h1>资源下载</h1>
 						</div>
 						<div className={styles.outlineCardContent}>
 							<div
 								style={{
 									display: resoursBOList.length === 0 ? 'inline' : 'none',
 									marginLeft: '20px',
+                  fontSize: '16px'
 								}}
 							>
 								暂无资源

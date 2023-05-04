@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { getModel, getModelLessons, getMyLessons } from '../../service/home';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
+import Information from '../../components/information-teacher';
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 
@@ -252,6 +253,8 @@ export default function Home() {
 					/>
 				))}
 			</Row>
+			<Information />
 		</div>
+		
 	);
 }
