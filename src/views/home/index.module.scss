@@ -3,9 +3,10 @@
 }
 .card {
   margin-right: 20px;
+  margin-bottom: 25px;
 }
 .rowBtn {
-  margin: 0 5px 0 5px;
+  margin-left: 15px;
 }
 .h1 {
   height: center;
@@ -37,12 +38,15 @@
   justify-content: space-between;
 }
 .lesson_name {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 10px;
 }
 .lesson_description {
-  color: #666;
+  font-size: 16px;
+  margin-left: 5px;
+  color: #514e4e;
 }
 .lesson_img {
   width: 100%;

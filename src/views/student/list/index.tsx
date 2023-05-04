@@ -38,7 +38,7 @@ export default function ClassList() {
 		}
 		return '未批改';
 	};
-
+	
 	return (
 		<div className={styles.all}>
 			<div className={styles.title}>我的作业</div>
@@ -63,7 +63,7 @@ export default function ClassList() {
 													)
 												}
 											>
-												我的作业
+												作业详情
 											</Button>
 											<div>
 												{getStatus(item.status) === '已批改' ? (
@@ -81,7 +81,7 @@ export default function ClassList() {
 										style={{ height: '80px' }}
 									/>
 									<div className={styles.row}>
-										分数：{item?.subHomework?.score}
+										分数：<span className={styles.score}>{typeof item?.subHomework?.score === 'number' ? item?.subHomework?.score : '0'}</span>
 									</div>
 								</Card>
 							</Col>

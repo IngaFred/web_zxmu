@@ -9,7 +9,7 @@ import teacher_member3 from '../../../src/assets/images/teachers/team_member3.pn
 import teacher_member4 from '../../../src/assets/images/teachers/team_member4.png';
 // 教师团队信息
 // 吴振宇
-export default function Information() {
+const Information = () => {
 	const teachers = [
 		{
 			name: '何桂娟',
@@ -44,22 +44,10 @@ export default function Information() {
 		},
 	];
 	return (
-		// <div >
-		//   <h3>教师团队</h3>
-		//   <div className={styles['inf']}>
-		//     <div className={styles['picture']}>
-		//       <Image src="https://img2.baidu.com/it/u=3334658145,4121633910&fm=253&fmt=auto&app=138&f=JPEG?w=467&h=500"/>
-		//     </div>
-		// <p style={{width:'70%'}}>教师，以教育为生的职业。这个职业是人类社会最古老的职业之一。按照法律法规和行业规范，在规定的时间节点内，
-		//   根据学校设施条件和个人职称专业，安排学生入座、发放学习资料、备课授课、批改作业、引导辅导帮助学生学习、
-		//   组织听课练习，组织考试、传授科学文化基本知识，开展主持学术交流、提高学生的观察学习、记忆认知、动手沟通、
-		//   操作等综合实践能力，培养学生特长，促进德、智、体、美、劳全面发展，掌握经验技术</p>
-		//   </div>
-		// </div>
 		<div className={styles.courseAll}>
-			<h1 className={styles['h1style']}>教师团队</h1>
+			<div className={styles['titleStyle']}>教师团队</div>
 			<List
-				className={styles['liststyle']}
+				className={styles['listStyle']}
 				size="large"
 				itemLayout="vertical"
 				dataSource={teachers}
@@ -67,20 +55,22 @@ export default function Information() {
 					<List.Item key={item.name}>
 						{/* <List.Item.Meta 
             description={Item.description}/> */}
-						<div className={styles['itemstyle']}>
+						<div className={styles['itemStyle']}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<Image
-									style={{ width: '160px', height: '200px' }}
+									style={{ width: '180px', height: '220px' }}
 									alt={item.name}
 									src={item.url}
 								/>
 							</div>
 							<div style={{ padding: '30px' }}>
-								<div style={{ fontSize: '18px', fontWeight: 'bold' }}>
+								<div style={{ fontSize: '20px', fontWeight: 'bold' }}>
 									{item.name}
 								</div>
-								<p className={styles['pstyle']}>{item.description}</p>
-								<p style={{ marginTop: '10px' }}>{item.content}</p>
+								<div className={styles.info}>
+									<p className={styles['pStyle']}>{item.description}</p>
+									<p style={{ marginTop: '10px' }}>{item.content}</p>
+								</div>
 							</div>
 						</div>
 					</List.Item>
@@ -88,4 +78,5 @@ export default function Information() {
 			/>
 		</div>
 	);
-}
+};
+export default Information;

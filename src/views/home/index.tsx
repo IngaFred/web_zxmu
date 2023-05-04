@@ -20,7 +20,7 @@ import Information from '../../components/information-teacher';
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 
 const contentStyle: React.CSSProperties = {
-	height: '420px',
+	height: '380px',
 	color: '#fff',
 	lineHeight: '340px',
 	textAlign: 'center',
@@ -103,8 +103,6 @@ const ModelCard = (props: any) => {
 																message.warning('一个主题只能选择一门课');
 																return;
 															}
-															// @洪浩然 学生选课接口
-															// 选课接口
 															message.success('选课成功');
 														}}
 													>
@@ -290,7 +288,7 @@ export default function Home() {
 					/>
 				))}
 			</Row>
-			<Information />
+			{/* <Information /> */}
 		</div>
 	);
 }

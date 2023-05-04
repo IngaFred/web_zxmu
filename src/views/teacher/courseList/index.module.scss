@@ -1,6 +1,10 @@
 .big {
   padding: 10px;
-  margin: 20px 220px;
+  margin: 20px 280px;
+}
+.card {
+  margin-right: 20px;
+  margin-bottom: 25px;
 }
 .header-xxx {
   padding: 10px;
@@ -25,5 +29,15 @@
   justify-content: space-between;
 }
 .lesson_description {
-  color: #666;
+  font-size: 16px;
+  margin-left: 5px;
+  color: #514e4e;
+}
+.lesson_name{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.rowBtn{
+  margin-left: 5px;
 }

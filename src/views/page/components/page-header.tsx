@@ -44,12 +44,20 @@ export default function HomeHeader() {
 	const items2: MenuProps['items'] = [
 		{
 			key: '1',
-			label: <div onClick={headleMyself}>个人中心</div>,
+			label: (
+				<div onClick={headleMyself} style={{padding: '5px'}}>
+					个人中心
+				</div>
+			),
 		},
 		{
 			key: '2',
 			// 实现退出 清除token 到login
-			label: <div onClick={headleLogout}>退出</div>,
+			label: (
+				<div onClick={headleLogout} style={{padding: '5px'}}>
+					退出登录
+				</div>
+			),
 		},
 	];
 

@@ -100,7 +100,7 @@ export default function Login() {
 							)}
 						></i>
 					</span>
-					<span className={styles['header-title']}>在线教育系统</span>
+					<span className={styles['header-title']}>护理学院在线教育系统</span>
 				</div>
 				<div className={styles.desc}>React18 + TypeScript4</div>
 				<Form
@@ -152,7 +152,7 @@ export default function Login() {
 						{testUsers.map((v) => (
 							<Col key={v.account} span={12} push={5}>
 								<h3>
-									测试账号 :
+									测试账号-{v.account.length === 8 ? '教师' : '学生'}:
 									<p>
 										<Button
 											onClick={autoLogin({

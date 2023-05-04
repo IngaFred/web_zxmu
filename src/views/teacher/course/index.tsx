@@ -41,7 +41,7 @@ export default function Course() {
 		navigate('/detailTeacher', {
 			state: { lessonInfo: lessonInfo },
 		});
-	}
+	};
 	useEffect(() => {
 		console.log('我是教师端');
 		if (lessonId) {
@@ -70,16 +70,32 @@ export default function Course() {
 										{lessonInfo.lessonName}
 									</div>
 									<div>
-										<Button type="primary" onClick={handleUpdateLesson}>
+										<Button
+											type="primary"
+											onClick={handleUpdateLesson}
+											className={styles.teaBtn}
+										>
 											修改课程
 										</Button>
-										<Button type="primary" onClick={handleLesson}>
+										<Button
+											type="primary"
+											onClick={handleLesson}
+											className={styles.teaBtn}
+										>
 											删除课程
 										</Button>
-										<Button type="primary" onClick={handleCreateWork}>
+										<Button
+											type="primary"
+											onClick={handleCreateWork}
+											className={styles.teaBtn}
+										>
 											新建作业
 										</Button>
-										<Button type="primary" onClick={handleCorrectWork}>
+										<Button
+											type="primary"
+											onClick={handleCorrectWork}
+											className={styles.teaBtn}
+										>
 											批改作业
 										</Button>
 									</div>
