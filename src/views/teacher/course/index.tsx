@@ -26,7 +26,7 @@ export default function Course() {
 		delLessonByLessonId(lessonId).then((res) => {
 			if (res.data.success) {
 				message.success(res.data.errorMsg);
-				navigate('courseList');
+				navigate('/courseList');
 			} else {
 				message.error(res.data.errorMsg);
 			}
@@ -66,8 +66,8 @@ export default function Course() {
 						<div>
 							<div className={styles.title}>
 								<div className={styles.titleDate}>
-									<div>
-										<h1>课程名：{lessonInfo.lessonName}</h1>
+									<div className={styles.titleLesson}>
+										{lessonInfo.lessonName}
 									</div>
 									<div>
 										<Button type="primary" onClick={handleUpdateLesson}>
@@ -85,10 +85,10 @@ export default function Course() {
 									</div>
 								</div>
 								<div>
-									<h2>
+									<div className={styles.titleTeacher}>
 										任课教师：
 										{lessonInfo.creater ? lessonInfo.creater.userName : ''}
-									</h2>
+									</div>
 								</div>
 							</div>
 							<div className={styles.box}>

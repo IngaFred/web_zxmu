@@ -7,19 +7,20 @@ import HomeBreadcrumb from './components/page-breadcrumb';
 import HomeMain from './components/page-main';
 // antd
 import { Layout } from 'antd';
+import { Footer } from 'antd/es/layout/layout';
 const { Header, Content, Sider } = Layout;
 
 export default function Page() {
 	return (
-		<Layout>
+		<Layout style={{ height: '' }}>
 			<Header className="header">
 				<HomeHeader />
 			</Header>
 			<Layout>
-				<Sider width={220} theme={'light'}>
+				<Sider width={220} theme={'light'} style={{ display: 'none' }}>
 					<HomeAside />
 				</Sider>
-				<Layout style={{ padding: '20px' }}>
+				<Layout style={{ padding: '10px', paddingBottom: '0' }}>
 					<HomeBreadcrumb />
 					<Content className={styles['home-main']}>
 						<HomeMain />

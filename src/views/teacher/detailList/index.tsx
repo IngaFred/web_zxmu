@@ -1,4 +1,14 @@
-import { Button, Card, Col, Empty, Row, Select, Space, message } from 'antd';
+import {
+	Button,
+	Card,
+	Col,
+	Divider,
+	Empty,
+	Row,
+	Select,
+	Space,
+	message,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { getUnSubmit, getSubmit } from '../../../service/detailList';
@@ -60,7 +70,6 @@ export default function DetailList() {
 					<TermsSelect />
 				</div>
 			</Row>
-
 			<div style={{ width: '100%' }}>
 				<div className={styles.title}>未批改</div>
 				<Row gutter={24}>
@@ -77,6 +86,7 @@ export default function DetailList() {
 					)}
 				</Row>
 			</div>
+			<Divider />
 			<div style={{ width: '100%' }}>
 				<div className={styles.title}>未提交</div>
 
@@ -92,6 +102,7 @@ export default function DetailList() {
 					)}
 				</Row>
 			</div>
+			<Divider />
 			<div style={{ width: '100%' }}>
 				<div className={styles.title}>已批改</div>
 				<Row gutter={24}>

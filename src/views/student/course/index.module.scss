@@ -58,7 +58,7 @@
 }
 .footer {
   background: #fff;
-  padding: 0;
+  padding: 0px;
 }
 
 .resoursList {
@@ -66,7 +66,7 @@
   flex-direction: column;
 }
 .courseAll {
-  margin: 20px;
+  margin: 20px 220px;
 }
 
 .download {
@@ -75,16 +75,28 @@
   align-items: center;
   margin-bottom: 10px;
 }
-
+.titleInfo{
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.titleTeacher{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 .downloadIcon {
   font-size: 14px;
 }
 .resoursListTitle {
   margin-top: 20px;
 }
-
+.outlineCardContent_info{
+  margin-left: 20px;
+}
 :global {
   .ant-card-body {
     padding: 12px !important;
   }
 }
+

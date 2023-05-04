@@ -20,7 +20,7 @@
   width: 99%;
   height: 50px;
   border-radius: 5px;
-  background: rgb(217 216 216 / 50%);
+  background: rgba(217, 216, 216, 0.881);
   justify-content: center;
   align-items: center;
   margin-right: 10px;
@@ -39,11 +39,11 @@
   align-items: center;
 }
 .commentCardHeader span {
-  font-size: 14px;
+  font-size: 22px;
   margin-left: 10px;
 }
 .themeName {
-  font-size: 14px;
+  font-size: 15px;
   margin-left: 5.2%;
 }
 .comment {
@@ -80,6 +80,7 @@
 .commentList {
   display: flex;
   flex-direction: column;
+  font-size: 16px;
 }
 
 .commentCard {
@@ -101,4 +102,10 @@
   justify-content: end;
   align-items: center;
   margin: 10px 0;
+}
+
+.title{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }

@@ -94,43 +94,6 @@ export default function Detail() {
 					<div>
 						<MyUpload />
 					</div>
-
-					{/* <Upload
-						action="/upload.do"
-						listType="picture-card"
-						customRequest={(fileInfo) => {
-							console.log('fileInfo', fileInfo);
-							postFile(fileInfo.file as File).then((res) => {
-								console.log('res', res);
-								if (res.data.success) {
-									setFileList((list) => {
-										const newList = list;
-										const item = newList.pop();
-										// @ts-ignore
-										newList.push({
-											// @ts-ignore
-											...item,
-											status: 'done',
-											resourceId: res.data.data.resourceId,
-										});
-										console.log('newList', newList);
-										return newList;
-									});
-								}
-							});
-						}}
-						fileList={fileList}
-						onChange={(info) => {
-							console.log('info', info);
-							// @ts-ignore
-							setFileList(info.fileList);
-						}}
-					>
-						<div>
-							<PlusOutlined />
-							<div style={{ marginTop: 8 }}>Upload</div>
-						</div>
-					</Upload> */}
 				</Form.Item>
 			</Form>
 		</div>

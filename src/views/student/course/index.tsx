@@ -44,14 +44,14 @@ export default function Course() {
 					{Object.keys(lessonInfo).length > 0 ? (
 						<div>
 							<div className={styles.title}>
-								<div>
-									<h1>课程名：{lessonInfo.lessonName}</h1>
+								<div className={styles.titleInfo}>
+									{lessonInfo.lessonName}
 								</div>
 								<div>
-									<h2>
+									<div className={styles.titleTeacher}>
 										任课教师：
 										{lessonInfo.creater ? lessonInfo.creater.userName : ''}
-									</h2>
+									</div>
 								</div>
 							</div>
 							<div className={styles.box}>
@@ -85,6 +85,7 @@ export default function Course() {
 								style={{
 									display: resoursBOList.length === 0 ? 'inline' : 'none',
 								}}
+								className={styles.outlineCardContent_info}
 							>
 								暂无资源
 							</div>

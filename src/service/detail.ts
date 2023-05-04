@@ -50,6 +50,8 @@ export const postSubmit = async (payload: HomeworkList) => {
     resourceList: payload.resourceList,
     termId: payload.termId,
   });
+
+  
   return ret;
 };
 // 自定义上传Image. 并得到图片 url alt href

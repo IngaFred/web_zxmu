@@ -77,8 +77,8 @@
 .resoursTooltip {
   margin: 0 2% 0 0;
 }
-.courseAll {
-  margin: 20px;
+.courseAll { 
+  margin: 20px 220px;
 }
 .download {
   display: flex;
@@ -97,4 +97,14 @@
   .ant-card-body {
     padding: 12px !important;
   }
+}
+.titleLesson{
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.titleTeacher{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }

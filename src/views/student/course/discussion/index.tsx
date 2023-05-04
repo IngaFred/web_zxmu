@@ -87,7 +87,7 @@ const Discussion = (props: LessonId) => {
 	return (
 		<div className={styles.discussion}>
 			{/* 标题 */}
-			<h1>评论</h1>
+			<div className={styles.title}>评论</div>
 
 			{/* 无评论时展示 */}
 			<div
@@ -102,20 +102,20 @@ const Discussion = (props: LessonId) => {
 						value={replyContent}
 						onChange={handleReplyContentChange}
 						rows={4}
-						style={{ width: '1198px' }}
+						style={{ width: '99%', fontSize: '16px' }}
 					/>
-					<div className={styles.cancelBt}>
-						<Button onClick={handleCancelReply}>取消</Button>
-						<Button
-							style={{ marginLeft: '10px' }}
-							type="primary"
-							onClick={() => {
-								reply();
-							}}
-						>
-							发送
-						</Button>
-					</div>
+				</div>
+				<div className={styles.cancelBt}>
+					<Button onClick={handleCancelReply}>取消</Button>
+					<Button
+						style={{ marginLeft: '10px' }}
+						type="primary"
+						onClick={() => {
+							reply();
+						}}
+					>
+						发送
+					</Button>
 				</div>
 			</div>
 

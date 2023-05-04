@@ -56,7 +56,7 @@ export default function Information() {
 		//   操作等综合实践能力，培养学生特长，促进德、智、体、美、劳全面发展，掌握经验技术</p>
 		//   </div>
 		// </div>
-		<div>
+		<div className={styles.courseAll}>
 			<h1 className={styles['h1style']}>教师团队</h1>
 			<List
 				className={styles['liststyle']}

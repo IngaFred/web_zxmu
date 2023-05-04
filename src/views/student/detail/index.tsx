@@ -192,6 +192,7 @@ export default function Detail() {
 					</Card> */}
 				{/* </Col> */}
 			</Row>
+			
 			<Row gutter={24}>
 				<MyUpload />
 			</Row>

@@ -47,10 +47,10 @@ export default function Personal() {
 	};
 
 	return (
-		<>
+		<div className={styles.all}>
 			<div className={styles.detailALL}>
 				<Row justify={'space-between'} className={styles.detailHeader}>
-					<div>个人信息</div>
+					<div className={styles.title}>个人信息</div>
 					<div className={styles.detailHeaderRight}>
 						<Upload
 							{...props}
@@ -84,10 +84,10 @@ export default function Personal() {
 				<img src={userInfo.picUrl} className={styles.icons_items} alt="头像" />
 			</div>
 
-			<div className={styles.box}>学号：{userInfo.stuId}</div>
-			<div className={styles.box}>姓名: {userInfo.userName}</div>
+			<div className={styles.box}><Space className={styles.font}>学号：{userInfo.stuId}</Space></div>
+			<div className={styles.box}><Space size={20} className={styles.font}>姓名: {userInfo.userName}</Space></div>
 
 			{contextHolder}
-		</>
+		</div>
 	);
 }

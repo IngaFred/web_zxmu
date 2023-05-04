@@ -33,9 +33,15 @@ const contentStyle: React.CSSProperties = {
 const ModelCard = (props: any) => {
 	const myPrem = useSelector((state: RootState) => state.user.myPrem);
 	const termId = useSelector((state: RootState) => state.user.termId);
+	console.log('myPrem :>> ', myPrem);
 	const isStu = myPrem === '学生权限';
 	const { data, modelLessons } = props;
 	const navigate = useNavigate();
+	useEffect(() => {
+		if (myPrem === '教师权限') {
+			navigate('/courseList');
+		}
+	}, [myPrem]);
 	const handleMyCourse = (e: string, termId?: string) => {
 		navigate('/course', { state: { lessonId: { e }, termId: termId } });
 	};
@@ -45,10 +51,11 @@ const ModelCard = (props: any) => {
 	if (!modelLessons) {
 		return null;
 	}
+
 	return (
 		<Col span={24}>
 			<div className={styles.model_card}>
-				<div className={styles.model_title}>{data.name}</div>
+				<div className={styles.model_title_all}>{data.name}</div>
 				<Row gutter={[8, 16]}>
 					{modelLessons.length > 0 ? (
 						modelLessons.map((item: any, index: number, dataSource: any) => (

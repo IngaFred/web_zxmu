@@ -200,7 +200,6 @@ const UpdateLesson = () => {
               <Button
                 className={styles.saveButton}
                 type="primary"
-                size="large"
                 onClick={submitCreateLesson}
               >
                 保存

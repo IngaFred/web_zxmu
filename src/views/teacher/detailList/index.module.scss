@@ -1,5 +1,6 @@
 .wrap {
   padding: 20px;
+  margin: 20px 220px;
 }
 .top {
   width: 100%;
@@ -28,15 +29,16 @@
   padding: 10px;
 }
 .stuName {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: bold;
 }
 .score {
+  margin-top: 10px;
   font-size: 14px;
 }
 
 .title {
-  font-size: 16px;
+  font-size: 20px;
   margin-top: 30px;
-  margin-bottom: 6px;
+  margin-bottom: 20px;
 }
