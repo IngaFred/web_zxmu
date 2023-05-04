@@ -57,19 +57,23 @@ export default function DetailList() {
 	return (
 		<div className={styles.wrap}>
 			<Row className={styles['top']}>
-				<h1>批改作业</h1>
+				<div className={styles.allTitle}>批改作业</div>
 				<div className={styles['topCenter']}>
 					<Space size={20}>
-						<h1>
-							数量：{SubimtStudent2.length}/
-							{unSubimtStudent.length +
-								SubimtStudent1.length +
-								SubimtStudent2.length}
-						</h1>
+						<div className={styles.numTitle}>
+							数量：
+							<span className={styles.spanNum}>
+								{SubimtStudent2.length}/
+								{unSubimtStudent.length +
+									SubimtStudent1.length +
+									SubimtStudent2.length}
+							</span>
+						</div>
 					</Space>
 					<TermsSelect />
 				</div>
 			</Row>
+			<Divider />
 			<div style={{ width: '100%' }}>
 				<div className={styles.title}>未批改</div>
 				<Row gutter={24}>
@@ -81,7 +85,7 @@ export default function DetailList() {
 						))
 					) : (
 						<Col span={24}>
-							<Empty description="无暂未批改作业" />
+							<Empty description="暂无未批改作业" />
 						</Col>
 					)}
 				</Row>
@@ -97,7 +101,7 @@ export default function DetailList() {
 						})
 					) : (
 						<Col span={24}>
-							<Empty description="无暂未提交作业" />
+							<Empty description="暂无未提交作业" />
 						</Col>
 					)}
 				</Row>
@@ -112,7 +116,7 @@ export default function DetailList() {
 						))
 					) : (
 						<Col span={24}>
-							<Empty description="无暂已批改作业" />
+							<Empty description="暂无已批改作业" />
 						</Col>
 					)}
 				</Row>

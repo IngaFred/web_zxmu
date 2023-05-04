@@ -1,9 +1,9 @@
 .detailALL{
-    margin: 20px 220px;
+    margin: 20px 150px;
 }
 .detailHeader{
     display: flex;
-    margin: 30px;
+    // margin: 30px;
     justify-content: space-between;
     .title{
         display: flex;
@@ -13,9 +13,14 @@
         margin-left: 20px;
     }
 }
+.title{
+    font-size: 20px;
+    font-weight: bold;
+}
 .form{
     max-width: 2000px;
     margin: 20px;
+    font-size: 16px;
     margin-left: 30px;
 }
 .text{

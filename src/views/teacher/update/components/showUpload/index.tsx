@@ -209,7 +209,7 @@ const UpdateLesson = () => {
               <div className={styles.title}>
                 <h1>课程名:</h1>
                 <Input
-                  style={{ width: '300px' }}
+                  style={{ width: '250px', marginLeft: '30px' }}
                   value={lessonName}
                   onChange={(e) => {
                     setLessonName(e.target.value);

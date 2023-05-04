@@ -48,7 +48,7 @@ export default function Personal() {
 
 	return (
 		<div className={styles.all}>
-			<div className={styles.detailALL}>
+			<div>
 				<Row justify={'space-between'} className={styles.detailHeader}>
 					<div className={styles.title}>个人信息</div>
 					<div className={styles.detailHeaderRight}>
@@ -59,16 +59,6 @@ export default function Personal() {
 								console.log(res);
 								postUploadImg(res.file as File).then((res) => {
 									console.log(res);
-									/* if (res?.data?.success) {
-                getUserInfo().then((res) => {
-                  console.log(res);
-                  if (res?.data?.success) {
-                    setUserInfo(res.data.data);
-                  } else {
-                    message.error(res.data.errorMsg);
-                  }
-                });
-              } */
 								});
 							}}
 						>

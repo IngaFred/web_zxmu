@@ -33,7 +33,7 @@ export default function Detail() {
 		<div className={styles.detailALL}>
 			<div className={styles.detailHeader}>
 				<div className={styles.title}>
-					<h2>新建作业</h2>
+					新建作业
 				</div>
 				<div>
 					<Button className={styles.btn}>保存</Button>
@@ -53,8 +53,6 @@ export default function Detail() {
 								name: values.name,
 								info: values.info,
 								resourceList: resourceList,
-								/* start: values.time?.[0]?.valueOf?.(),
-                    end: values.time?.[1]?.valueOf?.(), */
 							};
 							console.log('newObj', newObj);
 							postUploadFile(newObj);

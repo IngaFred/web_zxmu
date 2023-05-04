@@ -1,6 +1,5 @@
 .wrap {
-  padding: 20px;
-  margin: 20px 220px;
+  margin: 20px 150px;
 }
 .top {
   width: 100%;
@@ -26,7 +25,7 @@
   border: 1px solid #f0f0f0;
   border-radius: 8px;
   height: 100px;
-  padding: 10px;
+  padding: 15px;
 }
 .stuName {
   font-size: 15px;
@@ -38,7 +37,19 @@
 }
 
 .title {
-  font-size: 20px;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  font-size: 18px;
+  // margin-top: 5px;
+  margin-bottom: 20px; 
+}
+.allTitle{
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.numTitle{
+  font-size: 16px;
+  margin-left: 10px;
+}
+.spanNum{
+  font-weight: bold;
 }
