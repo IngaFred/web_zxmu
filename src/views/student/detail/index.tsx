@@ -75,8 +75,6 @@ export default function Detail() {
 				// const myHomeworkBOList = data.homeworkBOList.find(
 				//   (v: Homework) => v.homeworkId === myHomework.hId
 				// );
-				// setHomeworkBOList(myHomeworkBOList);
-				// setMyResoursBOList(myHomeworkBOList.resoursBOList);
 			} else {
 				message.error('获取详细作业失败');
 			}
@@ -155,42 +153,6 @@ export default function Detail() {
 					{/* 富文本控件 */}
 					<MyEditor />
 				</Col>
-				{/* 资源下载控件 */}
-				{/* <Col span={4}> */}
-				{/* <Card size="small" title="作业资源">
-						<Space direction={'vertical'} align={'center'}>
-							<Row gutter={24}>
-								{myResoursBOList?.length > 0 ? (
-									myResoursBOList?.map((item: Resource, index) => (
-										<Tooltip key={index} title={'下载'} color="grey">
-											<a href={item?.url} className={styles.download}>
-												<ContainerTwoTone style={{ fontSize: '40px' }} />
-											</a>
-										</Tooltip>
-									))
-								) : (
-									<Col span={22}>
-										<Empty
-											description="暂无可下载资源"
-											imageStyle={{ marginLeft: '-20px' }}
-										/>
-									</Col>
-								)}
-							</Row>
-						</Space>
-					</Card> */}
-
-				{/* 文件上传控件 */}
-				{/* <Card size="small" title="文件选择" className={styles.upload}>
-						<MyUpload
-							fileList={fileList}
-							onChange={handleChange}
-							onRemove={handleRemove}
-							disabled={false}
-							setFileList={setFileList}
-						/>
-					</Card> */}
-				{/* </Col> */}
 			</Row>
 
 			<Row gutter={24}>

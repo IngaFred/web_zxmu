@@ -32,9 +32,7 @@ export default function Detail() {
 	return (
 		<div className={styles.detailALL}>
 			<div className={styles.detailHeader}>
-				<div className={styles.title}>
-					新建作业
-				</div>
+				<div className={styles.title}>新建作业</div>
 				<div>
 					<Button className={styles.btn}>保存</Button>
 					<Button
@@ -80,7 +78,7 @@ export default function Detail() {
 					</Form.Item>
 
 					<Form.Item name="RangePicker" label="作业名称">
-						<RangePicker showTime  locale={locale} />
+						<RangePicker showTime locale={locale} />
 					</Form.Item>
 
 					<Form.Item name="Info" label="作业内容">
