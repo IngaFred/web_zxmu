@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="300" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #036eb5;
+        fill-rule: evenodd;
+        filter: url(#filter);
+      }
+    </style>
+    <filter id="filter" x="25.969" y="19" width="349.031" height="263" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="25.9688" y="19" width="349.031" height="263" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzQ5LjAzMSIgaGVpZ2h0PSIyNjMiIHZpZXdCb3g9IjAgMCAzNDkuMDMxIDI2MyI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgb3BhY2l0eTogMC4zMTsKICAgICAgICBmaWxsOiB1cmwoI2xpbmVhci1ncmFkaWVudCk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhci1ncmFkaWVudCIgeDE9IjE3NC41MTYiIHkxPSIyNjMiIHgyPSIxNzQuNTE2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzU5NTk1OSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjM0OS4wMzEiIGhlaWdodD0iMjYzIi8+Cjwvc3ZnPgo="/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" mode="overlay" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <path id="形状_1" data-name="形状 1" class="cls-1" d="M87.486,19L199.2,128.452,312.482,19s68.178,50.988,62.149,141.736S312.482,282,312.482,282l-22.814-21.261s50.9-37.473,53.5-98.428c3.7-63.952-30.681-99.215-30.681-99.215l-90.471,87.4,43.269,41.734s19.3-21.565,11.014-59.845c25.757-25.343,25.174-25.2,25.174-25.2s32,77.628-34.615,129.925C245.47,217,134.688,109.554,134.688,109.554s-40.877,54.992,21.24,105.515c-15.74,16.29-22.027,22.048-22.027,22.048s-48.537-28.769-43.269-97.641c2.431-29.749,20.454-53.545,20.454-53.545s-24.292-22.142-23.6-22.048-45.3,49.944-27.534,118.9c9.243,32.1,21.161,50.563,50.349,77.955C89.354,281.134,88.272,282,88.272,282S32.844,244.837,26.123,167.823C25.029,112.312,28.826,78.39,87.486,19Z"/>
+</svg>

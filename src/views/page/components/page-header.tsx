@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../../store';
 import { clearToken } from '../../../store/modules/user';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeMenu from './page-menu';
+import logo from '../../../assets/images/logo/myLogo.png';
 
 export default function HomeHeader() {
 	// infos,获取用户name,head
@@ -45,7 +46,7 @@ export default function HomeHeader() {
 		{
 			key: '1',
 			label: (
-				<div onClick={headleMyself} style={{padding: '5px'}}>
+				<div onClick={headleMyself} style={{ padding: '5px' }}>
 					个人中心
 				</div>
 			),
@@ -54,7 +55,7 @@ export default function HomeHeader() {
 			key: '2',
 			// 实现退出 清除token 到login
 			label: (
-				<div onClick={headleLogout} style={{padding: '5px'}}>
+				<div onClick={headleLogout} style={{ padding: '5px' }}>
 					退出登录
 				</div>
 			),
@@ -65,7 +66,7 @@ export default function HomeHeader() {
 		<div className={styles['home-header']}>
 			{/* logo */}
 			<span className={styles['home-header-logo']}>
-				<i
+				{/* <i
 					className={classNames('iconfont icon-react', styles['icon-react'])}
 				></i>
 				<i
@@ -79,10 +80,11 @@ export default function HomeHeader() {
 						'iconfont icon-typescript',
 						styles['icon-typescript']
 					)}
-				></i>
+				></i> */}
+				<img src={logo} className={styles['home-icon']} />
 			</span>
 			{/* name */}
-			<span className={styles['home-header-title']}>护理学院在线教育系统</span>
+			<span className={styles['home-header-title']}>最美护理</span>
 			{/* 菜单栏 */}
 			<div className={styles['home-menu']}>
 				<HomeMenu />

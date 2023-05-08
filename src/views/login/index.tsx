@@ -10,6 +10,7 @@ import classNames from 'classnames';
 // 引入编程式 路由跳转
 import { useNavigate } from 'react-router-dom';
 import { loginAction } from '../../service/login';
+import logo from '../../assets/images/logo/myLogo.png';
 
 // 登录页面
 // 邱致彬
@@ -81,7 +82,7 @@ export default function Login() {
 			<div className={styles.login}>
 				<div className={styles.header}>
 					<span className={styles['header-logo']}>
-						<i
+						{/* <i
 							className={classNames(
 								'iconfont icon-react',
 								styles['icon-react']
@@ -98,11 +99,14 @@ export default function Login() {
 								'iconfont icon-typescript',
 								styles['icon-typescript']
 							)}
-						></i>
+						></i> */}
+						<img src={logo} className={styles['home-icon']} />
 					</span>
-					<span className={styles['header-title']}>护理学院在线教育系统</span>
+					<span className={styles['header-title']}>最美护理</span>
 				</div>
-				<div className={styles.desc}>React18 + TypeScript4</div>
+				{/* <div className={styles.desc}>React18 + TypeScript4</div> */}
+				<div className={styles.desc} />
+
 				<Form
 					name="basic"
 					labelCol={{ span: 6 }}
@@ -132,15 +136,8 @@ export default function Login() {
 						<Input.Password placeholder="请输入密码" />
 					</Form.Item>
 
-					{/* <Form.Item
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{ offset: 6, span: 16 }}
-          >
-            <Checkbox>记住我</Checkbox>
-          </Form.Item> */}
-
-					<Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+					<div className={styles.desc} />
+					<Form.Item wrapperCol={{ offset: 12, span: 16 }}>
 						<Button type="primary" htmlType="submit">
 							登录
 						</Button>
