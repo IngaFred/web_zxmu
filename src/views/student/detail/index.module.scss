@@ -16,14 +16,14 @@
     font-weight: bold;
 }
 .infoHead {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 20px;
     overflow: hidden;
     color: #86868e;
+    font-weight: bold;
     line-height: 16px;
     font-size: 14px;
     white-space: nowrap;
-    margin-bottom: 10px;
 }
 .info{
     margin-top: 20px;
@@ -40,4 +40,7 @@
 .download{
     padding-left: 10px;
     // margin-right: 5px;
+}
+.detailBtn{
+    background: red;
 }

@@ -1,6 +1,24 @@
-.show-all{
-    margin: 20px 150px;
+.show-all {
+	margin: 20px 150px;
 }
-.col{
-    margin-top: 50px;
+.empty {
+	margin-top: 50px;
+}
+.detailTitle{
+    font-size: 22px;
+    font-weight: bold;
+	margin-bottom: 10px;
+}
+.card {
+	width: 80%;
+}
+.score {
+	color: red;
+	font-weight: bold;
+}
+.col {
+	margin: 20px 0;
+}
+.rowBtn {
+	margin: 0 10px 0 10px;
 }

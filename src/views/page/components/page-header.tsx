@@ -66,21 +66,6 @@ export default function HomeHeader() {
 		<div className={styles['home-header']}>
 			{/* logo */}
 			<span className={styles['home-header-logo']}>
-				{/* <i
-					className={classNames('iconfont icon-react', styles['icon-react'])}
-				></i>
-				<i
-					className={classNames(
-						'iconfont icon-icon-test',
-						styles['icon-icon-test']
-					)}
-				></i>
-				<i
-					className={classNames(
-						'iconfont icon-typescript',
-						styles['icon-typescript']
-					)}
-				></i> */}
 				<img src={logo} className={styles['home-icon']} />
 			</span>
 			{/* name */}

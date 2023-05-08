@@ -12,7 +12,7 @@ import {
 	UploadFile,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getDetails, getLessons, postSubmit } from '../../../service/detail';
 import MyEditor from './components/myEditor';
 import MyUpload from '../../../components/upload';
@@ -31,6 +31,11 @@ interface Homework {
 	creator: any;
 	term: any;
 	resoursBOList: Resource[];
+}
+export interface ShowHomework {
+	lessonName: string;
+	info: string;
+	name: string;
 }
 interface Resource {
 	resourceId: string;
@@ -84,6 +89,11 @@ export default function Detail() {
 
 	// 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
 	const { lessonName, name, info, start, end } = homeworkBOList || {};
+	const showHomework: ShowHomework = {
+		lessonName: lessonName as string,
+		name: name as string,
+		info: info as string,
+	};
 	const userName = homeworkBOList?.creator?.userName;
 	const termId = homeworkBOList?.term?.termId;
 	// 全体作业存储
@@ -103,13 +113,29 @@ export default function Detail() {
 			}
 		});
 	};
-
+	const navigate = useNavigate();
+	const handleGoodHomework = (
+		termId: string,
+		myHomeworkId: string,
+		showHomework: ShowHomework
+	) => {
+		// console.log('showHomework :>> ', showHomework);
+		navigate('/show', {
+			state: { termId: termId, myHomeworkId: myHomeworkId, showHomework: showHomework },
+		});
+	};
 	return (
 		<div className={styles.detailALL}>
 			<Row justify={'space-between'} className={styles.detailHeader}>
 				<div className={styles.detailTitle}>作业作答</div>
-				<Space size={'middle'}>
-					{/* <Button>保存</Button> */}
+				<Space size={40}>
+					<Button
+						onClick={() => {
+							handleGoodHomework(termId, myHomework?.homeworkId, showHomework);
+						}}
+					>
+						优秀作业查看
+					</Button>
 					<Button type="primary" onClick={SubmitEvent}>
 						提交
 					</Button>
@@ -162,7 +188,7 @@ export default function Detail() {
 	);
 }
 // 自定义组件，来封装一些重复的逻辑和样式
-function InfoRow(props: { label: string; value: string | undefined }) {
+export function InfoRow(props: { label: string; value: string | undefined }) {
 	return (
 		<Row className={styles.infoHead}>
 			<span>{props.label}</span>

@@ -38,7 +38,7 @@ export default function ClassList() {
 		}
 		return '未批改';
 	};
-	
+
 	return (
 		<div className={styles.all}>
 			<div className={styles.title}>我的作业</div>
@@ -46,7 +46,7 @@ export default function ClassList() {
 				{lessonAll.map((item, index) => {
 					return (
 						<>
-							<Col span={6} key={index}>
+							<Col span={6} key={index} className={styles.col}>
 								<Card
 									size="small"
 									className={styles.card}
@@ -80,8 +80,13 @@ export default function ClassList() {
 										description={item.name}
 										style={{ height: '80px' }}
 									/>
-									<div className={styles.row}>
-										分数：<span className={styles.score}>{typeof item?.subHomework?.score === 'number' ? item?.subHomework?.score : '0'}</span>
+									<div>
+										分数：
+										<span className={styles.score}>
+											{typeof item?.subHomework?.score === 'number'
+												? item?.subHomework?.score
+												: '0'}
+										</span>
 									</div>
 								</Card>
 							</Col>

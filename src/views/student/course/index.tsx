@@ -1,7 +1,16 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
 import React, { useState, useEffect } from 'react';
-import { Layout, Image, Card, message, Tooltip, Button, Empty } from 'antd';
+import {
+	Layout,
+	Image,
+	Card,
+	message,
+	Tooltip,
+	Button,
+	Empty,
+	Row,
+} from 'antd';
 import { ContainerTwoTone } from '@ant-design/icons';
 import styles from './index.module.scss';
 import Discussion from './discussion';
@@ -13,6 +22,11 @@ const { Header, Content, Footer } = Layout;
 type LessonId = {
 	e: string;
 };
+interface Link {
+	id: number;
+	url: string;
+	name: string;
+}
 export default function Course() {
 	const location = useLocation();
 	const lessonId: LessonId = location.state?.lessonId;
@@ -37,6 +51,21 @@ export default function Course() {
 			return;
 		}
 	}, [lessonId]);
+	const handleDownload = (url: string) => {
+		fetch(url, { mode: 'no-cors' })
+			.then((res) => res.blob())
+			.then((blob) => {
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = url.split('/').pop()!;
+				a.style.display = 'none';
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(url);
+			});
+	};
 	return (
 		<Layout className={styles.courseAll}>
 			<Header className={styles.header}>
@@ -44,9 +73,7 @@ export default function Course() {
 					{Object.keys(lessonInfo).length > 0 ? (
 						<div>
 							<div className={styles.title}>
-								<div className={styles.titleInfo}>
-									{lessonInfo.lessonName}
-								</div>
+								<div className={styles.titleInfo}>{lessonInfo.lessonName}</div>
 								<div>
 									<div className={styles.titleTeacher}>
 										任课教师：
@@ -90,16 +117,25 @@ export default function Course() {
 								暂无资源
 							</div>
 							<div className={styles.resoursList}>
-								{resoursBOList.map((item, index) => (
-									<a
-										href={item.url}
-										download={item.name}
-										className={styles.download}
-										key={index}
-									>
-										<ContainerTwoTone className={styles.downloadIcon} />
-										{item.name}
-									</a>
+								{resoursBOList.map((item: Link, index) => (
+									<>
+										<div style={{display: 'flex', padding: '5px'}}>
+											<a
+												href={item.url}
+												download={item.name}
+												className={styles.download}
+												key={index}
+												target="_blank"
+												// onClick={() => handleDownload(item.url)}
+											>
+												<ContainerTwoTone className={styles.downloadIcon} />
+												{item.name}
+											</a>
+											<Button onClick={() => handleDownload(item.url)} size='small' style={{marginLeft: '20px'}}>
+												下载
+											</Button>
+										</div>
+									</>
 								))}
 							</div>
 						</div>

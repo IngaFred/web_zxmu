@@ -86,7 +86,7 @@ const MyUpload = (props: MyUploadProps) => {
 				{fileList.length === 0 && (
 					<>
 						<p>
-							<b>暂无资源上传</b>
+							<b>暂无作业上传</b>
 						</p>
 						<br />
 					</>

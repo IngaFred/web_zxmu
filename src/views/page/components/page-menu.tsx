@@ -17,7 +17,7 @@ interface Perm {
 	permName: string;
 }
 const permission = {
-	stu: ['home', 'list', 'show', 'information'],
+	stu: ['home', 'list', 'information'],
 	tea: ['home', 'courseList', 'information'],
 };
 const filter = (menus: RouteObject[], p: string[]) => {
@@ -81,6 +81,7 @@ const App: React.FC = () => {
 			openKeys={[subpath]}
 			mode="horizontal"
 			items={menuItems}
+			style={{width: '300px'}}
 		/>
 	);
 };
