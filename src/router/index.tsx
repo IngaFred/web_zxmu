@@ -297,7 +297,7 @@ export const routes: RouteObject[] = [
 				element: <DetailListTeacher />,
 				meta: {
 					menu: true,
-					title: '我的作业列表',
+					title: '批改作业列表',
 					icon: <CalendarOutlined />,
 					auth: true,
 					propRouter: [
@@ -321,6 +321,20 @@ export const routes: RouteObject[] = [
 					title: '作业详情打分',
 					icon: <CalendarOutlined />,
 					auth: true,
+					propRouter: [
+						{
+							key: 'courseList',
+							title: '我的课程',
+						},
+						{
+							key: 'courseTeacher',
+							title: '课程详情',
+						},
+						{
+							key: 'detailListTeacher',
+							title: '批改作业列表',
+						},
+					],
 				},
 				name: 'scoringTeacher',
 			},

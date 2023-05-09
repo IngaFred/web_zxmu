@@ -39,7 +39,6 @@ const MyUpload = (props: MyUploadProps) => {
   // 定义一个uploadFile函数，用来处理文件上传的逻辑
   const uploadFile = (file: File) => {
     if (fileList.find((item) => file.name === item.name)) {
-      message.error('文件名不能重复');
       return;
     }
     // 使用service中封装函数上传文件

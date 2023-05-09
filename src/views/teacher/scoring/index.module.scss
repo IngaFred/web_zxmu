@@ -1,0 +1,68 @@
+.show-all {
+	margin: 20px 150px;
+}
+.detailHeader {
+	// padding: 0px 50px 0px 50px;
+	margin-bottom: 20px;
+}
+.detailTitle {
+	font-size: 22px;
+	font-weight: bold;
+}
+.head {
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: bold;
+	margin-left: 5px;
+}
+.infoHead {
+	margin-top: 20px;
+	margin-left: 20px;
+	overflow: hidden;
+	color: #86868e;
+	line-height: 16px;
+	font-weight: bold;
+	font-size: 14px;
+	white-space: nowrap;
+}
+.info {
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 30px;
+	.info-p {
+		white-space: normal;
+		font-size: 16px;
+	}
+	.info-p1 {
+		white-space: normal;
+		font-size: 16px;
+		
+	}
+}
+.outline {
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+    margin-left: 20px;
+}
+.resoursListTitle {
+	margin-top: 20px;
+}
+.outlineCardContent {
+	margin: 15px 0px 15px 0px;
+}
+.outlineCardContent_info {
+	margin-left: 20px;
+}
+.resoursList {
+	display: flex;
+	flex-direction: column;
+}
+.downloadIcon {
+	font-size: 14px;
+    padding: 5px;
+}
+.downloadTitle{
+    font-size: 18px;
+	font-weight: bold;
+}

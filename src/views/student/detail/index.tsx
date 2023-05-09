@@ -17,6 +17,13 @@ import { getDetails, getLessons, postSubmit } from '../../../service/detail';
 import MyEditor from './components/myEditor';
 import MyUpload from '../../../components/upload';
 import styles from './index.module.scss';
+
+import '@wangeditor/editor/dist/css/style.css';
+import { Editor, Toolbar } from '@wangeditor/editor-for-react';
+import { DomEditor } from '@wangeditor/editor';
+import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
+import { postUploadImage, postUploadVideo } from '../../../service/detail';
+
 // 作业详情（查看作业，修改作业，提交作业，成果展示列表）
 // 邱致彬
 interface Homework {
@@ -48,7 +55,7 @@ interface HomeworkList {
 	homeworkId: string;
 	content: string;
 	termId: string;
-	resourceList: UploadFile[] | null;
+	resourceListIds: string[];
 }
 export default function Detail() {
 	const location = useLocation();
@@ -67,7 +74,63 @@ export default function Detail() {
 		setFileList(fileList.filter((f) => f.uid !== file.uid));
 	};
 
+	const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
+	const [html, setHtml] = useState('');
+	const toolbarConfig: Partial<IToolbarConfig> = {
+		/* 隐藏哪些菜单 */
+		excludeKeys: ['insertImage', 'group-video'],
+	};
+	const toolbar = editor ? DomEditor.getToolbar(editor) : null;
+	const curToolbarConfig = toolbar?.getConfig();
+	// console.log(curToolbarConfig?.toolbarKeys ?? 'noEditor');
+	const editorConfig: Partial<IEditorConfig> = {
+		MENU_CONF: {
+			uploadImage: {
+				base64LimitSize: 1000 * 1024,
+				fieldName: 'myImage',
+				maxFileSize: 2000 * 1024 * 1024,
+				maxNumberOfFiles: 1,
+				allowedFileTypes: ['image/*'],
+				onBeforeUpload(file: File) {
+					return file;
+				},
+				onProgress(progress: number) {
+					console.log('progress 进度', progress);
+				},
+				onSuccess(file: File, res: any) {
+					console.log(`${file.name} 上传成功`, res);
+				},
+				onFailed(file: File, res: any) {
+					console.log(`${file.name} 上传失败`, res);
+				},
+				onError(file: File, err: any, res: any) {
+					console.log(`${file.name} 上传出错`, err, res);
+				},
+				async customUpload(file: File, insertFn: any) {
+					postUploadImage(file).then((ret) => {
+						const { success, data, errorMsg } = ret?.data || null;
+						if (success) {
+							message.success(errorMsg);
+							const url = data?.url;
+							insertFn(url);
+						}
+					});
+				},
+			},
+		},
+	};
+	editorConfig.placeholder = '请输入内容...';
+	editorConfig.onCreated = (editor: IDomEditor) => {};
 	useEffect(() => {
+		return () => {
+			if (editor == null) return;
+			editor.destroy();
+			setEditor(null);
+		};
+	}, [editor]);
+
+	useEffect(() => {
+		console.log('getLessonDetail :>> ');
 		getDetails(myLesson).then((ret) => {
 			// 使用可选链操作符来访问可能为undefined的属性
 			const { success, data, errorMsg } = ret?.data || {};
@@ -85,7 +148,7 @@ export default function Detail() {
 			}
 		});
 		return () => {};
-	}, [myLesson]);
+	}, []);
 
 	// 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
 	const { lessonName, name, info, start, end } = homeworkBOList || {};
@@ -96,15 +159,37 @@ export default function Detail() {
 	};
 	const userName = homeworkBOList?.creator?.userName;
 	const termId = homeworkBOList?.term?.termId;
+	// const uploadIds = <MyUpload />
+	// cosnt newResourceList = uploadIds.state.newResourceList
+	const [newResourceList, setNewResourceList] = useState<any[]>([]);
+	const newResourceListIds: string[] = newResourceList.map(
+		(item) => item.resourceId
+	);
+
+	console.log('newResourceList-- :>> ', newResourceList);
+
+	console.log('newResourceListIds-- :>> ', newResourceListIds);
+	let subHomework: HomeworkList;
+	useEffect(() => {
+		subHomework = {
+			homeworkId: homeworkBOList?.homeworkId || '',
+			content: html,
+			termId: termId as string,
+			resourceListIds: newResourceListIds,
+		};
+		console.log('subHomework---- :>> ', subHomework);
+	}, [html, newResourceListIds]);
 	// 全体作业存储
 	const myHomework: HomeworkList = {
 		homeworkId: homeworkBOList?.homeworkId || '',
-		content: 'string',
+		content: html,
 		termId: termId as string,
-		resourceList: fileList || null,
+		resourceListIds: newResourceListIds,
 	};
+	console.log('myHomework :>> ', myHomework);
 	const SubmitEvent = () => {
-		postSubmit(myHomework).then((ret) => {
+		console.log('subHomework---- :>> ', subHomework);
+		postSubmit(subHomework).then((ret) => {
 			const { success, data, errorMsg } = ret?.data || null;
 			if (success) {
 				console.log(errorMsg);
@@ -121,7 +206,11 @@ export default function Detail() {
 	) => {
 		// console.log('showHomework :>> ', showHomework);
 		navigate('/show', {
-			state: { termId: termId, myHomeworkId: myHomeworkId, showHomework: showHomework },
+			state: {
+				termId: termId,
+				myHomeworkId: myHomeworkId,
+				showHomework: showHomework,
+			},
 		});
 	};
 	return (
@@ -177,7 +266,27 @@ export default function Detail() {
 						<p className={styles['info-p']}>题目：{info}</p>
 					</Row>
 					{/* 富文本控件 */}
-					<MyEditor />
+					{/* <MyEditor /> */}
+					<Row>
+						<div
+							style={{ border: '1px solid #ccc', zIndex: 100, width: '100%' }}
+						>
+							<Toolbar
+								editor={editor}
+								defaultConfig={toolbarConfig}
+								mode="default"
+								style={{ borderBottom: '1px solid #ccc' }}
+							/>
+							<Editor
+								defaultConfig={editorConfig}
+								value={html}
+								onCreated={setEditor}
+								onChange={(editor) => setHtml(editor.getHtml())}
+								mode="default"
+								style={{ height: '400px', overflowY: 'hidden' }}
+							/>
+						</div>
+					</Row>
 				</Col>
 			</Row>
 

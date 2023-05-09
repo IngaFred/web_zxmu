@@ -47,12 +47,15 @@ export default function ShowDetails() {
 					<Row className={styles.info}>
 						<p className={styles['info-p']}>题目：{showHomework.info}</p>
 					</Row>
-					<ShowEditor />
+					{/* <Row className={styles.info}>
+						<p className={styles['info-p1']}>作答：</p>
+					</Row> */}
+					<ShowEditor content={myGoodHomework.content} />
 				</Col>
 			</Row>
 
 			<Row gutter={24}>
-			<div className={styles.outline}>
+				<div className={styles.outline}>
 					<div>
 						<div className={styles.resoursListTitle}>
 							<div className={styles.downloadTitle}>优秀作业资源文件</div>
@@ -60,33 +63,42 @@ export default function ShowDetails() {
 						<div className={styles.outlineCardContent}>
 							<div
 								style={{
-									display: myGoodHomework.resoursBOList.length === 0 ? 'inline' : 'none',
+									display:
+										myGoodHomework.resoursBOList.length === 0
+											? 'inline'
+											: 'none',
 								}}
 								className={styles.outlineCardContent_info}
 							>
 								暂无作业资源文件
 							</div>
 							<div className={styles.resoursList}>
-								{myGoodHomework.resoursBOList.map((item: Link, index: number) => (
-									<>
-										<div style={{display: 'flex', padding: '5px'}}>
-											<a
-												href={item.url}
-												download={item.name}
-												className={styles.download}
-												key={index}
-												target="_blank"
-												// onClick={() => handleDownload(item.url)}
-											>
-												<ContainerTwoTone className={styles.downloadIcon} />
-												{item.name}
-											</a>
-											<Button onClick={() => handleDownload(item.url)} size='small' style={{marginLeft: '20px'}}>
-												下载
-											</Button>
-										</div>
-									</>
-								))}
+								{myGoodHomework.resoursBOList.map(
+									(item: Link, index: number) => (
+										<>
+											<div style={{ display: 'flex', padding: '5px' }}>
+												<a
+													href={item.url}
+													download={item.name}
+													className={styles.download}
+													key={index}
+													target="_blank"
+													// onClick={() => handleDownload(item.url)}
+												>
+													<ContainerTwoTone className={styles.downloadIcon} />
+													{item.name}
+												</a>
+												<Button
+													onClick={() => handleDownload(item.url)}
+													size="small"
+													style={{ marginLeft: '20px' }}
+												>
+													下载
+												</Button>
+											</div>
+										</>
+									)
+								)}
 							</div>
 						</div>
 					</div>

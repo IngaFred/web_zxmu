@@ -136,6 +136,7 @@ const UpdateLesson = () => {
       return;
     }
   }, [lessonId]);
+  
   const submitCreateLesson = () => {
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
     if (lessonId) {

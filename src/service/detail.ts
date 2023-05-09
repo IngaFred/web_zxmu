@@ -12,7 +12,7 @@ type HomeworkList = {
   homeworkId: string;
   content: string;
   termId: string;
-  resourceList: UploadFile[] | null;
+  resourceListIds: string[];
 };
 
 // 获取课程作业详情
@@ -47,7 +47,7 @@ export const postSubmit = async (payload: HomeworkList) => {
   const ret = await http.post('/homework/submit', {
     homeworkId: payload.homeworkId,
     content: payload.content,
-    resourceList: payload.resourceList,
+    resourceList: payload.resourceListIds,
     termId: payload.termId,
   });
 

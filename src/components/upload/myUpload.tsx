@@ -17,7 +17,7 @@ const MyUpload = (props: MyUploadProps) => {
 	const handleChange = (info: { file: UploadFile; fileList: UploadFile[] }) => {
 		console.log('info', info);
 		if (fileList.find((item) => info.file.name === item.name)) {
-			message.error('文件名不能重复');
+			// message.error('文件名不能重复');
 			return;
 		}
 		// 组件内部格式

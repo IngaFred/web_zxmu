@@ -7,18 +7,19 @@ import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import { DomEditor } from '@wangeditor/editor';
 import styles from './index.module.scss';
 
-function ShowEditor() {
+function ShowEditor(props: any) {
+	const content = props.content;
+	console.log('content :>> ', content);
 	// editor 实例
 	const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
 	// 编辑器初始内容
-	const [html, setHtml] = useState('');
+	const [html, setHtml] = useState(content.length >0 ? content : '无文本图片作答');
 
 	// 工具栏配置
 	const toolbarConfig: Partial<IToolbarConfig> = {
 		/* 工具栏配置 */
 		/* 显示哪些菜单，如何排序、分组 */
-		// toolbarKeys: [
-		// ],
+		toolbarKeys: [],
 		/* 隐藏哪些菜单 */
 		// excludeKeys: [
 		// ],
@@ -37,7 +38,7 @@ function ShowEditor() {
 		// 所有的菜单配置，都要在 MENU_CONF 属性下
 		MENU_CONF: {},
 	};
-
+	editorConfig.readOnly = true;
 	editorConfig.placeholder = '请输入内容...';
 
 	// 编辑器创建完毕时的回调函数
@@ -54,7 +55,7 @@ function ShowEditor() {
 
 	return (
 		<>
-			<div style={{ border: '1px solid #ccc', zIndex: 100 }}>
+			<div style={{ border: '1px solid #ccc', zIndex: 100, fontFamily: 'fantasy', fontSize: '16px' }}>
 				<Toolbar
 					editor={editor}
 					defaultConfig={toolbarConfig}

@@ -5,7 +5,6 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 // DomEditor.getToolbar(editor) 获取 toolbar 实例
 import { DomEditor } from '@wangeditor/editor';
-
 // 导入预设的Html内联样式
 import styles from '../components/editorStyles/view.module.scss';
 //导入图片类型
@@ -54,6 +53,8 @@ function MyEditor() {
 				// meta: {
 				// 	resourceFile: myFile,
 				// },
+				// 插入 base64 格式 1000kb
+				base64LimitSize: 1000 * 1024,
 				fieldName: 'myImage',
 				// 单个文件的最大体积限制，默认为 2M
 				maxFileSize: 2000 * 1024 * 1024, // 2000M
@@ -247,25 +248,8 @@ function MyEditor() {
 					style={{ height: '400px', overflowY: 'hidden' }}
 				/>
 			</div>
-			{/* <div
-				style={{ marginTop: '15px' }}
-				className={styles['editor-content-view']}
-			>
-				{html}
-			</div> */}
 		</>
 	);
 }
 
 export default MyEditor;
-
-// - 你可以使用ES6的解构赋值语法，来简化一些变量的声明和赋值。比如，
-// 你可以把`const toolbarConfig: Partial<IToolbarConfig> = {/* 工具栏配置 */};`改成`const { toolbarConfig }: Partial<IToolbarConfig> = {/* 工具栏配置 */};`，这样就不用再单独声明`toolbarConfig`变量了。
-// - 你可以使用ES6的模板字符串语法，来简化一些字符串的拼接。比如，
-// 你可以把`return 'https://' + src;`改成`return \`https://${src}\`;`，这样就不用再用加号连接字符串了。
-// - 你可以使用TS的可选链语法，来简化一些对空值的判断。比如，
-// 你可以把`if (editor == null) return;`改成`return editor?.destroy();`，这样就不用再写if语句了。
-// - 你可以使用TS的非空断言操作符语法，来简化一些对非空值的断言。比如，
-// 你可以把`if (imageNode == null) return;`改成`const { src, alt, url, href } = imageNode!;`，这样就不用再写if语句了。
-// - 你可以使用React的useRef Hook，来保存对编辑器实例的引用。这样就不用再用useState Hook来管理编辑器实例的状态了。比如，
-// 你可以把`const [editor, setEditor] = useState<IDomEditor | null>(null);`改成`const editorRef = useRef<IDomEditor | null>(null);`，然后在onCreated回调中把`setEditor(editor);`改成`editorRef.current = editor;`。

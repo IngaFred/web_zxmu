@@ -57,6 +57,21 @@ export default function Course() {
 			return;
 		}
 	}, [lessonId]);
+	const handleDownload = (url: string) => {
+		fetch(url, { mode: 'no-cors' })
+			.then((res) => res.blob())
+			.then((blob) => {
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = url.split('/').pop()!;
+				a.style.display = 'none';
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(url);
+			});
+	};
 
 	return (
 		<Layout className={styles.courseAll}>
@@ -143,15 +158,24 @@ export default function Course() {
 							</div>
 							<div className={styles.resoursList}>
 								{resoursBOList.map((item, index) => (
-									<a
-										href={item.url}
-										download={item.name}
-										className={styles.download}
-										key={index}
-									>
-										<ContainerTwoTone className={styles.downloadIcon} />
-										{item.name}
-									</a>
+									<div style={{display: 'flex', padding: '5px'}}>
+										<a
+											href={item.url}
+											download={item.name}
+											className={styles.download}
+											key={index}
+										>
+											<ContainerTwoTone className={styles.downloadIcon} />
+											{item.name}
+										</a>
+										<Button
+											onClick={() => handleDownload(item.url)}
+											size="small"
+											style={{ marginLeft: '20px' }}
+										>
+											下载
+										</Button>
+									</div>
 								))}
 							</div>
 						</div>
