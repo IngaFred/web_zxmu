@@ -52,7 +52,8 @@ export default function ClassList() {
 									className={styles.card}
 									actions={[
 										<Row justify={'space-between'}>
-											<Button
+											{getStatus(item.status) === '未批改' ? (
+												<Button
 												className={styles.rowBtn}
 												onClick={(id, hId) =>
 													handleMyDetail(
@@ -63,8 +64,24 @@ export default function ClassList() {
 													)
 												}
 											>
-												作业详情
+												作业作答
 											</Button>
+											) : (
+												<Button
+												onClick={(id, hId) =>
+													handleMyDetail(
+														item.lessonId,
+														item.homeworkId,
+														id,
+														hId
+													)
+												}
+												className={styles.rowBtn}
+												// disabled='true'
+											>
+												已完成
+											</Button>
+											)}
 											<div>
 												{getStatus(item.status) === '已批改' ? (
 													<Tag color="green">已批改</Tag>

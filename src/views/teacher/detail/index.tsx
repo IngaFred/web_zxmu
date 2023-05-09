@@ -10,50 +10,48 @@ import {
 	Upload,
 } from 'antd';
 import styles from './index.module.scss';
-import { PlusOutlined } from '@ant-design/icons';
-import { postFile, postUploadFile } from '../../../service/teacherdetail';
+import { setHomework } from '../../../service/teacherdetail';
 import 'dayjs/locale/zh-cn';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import MyUpload from './components';
 
 export default function Detail() {
 	const [form] = Form.useForm();
-	const [fileList, setFileList] = useState([]);
-	const [sss, sSSSss] = useState([]);
-	const submitEvent = (e: any) => {
-		console.log('submitEvent', e);
-	};
 	const { RangePicker } = DatePicker;
 	const { TextArea } = Input;
-	console.log('fileList', fileList);
-	useEffect(() => {
-		setFileList(fileList);
-	}, [fileList]);
+
+	const [resourceList, setResourceList] = useState([])
+	// const [fileList, setFileList] = useState([]);
+	// console.log('fileList', fileList);
+	// useEffect(() => {
+	// 	setFileList(fileList);
+	// }, [fileList]);
+
 	return (
 		<div className={styles.detailALL}>
 			<div className={styles.detailHeader}>
 				<div className={styles.title}>新建作业</div>
 				<div>
-					<Button className={styles.btn}>保存</Button>
+					{/* <Button className={styles.btn} onClick={saveBtn}>保存</Button> */}
 					<Button
 						className={styles.btn}
 						type="primary"
 						onClick={() => {
-							console.log('form', form);
 							const values = form?.getFieldsValue();
-							console.log(' form?.getFieldsValue()', values);
-							const resourceList = fileList.map((item) => {
-								// @ts-ignore
-								return item?.resourceId;
-							});
-							const newObj = {
-								lessonId: values.lessonId,
-								name: values.name,
-								info: values.info,
+							// const resourceList = fileList.map((item) => {
+							// 	// @ts-ignore
+							// 	return item?.resourceId;
+							// });	
+							const newHomework = {
+								lessonId: values.LessonId,
+								name: values.Name,
+								info: values.Info,
+								start: new Date(values.RangePicker[0]).getTime(),
+								end: new Date(values.RangePicker[1]).getTime(),
 								resourceList: resourceList,
 							};
-							console.log('newObj', newObj);
-							postUploadFile(newObj);
+							console.log('newObj--->', newHomework);
+							setHomework(newHomework);
 						}}
 					>
 						作业发布
@@ -77,7 +75,7 @@ export default function Detail() {
 						<Input />
 					</Form.Item>
 
-					<Form.Item name="RangePicker" label="作业名称">
+					<Form.Item name="RangePicker" label="时间设置">
 						<RangePicker showTime locale={locale} />
 					</Form.Item>
 

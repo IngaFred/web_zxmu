@@ -12,7 +12,7 @@ interface LessonId {
 	e: string;
 }
 
-const UpdateLesson = () => {
+const UpdateLesson = (props: any) => {
 	const location = useLocation();
 	const lessonId: LessonId = location.state?.lessonId;
 	// console.log('myUpload getLessonId :>> ', lessonId);
@@ -22,7 +22,10 @@ const UpdateLesson = () => {
 	useEffect(() => {
 		// console.log('newResourceList', newResourceList);
 		const newResourceListIds = newResourceList.map((item) => item.resourceId);
+		// props.newResourceList = newResourceList
+		// console.log('newResourceList-- :>> ', props.newResourceList);
 		console.log('newResourceListIds', newResourceListIds);
+		
 	}, [newResourceList]);
 
 	//模块

@@ -57,7 +57,7 @@ interface HomeworkList {
 	termId: string;
 	resourceListIds: string[];
 }
-export default function Detail() {
+export default function Detail(props: any) {
 	const location = useLocation();
 	// const { lessonId: myLesson, homeworkId: myHomework } = location?.state || {};
 	const { lessonId: myLesson } = location?.state || {}; // 解构赋值
@@ -160,15 +160,17 @@ export default function Detail() {
 	const userName = homeworkBOList?.creator?.userName;
 	const termId = homeworkBOList?.term?.termId;
 	// const uploadIds = <MyUpload />
-	// cosnt newResourceList = uploadIds.state.newResourceList
-	const [newResourceList, setNewResourceList] = useState<any[]>([]);
+	// const newResourceList = uploadIds.state.newResourceList
+	const getNewResourceList = () => {
+		console.log('---------- :>> ');
+		console.log('props :>> ', props);
+		setNewResourceList(props.newResourceList)
+	}
+	const [newResourceList, setNewResourceList] = useState<any[]>(['123']);
 	const newResourceListIds: string[] = newResourceList.map(
 		(item) => item.resourceId
 	);
 
-	console.log('newResourceList-- :>> ', newResourceList);
-
-	console.log('newResourceListIds-- :>> ', newResourceListIds);
 	let subHomework: HomeworkList;
 	useEffect(() => {
 		subHomework = {
@@ -177,7 +179,9 @@ export default function Detail() {
 			termId: termId as string,
 			resourceListIds: newResourceListIds,
 		};
-		console.log('subHomework---- :>> ', subHomework);
+		console.log('newResourceList-- :>> ', newResourceList);
+		console.log('newResourceListIds-- :>> ', newResourceListIds);
+		// console.log('subHomework---- :>> ', subHomework);
 	}, [html, newResourceListIds]);
 	// 全体作业存储
 	const myHomework: HomeworkList = {
@@ -213,6 +217,7 @@ export default function Detail() {
 			},
 		});
 	};
+
 	return (
 		<div className={styles.detailALL}>
 			<Row justify={'space-between'} className={styles.detailHeader}>
@@ -291,7 +296,7 @@ export default function Detail() {
 			</Row>
 
 			<Row gutter={24}>
-				<MyUpload />
+				<MyUpload newResourceList={getNewResourceList} />
 			</Row>
 		</div>
 	);
