@@ -8,12 +8,14 @@ import styles from './index.module.scss';
 interface MyUploadProps {
 	resourceList: any[];
 	setNewResourceList: (data: any[]) => void;
+	
 }
 const MyUpload = (props: MyUploadProps) => {
 	const { setNewResourceList, resourceList } = props;
 	const { Dragger } = Upload;
 	const [fileList, setFileList] = useState<UploadFile[]>([]);
 
+	
 	const handleChange = (info: { file: UploadFile; fileList: UploadFile[] }) => {
 		console.log('info', info);
 		if (fileList.find((item) => info.file.name === item.name)) {

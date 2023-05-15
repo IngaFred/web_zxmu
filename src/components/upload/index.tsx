@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import { getLessonInfo, getModel } from '../../service/myUpload';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import MyUpload from './myUpload';
+import Upload from './myUpload';
 
 const { Content } = Layout;
 interface LessonId {
@@ -12,21 +12,24 @@ interface LessonId {
 	e: string;
 }
 
-const UpdateLesson = (props: any) => {
+interface MyUpload {
+	getResourceLists : (resourceLists: string[]) => void;
+}
+
+const UpdateLesson = (props: MyUpload) => {
 	const location = useLocation();
 	const lessonId: LessonId = location.state?.lessonId;
-	// console.log('myUpload getLessonId :>> ', lessonId);
 	const [newResourceList, setNewResourceList] = useState<any[]>([]);
-
 	const [resoursBOList, setresoursBOList] = useState<any[]>([]);
+	const [resourceLists, setResoursLists ] = useState<string[]>()
+
 	useEffect(() => {
-		// console.log('newResourceList', newResourceList);
 		const newResourceListIds = newResourceList.map((item) => item.resourceId);
-		// props.newResourceList = newResourceList
-		// console.log('newResourceList-- :>> ', props.newResourceList);
-		console.log('newResourceListIds', newResourceListIds);
-		
-	}, [newResourceList]);
+		props.getResourceLists = (resourceLists) => {
+			resourceLists = newResourceListIds;
+		}
+		console.log('newResourceListIds', resourceLists);
+	}, [resourceLists]);
 
 	//模块
 	const [modelList, setModelList] = useState<any[]>([]);
@@ -141,10 +144,10 @@ const UpdateLesson = (props: any) => {
 							</div>
 							<Card className={styles.outlineCard}>
 								<div className={styles.outlineCardContent}>
-									<MyUpload
+									<Upload
 										resourceList={newResourceList}
 										setNewResourceList={setNewResourceList}
-									></MyUpload>
+									></Upload>
 								</div>
 							</Card>
 						</div>

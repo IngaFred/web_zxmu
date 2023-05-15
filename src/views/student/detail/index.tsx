@@ -159,38 +159,29 @@ export default function Detail(props: any) {
 	};
 	const userName = homeworkBOList?.creator?.userName;
 	const termId = homeworkBOList?.term?.termId;
-	// const uploadIds = <MyUpload />
-	// const newResourceList = uploadIds.state.newResourceList
-	const getNewResourceList = () => {
-		console.log('---------- :>> ');
-		console.log('props :>> ', props);
-		setNewResourceList(props.newResourceList)
-	}
-	const [newResourceList, setNewResourceList] = useState<any[]>(['123']);
-	const newResourceListIds: string[] = newResourceList.map(
-		(item) => item.resourceId
-	);
 
+	const [resourceLists, setResourceLists] = useState<string[]>();
+
+	// 全体作业存储
+	const myHomework: HomeworkList = {
+		homeworkId: homeworkBOList?.homeworkId || '',
+		content: html,
+		termId: termId as string,
+		resourceListIds: resourceLists as string[],
+	};
 	let subHomework: HomeworkList;
 	useEffect(() => {
 		subHomework = {
 			homeworkId: homeworkBOList?.homeworkId || '',
 			content: html,
 			termId: termId as string,
-			resourceListIds: newResourceListIds,
+			resourceListIds: resourceLists as string[],
 		};
-		console.log('newResourceList-- :>> ', newResourceList);
-		console.log('newResourceListIds-- :>> ', newResourceListIds);
+		// console.log('newResourceList-- :>> ', newResourceList);
+		// console.log('newResourceListIds-- :>> ', newResourceListIds);
 		// console.log('subHomework---- :>> ', subHomework);
-	}, [html, newResourceListIds]);
-	// 全体作业存储
-	const myHomework: HomeworkList = {
-		homeworkId: homeworkBOList?.homeworkId || '',
-		content: html,
-		termId: termId as string,
-		resourceListIds: newResourceListIds,
-	};
-	console.log('myHomework :>> ', myHomework);
+	}, [html, resourceLists]);
+
 	const SubmitEvent = () => {
 		console.log('subHomework---- :>> ', subHomework);
 		postSubmit(subHomework).then((ret) => {
@@ -271,7 +262,6 @@ export default function Detail(props: any) {
 						<p className={styles['info-p']}>题目：{info}</p>
 					</Row>
 					{/* 富文本控件 */}
-					{/* <MyEditor /> */}
 					<Row>
 						<div
 							style={{ border: '1px solid #ccc', zIndex: 100, width: '100%' }}
@@ -296,7 +286,9 @@ export default function Detail(props: any) {
 			</Row>
 
 			<Row gutter={24}>
-				<MyUpload newResourceList={getNewResourceList} />
+				<MyUpload getResourceLists={(resourceLists) => {
+					setResourceLists(resourceLists)
+				}} />
 			</Row>
 		</div>
 	);
