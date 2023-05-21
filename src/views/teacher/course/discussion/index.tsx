@@ -11,6 +11,7 @@ import type { RootState } from '../../../../store';
 import TermsSelect from '../../../../components/terms-select';
 type LessonId = {
   lessonId: string;
+  termId?: string;
 };
 const Discussion = (props: LessonId) => {
   //主题下的详细评论
@@ -19,6 +20,7 @@ const Discussion = (props: LessonId) => {
   const [commentList, setCommentList] = useState<any[]>([]);
   const [displayCommentList, setDisplayCommentList] = useState<any[]>([]);
   const termId = useSelector((state: RootState) => state.user.termId);
+  const _termId = props.termId || termId;
 
   // 定义回复内柔，默认为空
   const [replyContent, setReplyContent] = useState('');
@@ -38,7 +40,7 @@ const Discussion = (props: LessonId) => {
   const reply = () => {
     postCommentByTermIdAndLessonId({
       lessonId: props.lessonId,
-      termId: termId,
+      termId: _termId,
       clientType: 'web_client',
       content: replyContent,
     }).then((res) => {
@@ -58,8 +60,8 @@ const Discussion = (props: LessonId) => {
 
   const getCommentInfo = () => {
     //获取评论
-    if (termId !== '') {
-      getCommentByTermIdAndLessonId(props.lessonId, termId).then((res) => {
+    if (_termId !== '') {
+      getCommentByTermIdAndLessonId(props.lessonId, _termId).then((res) => {
         if (res.status === 200) {
           if (res.data.success) {
             setCommentList(res.data.data);
@@ -78,7 +80,7 @@ const Discussion = (props: LessonId) => {
   useEffect(() => {
     console.log('getCommentInfo();');
     getCommentInfo();
-  }, [termId]);
+  }, [_termId]);
 
   useEffect(() => {
     setDisplayCommentList(commentList.slice(0, displayedComments));
@@ -103,7 +105,7 @@ const Discussion = (props: LessonId) => {
                 getCommentInfo={getCommentInfo}
                 comment={comment}
                 lessonId={props?.lessonId}
-                termId={termId}
+                termId={_termId}
                 key={index}
               />
             ))}
