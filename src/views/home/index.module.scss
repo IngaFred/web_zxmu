@@ -14,8 +14,8 @@
 .rowBtn2 {
   margin-left: 100px;
 }
-.model_title_all{
-  font-size: 24px;
+.model_title_all {
+  font-size: 20px;
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
@@ -28,6 +28,7 @@
 }
 .model_card {
   margin: 15px 0 30px 0;
+  width: 100%;
 }
 .divider {
   margin: 5px 0;
@@ -55,8 +56,37 @@
 .tag {
   margin-top: 10px;
 }
-.infoTitle{
+.infoTitle {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+}
+.model_title_big {
+  // text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+.model_text {
+  font-size: 16px;
+  color: #333;
+}
+
+.fixed_pop {
+  position: fixed;
+  width: 100px;
+  height: 300px;
+  left: 20px;
+  top: 100px;
+  font-size: 16px;
+}
+
+.fixed_pop a {
+  font-size: 16px;
+}
+
+.fixed_pop_item {
+  height: 30px;
+  line-height: 30px;
 }
