@@ -44,7 +44,11 @@ const ModelCard = (props: any) => {
   // 	}
   // }, [myPrem]);
   const handleMyCourse = (e: string, termId?: string) => {
-    navigate('/course', { state: { lessonId: { e }, termId: termId } });
+    if (isStu) {
+      navigate('/course', { state: { lessonId: { e }, termId: termId } });
+    } else {
+      navigate('/courseTeacher', { state: { lessonId: { e } } });
+    }
   };
   const handleMyDetail = (id: React.MouseEvent<HTMLButtonElement>) => {
     navigate('/detail', { state: { lessonId: { id } } });

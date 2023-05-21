@@ -90,7 +90,7 @@ const Discussion = (props: LessonId) => {
       {/* 标题 */}
       <div className={styles.title}>
         评论
-        <TermsSelect />
+        {!props?.termId && <TermsSelect />}
       </div>
 
       {/* 无评论时展示 */}
