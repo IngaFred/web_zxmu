@@ -5,7 +5,7 @@ function Gonggao() {
   return (
     <div className={styles.homeAll}>
       <div className={styles.model_card}>
-        <div className={styles.model_title_big}>课程公告</div>
+        <div className={styles.model_title_big}>课程大纲</div>
         <iframe
           style={{
             border: 'none',
