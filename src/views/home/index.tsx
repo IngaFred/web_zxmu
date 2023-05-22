@@ -249,7 +249,7 @@ export default function Home() {
               rel="noreferrer"
             >
               <img
-                src="https://hlxy.zcmu.edu.cn/__local/7/6A/9F/58F0A63CBDB46EA662683B9290A_81AECD58_1FF9D.png"
+                src="http://hlxy.zcmu.edu.cn/__local/7/6A/9F/58F0A63CBDB46EA662683B9290A_81AECD58_1FF9D.png"
                 height={'100%'}
                 width={'100%'}
               />
@@ -265,7 +265,7 @@ export default function Home() {
               rel="noreferrer"
             >
               <img
-                src="https://hlxy.zcmu.edu.cn/__local/F/4F/BF/39E592CADD7B8E86109BA3D7626_07F801C4_20B5B.png"
+                src="http://hlxy.zcmu.edu.cn/__local/F/4F/BF/39E592CADD7B8E86109BA3D7626_07F801C4_20B5B.png"
                 height={'100%'}
                 width={'100%'}
               />
@@ -281,7 +281,7 @@ export default function Home() {
               rel="noreferrer"
             >
               <img
-                src="https://hlxy.zcmu.edu.cn/__local/1/33/2E/2D34790319E566B0FD664DA9452_B4F8A987_69B1E.png"
+                src="http://hlxy.zcmu.edu.cn/__local/1/33/2E/2D34790319E566B0FD664DA9452_B4F8A987_69B1E.png"
                 height={'100%'}
                 width={'100%'}
               />

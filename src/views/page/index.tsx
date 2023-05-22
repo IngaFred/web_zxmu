@@ -15,7 +15,7 @@ export default function Page() {
       <Header className={styles.header}>
         <HomeHeader />
       </Header>
-      <div style={{ height: '50px' }}></div>
+      <div style={{ height: '64px' }}></div>
       <Layout>
         <Layout style={{ padding: '10px', paddingBottom: '0' }}>
           {path !== '/home' && <HomeBreadcrumb />}
