@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { getModel, getModelLessons, getMyLessons } from '../../service/home';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
-import Information from '../information';
+import Information, { InformationGun } from '../information';
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 
@@ -300,7 +300,7 @@ export default function Home() {
             </div>
           </div>
         </Row>
-        <Row gutter={24}>
+        {/* <Row gutter={24}>
           <div className={styles.model_card}>
             <div className={styles.model_title_big} ref={myRef2}>
               二、课程公告
@@ -314,11 +314,11 @@ export default function Home() {
               src={'./教学大纲.html'}
             />
           </div>
-        </Row>
+        </Row> */}
         <Row gutter={24}>
           <div className={styles.model_card}>
             <div className={styles.model_title_big} ref={myRef3}>
-              三、课程资源
+              二、课程资源
               <Empty description="暂无资源" />
             </div>
           </div>
@@ -326,7 +326,7 @@ export default function Home() {
         <Row gutter={24}>
           <div className={styles.model_card}>
             <div className={styles.model_title_big} ref={myRef4}>
-              四、主要课程
+              三、主要课程
             </div>
             {model.map((item, index) => (
               <ModelCard
@@ -340,9 +340,10 @@ export default function Home() {
         <Row gutter={24}>
           <div className={styles.model_card}>
             <div className={styles.model_title_big} ref={myRef5}>
-              五、教师团队
+              四、教师团队
             </div>
-            <Information showTitle={false} />
+
+            <InformationGun showTitle={false} />
           </div>
         </Row>
         {/* 课程主题 */}
@@ -364,7 +365,7 @@ export default function Home() {
           <a
             onClick={() => {
               // @ts-ignore
-              myRef2?.current?.scrollIntoView?.({
+              myRef3?.current?.scrollIntoView?.({
                 behavior: 'smooth',
                 block: 'start',
               });
@@ -375,7 +376,7 @@ export default function Home() {
           <a
             onClick={() => {
               // @ts-ignore
-              myRef3?.current?.scrollIntoView?.({
+              myRef4?.current?.scrollIntoView?.({
                 behavior: 'smooth',
                 block: 'start',
               });
@@ -386,24 +387,13 @@ export default function Home() {
           <a
             onClick={() => {
               // @ts-ignore
-              myRef4?.current?.scrollIntoView?.({
-                behavior: 'smooth',
-                block: 'start',
-              });
-            }}
-          >
-            <div className={styles.fixed_pop_item}>4</div>
-          </a>
-          <a
-            onClick={() => {
-              // @ts-ignore
               myRef5?.current?.scrollIntoView?.({
                 behavior: 'smooth',
                 block: 'start',
               });
             }}
           >
-            <div className={styles.fixed_pop_item}>5</div>
+            <div className={styles.fixed_pop_item}>4</div>
           </a>
         </div>
       </div>
