@@ -1,78 +1,82 @@
+.header {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+}
 .home-header {
-	font-size: 34px;
-	display: flex;
-	align-items: center;
-	height: 100%;
-	.home-icon{
-		height: 100%;
-		width: 35px;
-		margin-left: 80px;
-	}
-	.home-header-logo {
-		.icon-react,
-		.icon-icon-test,
-		.icon-typescript {
-			margin-right: 5px;
-			font-size: inherit;
-		}
+  font-size: 34px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  .home-icon {
+    height: 100%;
+    width: 35px;
+    margin-left: 80px;
+  }
+  .home-header-logo {
+    .icon-react,
+    .icon-icon-test,
+    .icon-typescript {
+      margin-right: 5px;
+      font-size: inherit;
+    }
 
-		.icon-react {
-			color: #61dafb;
-			padding-left: 50px;
-		}
+    .icon-react {
+      color: #61dafb;
+      padding-left: 50px;
+    }
 
-		.icon-icon-test {
-			color: #deb887;
-		}
+    .icon-icon-test {
+      color: #deb887;
+    }
 
-		.icon-typescript {
-			color: blue;
-		}
-	}
+    .icon-typescript {
+      color: blue;
+    }
+  }
 
-	.home-header-title {
-		margin-left: 20px;
-		font-weight: 700;
-		font-size: 20px;
-		margin-right: auto;
-	}
-	.home-menu{
-		height: 100%;
-		font-size: 16px !important;
-		font-weight: bold;
-	}
-	.home-header-space {
-		margin-left: 30px;
-		padding-right: 40px;
-		font-weight: bold;
-	}
-	
+  .home-header-title {
+    margin-left: 20px;
+    font-weight: 700;
+    font-size: 20px;
+    margin-right: auto;
+  }
+  .home-menu {
+    height: 100%;
+    font-size: 16px !important;
+    font-weight: bold;
+  }
+  .home-header-space {
+    margin-left: 30px;
+    padding-right: 40px;
+    font-weight: bold;
+  }
 }
 .home-main {
-	margin-top: 10px;
-	background: #fff;
-	flex-grow: 1;
-	position: relative;
+  margin-top: 10px;
+  background: #fff;
+  flex-grow: 1;
+  position: relative;
 }
 .home-aside {
-	height: calc(100vh - 64px);
-	border: none;
-	padding-top: 0px;
+  height: calc(100vh - 64px);
+  border: none;
+  padding-top: 0px;
 }
 .home-breadcrumb {
-	background: #fff;
-	height: 40px;
-	display: flex;
-	align-items: center;
-	padding-left: 145px;
-	font-size: 16px;
-	line-height: 20px;
+  background: #fff;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 145px;
+  font-size: 16px;
+  line-height: 20px;
 }
 .home-footer {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: auto;
-	background: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  background: #fff;
 }

@@ -1,9 +1,9 @@
 .homeAll {
-  margin: 20px 150px;
+  margin: 20px 50px;
 }
 .card {
-  margin-right: 20px;
-  margin-bottom: 25px;
+  margin-right: 10px;
+  margin-bottom: 12px;
 }
 .rowBtn {
   margin: 0 15px;
@@ -75,18 +75,29 @@
 
 .fixed_pop {
   position: fixed;
-  width: 100px;
-  height: 300px;
-  left: 20px;
-  top: 100px;
+  width: 50px;
+  right: 20px;
+  top: 300px;
   font-size: 16px;
+  background: antiquewhite;
+  border-radius: 20px;
+  padding-bottom: 10px;
 }
 
 .fixed_pop a {
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .fixed_pop_item {
-  height: 30px;
-  line-height: 30px;
+  margin-left: 5px;
+  margin-top: 10px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 20px;
+  background: #fff;
+}
+.home_wrap {
 }

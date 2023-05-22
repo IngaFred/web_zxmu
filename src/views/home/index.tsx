@@ -25,6 +25,7 @@ const contentStyle: React.CSSProperties = {
   lineHeight: '340px',
   textAlign: 'center',
   background: '#364d79',
+  marginTop: '-20px',
 };
 
 /**
@@ -64,7 +65,7 @@ const ModelCard = (props: any) => {
         <Row gutter={[8, 16]}>
           {modelLessons.length > 0 ? (
             modelLessons.map((item: any, index: number, dataSource: any) => (
-              <Col key={index} span={8}>
+              <Col key={index} span={6}>
                 <Card
                   key={index}
                   size="small"
@@ -236,7 +237,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={styles.homeAll}>
+    <div className={styles.home_wrap}>
       {/* 公告栏 */}
       <Carousel autoplay>
         <div>
@@ -288,122 +289,123 @@ export default function Home() {
           </div>
         </div>
       </Carousel>
-      <Row gutter={24}>
-        <div className={styles.model_card}>
-          <div className={styles.model_title_big} ref={myRef1}>
-            一、课程介绍
+      <div className={styles.homeAll}>
+        <Row gutter={24}>
+          <div className={styles.model_card}>
+            <div className={styles.model_title_big} ref={myRef1}>
+              一、课程介绍
+            </div>
+            <div className={styles.model_text}>
+              依托国家一流专业建设点，在《护理美育》社会实践省一流课程的基础上进一步深化，有机融入思政教育元素和劳动教育要求，培养学生在社会实践中认知美、理解美、传播美、创造美的能力，进一步提升学生的职业素养和劳动能力，培养学生的社会责任和护理使命，不断丰富“最美护理”的品牌内涵。
+            </div>
           </div>
-          <div className={styles.model_text}>
-            依托国家一流专业建设点，在《护理美育》社会实践省一流课程的基础上进一步深化，有机融入思政教育元素和劳动教育要求，培养学生在社会实践中认知美、理解美、传播美、创造美的能力，进一步提升学生的职业素养和劳动能力，培养学生的社会责任和护理使命，不断丰富“最美护理”的品牌内涵。
-          </div>
-        </div>
-      </Row>
-      <Row gutter={24}>
-        <div className={styles.model_card}>
-          <div className={styles.model_title_big} ref={myRef2}>
-            二、课程公告
-          </div>
-          <iframe
-            style={{
-              border: 'none',
-              width: '100%',
-              height: '600px',
-            }}
-            src={'./教学大纲.html'}
-          />
-        </div>
-      </Row>
-      <Row gutter={24}>
-        <div className={styles.model_card}>
-          <div className={styles.model_title_big} ref={myRef3}>
-            三、课程资源
-            <Empty description="暂无资源" />
-          </div>
-        </div>
-      </Row>
-      <Row gutter={24}>
-        <div className={styles.model_card}>
-          <div className={styles.model_title_big} ref={myRef4}>
-            四、主要课程
-          </div>
-          {model.map((item, index) => (
-            <ModelCard
-              data={item}
-              modelLessons={modelLessons[index]}
-              key={index}
+        </Row>
+        <Row gutter={24}>
+          <div className={styles.model_card}>
+            <div className={styles.model_title_big} ref={myRef2}>
+              二、课程公告
+            </div>
+            <iframe
+              style={{
+                border: 'none',
+                width: '100%',
+                height: '600px',
+              }}
+              src={'./教学大纲.html'}
             />
-          ))}
-        </div>
-      </Row>
-      <Row gutter={24}>
-        <div className={styles.model_card}>
-          <div className={styles.model_title_big} ref={myRef5}>
-            五、教师团队
           </div>
-          <Information showTitle={false} />
+        </Row>
+        <Row gutter={24}>
+          <div className={styles.model_card}>
+            <div className={styles.model_title_big} ref={myRef3}>
+              三、课程资源
+              <Empty description="暂无资源" />
+            </div>
+          </div>
+        </Row>
+        <Row gutter={24}>
+          <div className={styles.model_card}>
+            <div className={styles.model_title_big} ref={myRef4}>
+              四、主要课程
+            </div>
+            {model.map((item, index) => (
+              <ModelCard
+                data={item}
+                modelLessons={modelLessons[index]}
+                key={index}
+              />
+            ))}
+          </div>
+        </Row>
+        <Row gutter={24}>
+          <div className={styles.model_card}>
+            <div className={styles.model_title_big} ref={myRef5}>
+              五、教师团队
+            </div>
+            <Information showTitle={false} />
+          </div>
+        </Row>
+        {/* 课程主题 */}
+        <Row gutter={24}></Row>
+        {/* <Information /> */}
+        <div className={styles.fixed_pop}>
+          {/* 跳转到一、课程介绍 */}
+          <a
+            onClick={() => {
+              // @ts-ignore
+              myRef1?.current?.scrollIntoView?.({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }}
+          >
+            <div className={styles.fixed_pop_item}>1</div>
+          </a>
+          <a
+            onClick={() => {
+              // @ts-ignore
+              myRef2?.current?.scrollIntoView?.({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }}
+          >
+            <div className={styles.fixed_pop_item}>2</div>
+          </a>
+          <a
+            onClick={() => {
+              // @ts-ignore
+              myRef3?.current?.scrollIntoView?.({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }}
+          >
+            <div className={styles.fixed_pop_item}>3</div>
+          </a>
+          <a
+            onClick={() => {
+              // @ts-ignore
+              myRef4?.current?.scrollIntoView?.({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }}
+          >
+            <div className={styles.fixed_pop_item}>4</div>
+          </a>
+          <a
+            onClick={() => {
+              // @ts-ignore
+              myRef5?.current?.scrollIntoView?.({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }}
+          >
+            <div className={styles.fixed_pop_item}>5</div>
+          </a>
         </div>
-      </Row>
-      {/* 课程主题 */}
-      <Row gutter={24}></Row>
-      {/* <Information /> */}
-      <div className={styles.fixed_pop}>
-        首页导航栏
-        {/* 跳转到一、课程介绍 */}
-        <a
-          onClick={() => {
-            // @ts-ignore
-            myRef1?.current?.scrollIntoView?.({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }}
-        >
-          <div className={styles.fixed_pop_item}>课程介绍</div>
-        </a>
-        <a
-          onClick={() => {
-            // @ts-ignore
-            myRef2?.current?.scrollIntoView?.({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }}
-        >
-          <div className={styles.fixed_pop_item}>课程公告</div>
-        </a>
-        <a
-          onClick={() => {
-            // @ts-ignore
-            myRef3?.current?.scrollIntoView?.({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }}
-        >
-          <div className={styles.fixed_pop_item}>课程资源</div>
-        </a>
-        <a
-          onClick={() => {
-            // @ts-ignore
-            myRef4?.current?.scrollIntoView?.({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }}
-        >
-          <div className={styles.fixed_pop_item}>主要课程</div>
-        </a>
-        <a
-          onClick={() => {
-            // @ts-ignore
-            myRef5?.current?.scrollIntoView?.({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }}
-        >
-          <div className={styles.fixed_pop_item}>教师团队</div>
-        </a>
       </div>
     </div>
   );

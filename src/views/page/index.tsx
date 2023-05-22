@@ -8,21 +8,22 @@ import { useLocation } from 'react-router-dom';
 const { Header, Content, Sider } = Layout;
 
 export default function Page() {
-	const location = useLocation()
-	const path = location.pathname
-	return (
-		<Layout style={{ height: '' }}>
-			<Header className="header">
-				<HomeHeader />
-			</Header>
-			<Layout>
-				<Layout style={{ padding: '10px', paddingBottom: '0' }}>
-					{path !== '/home' && <HomeBreadcrumb />}
-					<Content className={styles['home-main']}>
-						<HomeMain />
-					</Content>
-				</Layout>
-			</Layout>
-		</Layout>
-	);
+  const location = useLocation();
+  const path = location.pathname;
+  return (
+    <Layout style={{ height: '' }}>
+      <Header className={styles.header}>
+        <HomeHeader />
+      </Header>
+      <div style={{ height: '50px' }}></div>
+      <Layout>
+        <Layout style={{ padding: '10px', paddingBottom: '0' }}>
+          {path !== '/home' && <HomeBreadcrumb />}
+          <Content className={styles['home-main']}>
+            <HomeMain />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
+  );
 }
