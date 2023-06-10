@@ -65,7 +65,7 @@ const ModelCard = (props: any) => {
         <Row gutter={[8, 16]}>
           {modelLessons.length > 0 ? (
             modelLessons.map((item: any, index: number, dataSource: any) => (
-              <Col key={index} span={6}>
+              <Col key={index} span={4.8}>
                 <Card
                   key={index}
                   size="small"
