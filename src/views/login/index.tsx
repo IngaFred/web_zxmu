@@ -28,7 +28,7 @@ export default function Login() {
 		account: string;
 		password: string;
 	}
-	const testUsers: User[] = [
+	const testUsers: User[] = [ 
 		// 测试1 学生
 		{
 			account: '202112213801013',
@@ -82,29 +82,10 @@ export default function Login() {
 			<div className={styles.login}>
 				<div className={styles.header}>
 					<span className={styles['header-logo']}>
-						{/* <i
-							className={classNames(
-								'iconfont icon-react',
-								styles['icon-react']
-							)}
-						></i>
-						<i
-							className={classNames(
-								'iconfont icon-icon-test',
-								styles['icon-icon-test']
-							)}
-						></i>
-						<i
-							className={classNames(
-								'iconfont icon-typescript',
-								styles['icon-typescript']
-							)}
-						></i> */}
 						<img src={logo} className={styles['home-icon']} />
 					</span>
-					<span className={styles['header-title']}>最美护理</span>
+					<span className={styles['header-title']}>最美护理社会实践课</span>
 				</div>
-				{/* <div className={styles.desc}>React18 + TypeScript4</div> */}
 				<div className={styles.desc} />
 
 				<Form
@@ -117,7 +98,6 @@ export default function Login() {
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
 					className={styles.main}
-					// 将对象绑定到组件
 					form={form}
 				>
 					<Form.Item
@@ -144,7 +124,7 @@ export default function Login() {
 					</Form.Item>
 				</Form>
 
-				{/* <div className={styles['test-users']}>
+				<div className={styles['test-users']}>
 					<Row gutter={20}>
 						{testUsers.map((v) => (
 							<Col key={v.account} span={12} push={5}>
@@ -164,7 +144,7 @@ export default function Login() {
 							</Col>
 						))}
 					</Row>
-				</div> */}
+				</div>
 			</div>
 		</div>
 	);

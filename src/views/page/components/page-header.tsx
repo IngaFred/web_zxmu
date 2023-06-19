@@ -69,17 +69,11 @@ export default function HomeHeader() {
         <img src={logo} className={styles['home-icon']} />
       </span>
       {/* name */}
-      <span className={styles['home-header-title']}>最美护理</span>
+      <span className={styles['home-header-title']}>最美护理社会实践课</span>
       {/* 菜单栏 */}
       <div className={styles['home-menu']}>
         <HomeMenu />
       </div>
-      {/* Dropdown下拉菜单1 Bell */}
-      {/* <Dropdown menu={{ items: items1 }} arrow placement="bottom">
-				<Badge dot>
-					<BellOutlined style={{ fontSize: 20 }} />
-				</Badge>
-			</Dropdown> */}
       {/* Dropdown下拉菜单2  Avatar头像*/}
       <Dropdown menu={{ items: items2 }} arrow placement="bottom">
         {/* space 间距包住 */}
