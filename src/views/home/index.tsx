@@ -174,6 +174,7 @@ export default function Home() {
     modelLessons5,
     modelLessons6,
   ];
+  const { Meta } = Card;
 
   useEffect(() => {
     getModel().then((ret) => {
@@ -319,8 +320,43 @@ export default function Home() {
           <div className={styles.model_card}>
             <div className={styles.model_title_big} ref={myRef3}>
               二、课程资源
-              <Empty description="暂无资源" />
+              {/* <Empty description="暂无资源" /> */}
             </div>
+            <Row gutter={16}>
+              <Col span={5}>
+                <Card
+                  hoverable
+                  cover={<img alt="example" src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/d196416f-af2e-48b3-8cee-eac01895d006.png" />}
+                >
+                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/c186a19b-b11a-4211-afce-e331a33763e8.mp4"
+                    target="_blank">
+                    <Meta title="红色引领绿色发展探寻乡村振兴共富之路2.mp4" />
+                  </a>
+                </Card>
+              </Col>
+              <Col span={5}>
+                <Card
+                  hoverable
+                  cover={<img alt="example" src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/85414126-6f25-4499-a8eb-1b02280811df.png" />}
+                >
+                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/f49712e8-abf8-43b3-bfaa-f6eb32b69b87.mp4"
+                    target="_blank">
+                    <Meta title="坚定初心永不忘最美护理守健康高航.mp4" />
+                  </a>
+                </Card>
+              </Col>
+              <Col span={5}>
+                <Card
+                  hoverable
+                  cover={<img alt="example" src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/1044e1db-1f0a-421d-baf5-fedee06ec869.png" />}
+                >
+                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/af577955-53c6-433b-b868-9522bbf78078.mp4"
+                    target="_blank">
+                    <Meta title="“最美护理”社会实践课程.mp4" />
+                  </a>
+                </Card>
+              </Col>
+            </Row>
           </div>
         </Row>
         <Row gutter={24}>
