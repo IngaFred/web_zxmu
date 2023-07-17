@@ -57,7 +57,7 @@ export const postCreateLesson = async (Lesson: Lesson) => {
   );
   return res;
 };
-//教师创建课程
+//教师修改已创建的课程
 export const postUpdateLesson = async (Lesson: Lesson) => {
   const res = await http.post(
     '/lesson/update',

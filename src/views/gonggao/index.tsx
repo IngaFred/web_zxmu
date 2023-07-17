@@ -12,7 +12,7 @@ function Gonggao() {
             width: '100%',
             height: '100vh',
           }}
-          src={'./教学大纲.html'}
+          src={'./教学大纲.htm'}
         />
       </div>
     </div>

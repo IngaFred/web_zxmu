@@ -11,7 +11,7 @@ interface LessonId {
   //课程id
   e: string;
 }
-
+ 
 interface MyUpload {
   getResourceLists: (resourceLists: string[]) => void;
 }
@@ -25,9 +25,9 @@ const UpdateLesson = (props: MyUpload) => {
 
   useEffect(() => {
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
-    props.getResourceLists = (resourceLists) => {
-      resourceLists = newResourceListIds;
-    };
+    // props.getResourceLists = (resourceLists) => {
+    //   resourceLists = newResourceListIds;
+    // };
     console.log('newResourceListIds', resourceLists);
   }, [resourceLists]);
 
@@ -84,6 +84,7 @@ const UpdateLesson = (props: MyUpload) => {
     }
   }, [lessonId]);
 
+  //资源文件下载
   const handleDownload = (url: string) => {
     fetch(url, { mode: 'no-cors' })
       .then((res) => res.blob())

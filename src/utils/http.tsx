@@ -8,8 +8,8 @@ import { clearToken } from '../store/modules/user';
 
 // 创建实例
 const instance = axios.create({
-  baseURL: 'https://zmhlsjk.zcmu.edu.cn',
-  // baseURL: 'https://zcmu.vxpage.top',
+  // baseURL: 'https://zmhlsjk.zcmu.edu.cn',
+  baseURL: 'https://zcmu.vxpage.top',
   timeout: 2000,
 });
 
