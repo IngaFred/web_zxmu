@@ -224,7 +224,7 @@ export default function Home() {
         message.error("获取model失败");
       }
     });
-  }, []);
+  }, [model]);
 
   return (
     <div className={styles.home_wrap}>
