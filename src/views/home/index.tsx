@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './index.module.scss';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./index.module.scss";
 import {
   Carousel,
   Card,
@@ -10,22 +10,23 @@ import {
   Tag,
   Divider,
   Empty,
-} from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { getModel, getModelLessons, getMyLessons } from '../../service/home';
-import { RootState } from '../../store';
-import { useSelector } from 'react-redux';
-import Information, { InformationGun } from '../information';
+} from "antd";
+import { useNavigate } from "react-router-dom";
+import { getModel, getModelLessons, getMyLessons } from "../../service/home";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import Information, { InformationGun } from "../information";
+import { chooseLesson } from "../../service/home";
 
 // 首页（公告，主题分类，课程列表，我的作业，个人信息）
 
 const contentStyle: React.CSSProperties = {
-  height: '380px',
-  color: '#fff',
-  lineHeight: '340px',
-  textAlign: 'center',
-  background: '#364d79',
-  marginTop: '-20px',
+  height: "380px",
+  color: "#fff",
+  lineHeight: "340px",
+  textAlign: "center",
+  background: "#364d79",
+  marginTop: "-20px",
 };
 
 /**
@@ -35,24 +36,20 @@ const contentStyle: React.CSSProperties = {
 const ModelCard = (props: any) => {
   const myPrem = useSelector((state: RootState) => state.user.myPrem);
   const termId = useSelector((state: RootState) => state.user.termId);
-  console.log('myPrem :>> ', myPrem);
-  const isStu = myPrem === '学生权限';
+  //console.log("myPrem :>> ", myPrem);
+  const isStu = myPrem === "学生权限";
   const { data, modelLessons } = props;
   const navigate = useNavigate();
-  // useEffect(() => {
-  // 	if (myPrem === '教师权限') {
-  // 		navigate('/courseList');
-  // 	}
-  // }, [myPrem]);
+
   const handleMyCourse = (e: string, termId?: string) => {
     if (isStu) {
-      navigate('/course', { state: { lessonId: { e }, termId: termId } });
+      navigate("/course", { state: { lessonId: { e }, termId: termId } });
     } else {
-      navigate('/courseTeacher', { state: { lessonId: { e } } });
+      navigate("/courseTeacher", { state: { lessonId: { e } } });
     }
   };
   const handleMyDetail = (id: React.MouseEvent<HTMLButtonElement>) => {
-    navigate('/detail', { state: { lessonId: { id } } });
+    navigate("/detail", { state: { lessonId: { id } } });
   };
   if (!modelLessons) {
     return null;
@@ -71,7 +68,7 @@ const ModelCard = (props: any) => {
                   size="small"
                   className={styles.card}
                   actions={[
-                    <Row justify={'space-between'}>
+                    <Row justify={"space-between"}>
                       <Button
                         className={styles.rowBtn}
                         onClick={() =>
@@ -96,19 +93,11 @@ const ModelCard = (props: any) => {
                           <Button
                             className={styles.rowBtn}
                             onClick={() => {
-                              let flag = true; // 用于判断是否有课程被选中
-                              dataSource.map((item: any) => {
-                                if (item.choosed === true) {
-                                  flag = false;
+                              chooseLesson(item.lessonId).then((res) => {
+                                if (res.data.success) {
+                                  message.success(res.data.errorMsg);
                                 }
-                                return null;
                               });
-
-                              if (!flag) {
-                                message.warning('一个主题只能选择一门课');
-                                return;
-                              }
-                              message.success('选课成功');
                             }}
                           >
                             选择课程
@@ -180,7 +169,7 @@ export default function Home() {
     getModel().then((ret) => {
       if (ret.data.success) {
         // message.success(ret.data.errorMsg);
-        console.log('model', ret.data);
+        //console.log("model", ret.data);
         setModel(ret.data.data);
         for (let i = 0; i < ret.data.data.length; i++) {
           const modelId = ret.data.data[i].modelId;
@@ -232,7 +221,7 @@ export default function Home() {
           }
         }
       } else {
-        message.error('获取model失败');
+        message.error("获取model失败");
       }
     });
   }, []);
@@ -251,8 +240,8 @@ export default function Home() {
             >
               <img
                 src="http://hlxy.zcmu.edu.cn/__local/7/6A/9F/58F0A63CBDB46EA662683B9290A_81AECD58_1FF9D.png"
-                height={'100%'}
-                width={'100%'}
+                height={"100%"}
+                width={"100%"}
               />
             </a>
           </div>
@@ -267,8 +256,8 @@ export default function Home() {
             >
               <img
                 src="http://hlxy.zcmu.edu.cn/__local/F/4F/BF/39E592CADD7B8E86109BA3D7626_07F801C4_20B5B.png"
-                height={'100%'}
-                width={'100%'}
+                height={"100%"}
+                width={"100%"}
               />
             </a>
           </div>
@@ -283,8 +272,8 @@ export default function Home() {
             >
               <img
                 src="http://hlxy.zcmu.edu.cn/__local/1/33/2E/2D34790319E566B0FD664DA9452_B4F8A987_69B1E.png"
-                height={'100%'}
-                width={'100%'}
+                height={"100%"}
+                width={"100%"}
               />
             </a>
           </div>
@@ -326,10 +315,17 @@ export default function Home() {
               <Col span={5}>
                 <Card
                   hoverable
-                  cover={<img alt="example" src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/d196416f-af2e-48b3-8cee-eac01895d006.png" />}
+                  cover={
+                    <img
+                      alt="example"
+                      src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/d196416f-af2e-48b3-8cee-eac01895d006.png"
+                    />
+                  }
                 >
-                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/c186a19b-b11a-4211-afce-e331a33763e8.mp4"
-                    target="_blank">
+                  <a
+                    href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/c186a19b-b11a-4211-afce-e331a33763e8.mp4"
+                    target="_blank"
+                  >
                     <Meta title="红色引领绿色发展探寻乡村振兴共富之路2.mp4" />
                   </a>
                 </Card>
@@ -337,10 +333,17 @@ export default function Home() {
               <Col span={5}>
                 <Card
                   hoverable
-                  cover={<img alt="example" src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/85414126-6f25-4499-a8eb-1b02280811df.png" />}
+                  cover={
+                    <img
+                      alt="example"
+                      src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/85414126-6f25-4499-a8eb-1b02280811df.png"
+                    />
+                  }
                 >
-                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/f49712e8-abf8-43b3-bfaa-f6eb32b69b87.mp4"
-                    target="_blank">
+                  <a
+                    href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/f49712e8-abf8-43b3-bfaa-f6eb32b69b87.mp4"
+                    target="_blank"
+                  >
                     <Meta title="坚定初心永不忘最美护理守健康高航.mp4" />
                   </a>
                 </Card>
@@ -348,10 +351,17 @@ export default function Home() {
               <Col span={5}>
                 <Card
                   hoverable
-                  cover={<img alt="example" src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/1044e1db-1f0a-421d-baf5-fedee06ec869.png" />}
+                  cover={
+                    <img
+                      alt="example"
+                      src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/1044e1db-1f0a-421d-baf5-fedee06ec869.png"
+                    />
+                  }
                 >
-                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/af577955-53c6-433b-b868-9522bbf78078.mp4"
-                    target="_blank">
+                  <a
+                    href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/af577955-53c6-433b-b868-9522bbf78078.mp4"
+                    target="_blank"
+                  >
                     <Meta title="“最美护理”社会实践课程.mp4" />
                   </a>
                 </Card>
@@ -391,8 +401,8 @@ export default function Home() {
             onClick={() => {
               // @ts-ignore
               myRef1?.current?.scrollIntoView?.({
-                behavior: 'smooth',
-                block: 'start',
+                behavior: "smooth",
+                block: "start",
               });
             }}
           >
@@ -402,8 +412,8 @@ export default function Home() {
             onClick={() => {
               // @ts-ignore
               myRef3?.current?.scrollIntoView?.({
-                behavior: 'smooth',
-                block: 'start',
+                behavior: "smooth",
+                block: "start",
               });
             }}
           >
@@ -413,8 +423,8 @@ export default function Home() {
             onClick={() => {
               // @ts-ignore
               myRef4?.current?.scrollIntoView?.({
-                behavior: 'smooth',
-                block: 'start',
+                behavior: "smooth",
+                block: "start",
               });
             }}
           >
@@ -424,8 +434,8 @@ export default function Home() {
             onClick={() => {
               // @ts-ignore
               myRef5?.current?.scrollIntoView?.({
-                behavior: 'smooth',
-                block: 'start',
+                behavior: "smooth",
+                block: "start",
               });
             }}
           >

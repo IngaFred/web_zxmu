@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   AppstoreOutlined,
   MailOutlined,
   SettingOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
-import styles from '../index.module.scss';
-import { routes } from '../../../router';
-import { Link, RouteObject, matchRoutes, useLocation } from 'react-router-dom';
-import { useAppDispatch } from '../../../store';
-import { getPerm } from '../../../service/page';
-import { updateMyPrem } from '../../../store/modules/user';
+} from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import { Menu } from "antd";
+import styles from "../index.module.scss";
+import { routes } from "../../../router";
+import { Link, RouteObject, matchRoutes, useLocation } from "react-router-dom";
+import { useAppDispatch } from "../../../store";
+import { getPerm } from "../../../service/page";
+import { updateMyPrem } from "../../../store/modules/user";
 
 interface Perm {
   permName: string;
 }
 const permission = {
-  stu: ['home', 'gonggao', 'list', 'information'],
-  tea: ['home', 'gonggao', 'courseList', 'information'],
+  stu: ["home", "gonggao", "list", "information"],
+  tea: ["home", "gonggao", "courseList", "information"],
 };
 const filter = (menus: RouteObject[], p: string[]) => {
   const newMenu: RouteObject[] = [];
@@ -43,7 +43,7 @@ const App: React.FC = () => {
       const perm = ret?.data?.data?.[0] || [];
       if (success) {
         dispatch(updateMyPrem(perm?.permName));
-        if (perm?.permName === '学生权限') {
+        if (perm?.permName === "学生权限") {
           const items = filter(routes, permission.stu);
           setMyItems(items);
         } else {
@@ -55,10 +55,10 @@ const App: React.FC = () => {
   }, []);
   const location = useLocation();
   const matchs = matchRoutes(routes, location);
-  const subpath = matchs![0].pathnameBase || '';
-  const path = matchs![1].pathnameBase || '';
-  let menuItems: MenuProps['items'] | undefined = undefined;
-  const items: MenuProps['items'] = myItems?.map((v1) => {
+  const subpath = matchs![0].pathnameBase || "";
+  const path = matchs![1].pathnameBase || "";
+  let menuItems: MenuProps["items"] | undefined = undefined;
+  const items: MenuProps["items"] = myItems?.map((v1) => {
     menuItems = v1.children?.map((v2) => {
       return {
         key: v1.path! + v2.path!,
@@ -74,14 +74,14 @@ const App: React.FC = () => {
     };
   });
   // const items: MenuProps['items'] = allItems[0] || undefined;
-  console.log('items :>> ', items);
+  //console.log('items :>> ', items);
   return (
     <Menu
       selectedKeys={[path]}
       openKeys={[subpath]}
       mode="horizontal"
       items={menuItems}
-      style={{ width: '400px' }}
+      style={{ width: "400px" }}
     />
   );
 };

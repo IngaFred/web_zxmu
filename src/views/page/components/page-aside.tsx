@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Menu } from 'antd';
-import type { MenuProps } from 'antd';
-import styles from '../index.module.scss';
+import React, { useEffect, useState } from "react";
+import { Menu } from "antd";
+import type { MenuProps } from "antd";
+import styles from "../index.module.scss";
 // 得到路由
-import { routes } from '../../../router';
-import { RouteObject } from 'react-router-dom';
+import { routes } from "../../../router";
+import { RouteObject } from "react-router-dom";
 // 克隆过滤路由
-import _ from 'lodash';
-import { useLocation, matchRoutes, Link } from 'react-router-dom';
+import _ from "lodash";
+import { useLocation, matchRoutes, Link } from "react-router-dom";
 // 拿到对应用户权限
-import { getPerm } from '../../../service/page';
-import { RootState, useAppDispatch } from '../../../store';
-import { useSelector } from 'react-redux';
-import { updateMyPrem } from '../../../store/modules/user';
+import { getPerm } from "../../../service/page";
+import { RootState, useAppDispatch } from "../../../store";
+import { useSelector } from "react-redux";
+import { updateMyPrem } from "../../../store/modules/user";
 // 定义一个接口，表示HomeAside组件的props类型
 interface HomeAsideProps {}
 // 定义一个接口，表示getPerm函数的返回值类型
@@ -22,26 +22,26 @@ interface Perm {
 // 定义常量对象，表示路由权限数组
 const permission = {
   stu: [
-    'home',
+    "home",
     // 'personal',
     // 'course',
-    'list',
+    "list",
     // 'detail',
-    'show',
-    'information',
+    "show",
+    "information",
   ],
   tea: [
-    'home',
+    "home",
     // 'personal',
-    'courseList',
+    "courseList",
     // 'courseTeacher',
     // 'detailTeacher',
-    'listTeacher',
+    "listTeacher",
     // 'scoringTeacher',
     // 'showTeacher',
-    'newTeacher',
+    "newTeacher",
     // 'createLesson',
-    'information',
+    "information",
     // 'detailListTeacher',
   ],
 };
@@ -50,9 +50,9 @@ const filter = (menus: RouteObject[], p: string[]) => {
   const newMenu: RouteObject[] = [];
   menus.forEach((item) => {
     const childrens = item.children ? filter(item.children, p) : undefined;
-    // console.log('p,item', p, item.name);
+    // //console.log('p,item', p, item.name);
     if (p.includes(item.name)) {
-      // console.log(true);
+      // //console.log(true);
       // @ts-ignore
       newMenu.push({
         ...item,
@@ -60,7 +60,7 @@ const filter = (menus: RouteObject[], p: string[]) => {
       });
     }
   });
-  // console.log('newMenu', newMenu);
+  // //console.log('newMenu', newMenu);
   return newMenu;
 };
 // 定义一个组件，使用HomeAsideProps接口作为props类型
@@ -71,19 +71,19 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
   const [myItems, setMyItems] = useState<RouteObject[] | null>([]);
   // 使用useEffect钩子函数，在组件挂载后，获取权限数据和菜单项数据
   useEffect(() => {
-    // console.log(111);
+    // //console.log(111);
     // 获取权限数据，并存储在myPerm状态变量中
     getPerm().then((ret) => {
-      // console.log('2222', ret);
+      // //console.log('2222', ret);
 
       const { success } = ret?.data || undefined;
       const perm = ret?.data?.data?.[0] || [];
       if (success) {
         dispatch(updateMyPrem(perm?.permName));
         // 根据权限数据，使用过滤函数的对象映射，过滤菜单项，并存储在items状态变量中
-        if (perm?.permName === '学生权限') {
+        if (perm?.permName === "学生权限") {
           const items = filter(routes, permission.stu);
-          // console.log('item', items);
+          // //console.log('item', items);
 
           setMyItems(items);
         } else {
@@ -99,7 +99,7 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
   // 获取当前的路由位置，并存储在location变量中
   const location = useLocation();
   // 变成具备动态菜单渲染的路由menu 转换成菜单栏
-  const items: MenuProps['items'] = myItems?.map((v1) => {
+  const items: MenuProps["items"] = myItems?.map((v1) => {
     const children = v1.children?.map((v2) => {
       return {
         key: v1.path! + v2.path!,
@@ -117,9 +117,9 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
     };
   });
   const matchs = matchRoutes(routes, location);
-  const subpath = matchs![0].pathnameBase || '';
-  const path = matchs![1].pathnameBase || '';
-  // console.log('myitems', myItems);
+  const subpath = matchs![0].pathnameBase || "";
+  const path = matchs![1].pathnameBase || "";
+  // //console.log('myitems', myItems);
 
   return (
     <Menu
@@ -143,7 +143,7 @@ const HomeAside: React.FC<HomeAsideProps> = () => {
           children,
         };
       })}
-      className={styles['home-aside']}
+      className={styles["home-aside"]}
     />
   );
 };

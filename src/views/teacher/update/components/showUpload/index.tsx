@@ -1,4 +1,4 @@
-import { UploadOutlined, ContainerTwoTone } from '@ant-design/icons';
+import { UploadOutlined, ContainerTwoTone } from "@ant-design/icons";
 import {
   Layout,
   Input,
@@ -13,22 +13,22 @@ import {
   Card,
   Row,
   Space,
-} from 'antd';
-import styles from './index.module.scss';
+} from "antd";
+import styles from "./index.module.scss";
 import {
   getLessonInfo,
   getModel,
   postCreateLesson,
   postUpdateLesson,
-} from '../../../../../service/course';
-import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import defaultClassCover from '../../../../../assets/images/course/defaultClassCover.jpg';
-import { RcFile } from 'antd/es/upload';
+} from "../../../../../service/course";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import defaultClassCover from "../../../../../assets/images/course/defaultClassCover.jpg";
+import { RcFile } from "antd/es/upload";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.addEventListener("load", () => callback(reader.result as string));
   reader.readAsDataURL(img);
 };
 
@@ -46,8 +46,8 @@ const UpdateLesson = () => {
   const { TextArea } = Input;
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
-  const [lessonInfo, setLessonInfo] = useState('');
-  const [lessonName, setLessonName] = useState('');
+  const [lessonInfo, setLessonInfo] = useState("");
+  const [lessonName, setLessonName] = useState("");
   const [lessonDetail, setLessonDetail] = useState<any>({});
   const [newResourceList, setNewResourceList] = useState<any[]>([]);
   //上传封面
@@ -56,20 +56,20 @@ const UpdateLesson = () => {
   const [imageUrl, setImageUrl] = useState<string>();
 
   useEffect(() => {
-    console.log('picFile', picFile);
+    //console.log('picFile', picFile);
   }, [picFile]);
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log('newResourceList', newResourceList);
+    //console.log('newResourceList', newResourceList);
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
-    console.log('newResourceListIds', newResourceListIds);
+    //console.log('newResourceListIds', newResourceListIds);
   }, [newResourceList]);
 
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
   const [modelData, setModelData] = useState<any[]>([]);
-  const [modelId, setModelId] = useState('');
+  const [modelId, setModelId] = useState("");
   const handleGetModelId = (modelId: string) => [setModelId(modelId)];
 
   const handleUploadCover = (cover: File) => {
@@ -90,7 +90,7 @@ const UpdateLesson = () => {
           message.warning(res.data.errorMsg);
         }
       } else {
-        message.error('请求数据失败！');
+        message.error("请求数据失败！");
       }
     });
     isImageAndSet();
@@ -105,12 +105,12 @@ const UpdateLesson = () => {
         };
       })
     );
-    setModelId(modelList?.[0]?.modelId || '');
+    setModelId(modelList?.[0]?.modelId || "");
   }, [modelList]);
 
   const navigate = useNavigate();
   const handleCreateWork = () => {
-    navigate('/detailTeacher', { state: { lessonId: { lessonId } } });
+    navigate("/detailTeacher", { state: { lessonId: { lessonId } } });
   };
 
   const fetchLessonInfo = useCallback(() => {
@@ -125,7 +125,7 @@ const UpdateLesson = () => {
           message.warning(res.data.errorMsg);
         }
       } else {
-        message.warning('请求失败!');
+        message.warning("请求失败!");
       }
     });
   }, [lessonId]);
@@ -136,7 +136,7 @@ const UpdateLesson = () => {
       return;
     }
   }, [lessonId]);
-  
+
   const submitCreateLesson = () => {
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
     if (lessonId) {
@@ -150,12 +150,12 @@ const UpdateLesson = () => {
       }).then((res) => {
         if (res?.data?.success) {
           message.success(res?.data?.errorMsg);
-          console.log('res?.data', res?.data);
-          navigate('/courseTeacher', {
+          //console.log('res?.data', res?.data);
+          navigate("/courseTeacher", {
             state: { lessonId: { e: res?.data?.data?.lessonId } },
           });
         } else {
-          message.error('请求数据失败！');
+          message.error("请求数据失败！");
         }
       });
       return;
@@ -169,18 +169,18 @@ const UpdateLesson = () => {
     }).then((res) => {
       if (res.data.success) {
         message.success(res?.data?.errorMsg);
-        console.log('res?.data', res?.data);
-        navigate('/courseTeacher', {
+        //console.log('res?.data', res?.data);
+        navigate("/courseTeacher", {
           state: { lessonId: { e: res?.data?.data?.lessonId } },
         });
       } else {
-        message.error('请求数据失败！');
+        message.error("请求数据失败！");
       }
     });
   };
 
   const isImageAndSet = () => {
-    typeof imageUrl === 'undefined' &&
+    typeof imageUrl === "undefined" &&
       (lessonDetail.picUrl = defaultClassCover);
   };
 
@@ -210,7 +210,7 @@ const UpdateLesson = () => {
               <div className={styles.title}>
                 <h1>课程名:</h1>
                 <Input
-                  style={{ width: '250px', marginLeft: '30px' }}
+                  style={{ width: "250px", marginLeft: "30px" }}
                   value={lessonName}
                   onChange={(e) => {
                     setLessonName(e.target.value);
@@ -226,7 +226,7 @@ const UpdateLesson = () => {
             </div>
 
             <div className={styles.box}>
-              <div className={styles.boxUpload} style={{ }}>
+              <div className={styles.boxUpload} style={{}}>
                 <Upload
                   listType="picture-card"
                   showUploadList={false}
@@ -234,7 +234,7 @@ const UpdateLesson = () => {
                     setPicFile(res.file as File);
                   }}
                   onChange={(info) => {
-                    console.log(' onChange info', info);
+                    //console.log(' onChange info', info);
 
                     // Get this url from response in real world.
                     getBase64(info.file.originFileObj as RcFile, (url) => {
@@ -242,9 +242,9 @@ const UpdateLesson = () => {
                     });
                   }}
                   style={{
-                    width: '560px',
-                    height: '320px',
-                    borderRadius: '5px',
+                    width: "560px",
+                    height: "320px",
+                    borderRadius: "5px",
                   }}
                 >
                   {imageUrl ? (
@@ -252,9 +252,9 @@ const UpdateLesson = () => {
                       src={imageUrl}
                       alt="点击添加图片"
                       style={{
-                        width: '560px',
-                        height: '320px',
-                        borderRadius: '5px',
+                        width: "560px",
+                        height: "320px",
+                        borderRadius: "5px",
                       }}
                     />
                   ) : (
@@ -262,9 +262,9 @@ const UpdateLesson = () => {
                       src={lessonDetail.picUrl}
                       alt="点击添加图片"
                       style={{
-                        width: '560px',
-                        height: '320px',
-                        borderRadius: '5px',
+                        width: "560px",
+                        height: "320px",
+                        borderRadius: "5px",
                       }}
                     />
                   )}

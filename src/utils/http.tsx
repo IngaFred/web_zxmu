@@ -1,15 +1,15 @@
-import axios from 'axios';
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 // 引入store
-import store from '../store';
-import { message } from 'antd';
+import store from "../store";
+import { message } from "antd";
 // 引入定义好的clearToken
-import { clearToken } from '../store/modules/user';
+import { clearToken } from "../store/modules/user";
 
 // 创建实例
 const instance = axios.create({
-  baseURL: 'https://zmhlsjk.zcmu.edu.cn',
-  // baseURL: 'https://zcmu.vxpage.top',
+  // baseURL: 'https://zmhlsjk.zcmu.edu.cn',
+  baseURL: "https://zcmu.vxpage.top",
   timeout: 2000,
 });
 
@@ -32,12 +32,12 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   function (response) {
     // token 出错在响应头里的处理 返回login
-    if (response.data.errmsg === 'token error') {
-      message.error('token error');
+    if (response.data.errmsg === "token error") {
+      message.error("token error");
       store.dispatch(clearToken());
       // 刷新页面
       setTimeout(() => {
-        window.location.replace('/login');
+        window.location.replace("/login");
       }, 1000);
     }
     return response;
@@ -57,13 +57,13 @@ interface Http {
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-    type?: 'upload'
+    type?: "upload"
   ) => Promise<AxiosResponse>;
   put: (
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-    type?: 'upload'
+    type?: "upload"
   ) => Promise<AxiosResponse>;
   patch: (
     url: string,
@@ -79,16 +79,16 @@ interface Http {
 
 // 接口统一报错处理
 const goLogin = (res: any) => {
-  console.log('res', res);
+  //console.log("res", res);
   if (res && res.status === 200 && res.data && res.data.success) {
     return res;
   }
-  if (res?.data?.errorMsg === 'token验证失败，可能已经过期,请重新登录') {
-    window.location.replace('#/login');
-    message.error('登录失效，请重新登录');
+  if (res?.data?.errorMsg === "token验证失败，可能已经过期,请重新登录") {
+    window.location.replace("#/login");
+    message.error("登录失效，请重新登录");
     return res;
   }
-  message.error(res?.data?.errorMsg || '请求失败');
+  message.error(res?.data?.errorMsg || "请求失败");
   return res;
 };
 
@@ -111,7 +111,7 @@ const http: Http = {
     }
 
     // 上传文件
-    if (type === 'upload') {
+    if (type === "upload") {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         formData.append(key, data?.[key]);
@@ -119,7 +119,7 @@ const http: Http = {
       return instance
         .post(url, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
           ...config,
         })
@@ -131,7 +131,7 @@ const http: Http = {
     // 一般接口直接注入参数
     let params = new URLSearchParams();
     Object.keys(data).forEach((key) => {
-      params.append(key, data?.[key]?.toString() || '');
+      params.append(key, data?.[key]?.toString() || "");
     });
 
     return instance.post(url, params, config).then((res) => {
@@ -144,7 +144,7 @@ const http: Http = {
     }
 
     // 上传文件
-    if (type === 'upload') {
+    if (type === "upload") {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         formData.append(key, data?.[key]);
@@ -152,7 +152,7 @@ const http: Http = {
       return instance
         .put(url, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
           ...config,
         })
@@ -163,7 +163,7 @@ const http: Http = {
     // 一般接口直接注入参数
     let params = new URLSearchParams();
     Object.keys(data).forEach((key) => {
-      params.append(key, data?.[key]?.toString() || '');
+      params.append(key, data?.[key]?.toString() || "");
     });
 
     return instance.put(url, params, config).then((res) => {

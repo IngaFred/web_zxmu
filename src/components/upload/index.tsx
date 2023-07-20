@@ -1,10 +1,10 @@
-import { ContainerTwoTone } from '@ant-design/icons';
-import { Layout, message, Card, Button } from 'antd';
-import styles from './index.module.scss';
-import { getLessonInfo, getModel } from '../../service/myUpload';
-import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import Upload from './myUpload';
+import { ContainerTwoTone } from "@ant-design/icons";
+import { Layout, message, Card, Button } from "antd";
+import styles from "./index.module.scss";
+import { getLessonInfo, getModel } from "../../service/myUpload";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Upload from "./myUpload";
 
 const { Content } = Layout;
 interface LessonId {
@@ -28,13 +28,13 @@ const UpdateLesson = (props: MyUpload) => {
     props.getResourceLists = (resourceLists) => {
       resourceLists = newResourceListIds;
     };
-    console.log('newResourceListIds', resourceLists);
+    // //console.log('newResourceListIds', resourceLists);
   }, [resourceLists]);
 
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
   const [modelData, setModelData] = useState<any[]>([]);
-  const [modelId, setModelId] = useState('');
+  const [modelId, setModelId] = useState("");
   const handleGetModelId = (modelId: string) => [setModelId(modelId)];
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const UpdateLesson = (props: MyUpload) => {
           // message.warning(res.data.errorMsg);
         }
       } else {
-        message.error('请求数据失败！');
+        message.error("请求数据失败！");
       }
     });
   }, []);
@@ -60,18 +60,18 @@ const UpdateLesson = (props: MyUpload) => {
         };
       })
     );
-    setModelId(modelList?.[0]?.modelId || '');
+    setModelId(modelList?.[0]?.modelId || "");
   }, [modelList]);
 
   const fetchLessonInfo = useCallback(() => {
-    console.log('getLessonUpload :>> ');
+    // //console.log('getLessonUpload :>> ');
     getLessonInfo(lessonId).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
           setresoursBOList(res.data.data.resoursBOList);
         }
       } else {
-        message.warning('请求失败!');
+        message.warning("请求失败!");
       }
     });
   }, [lessonId]);
@@ -85,14 +85,14 @@ const UpdateLesson = (props: MyUpload) => {
   }, [lessonId]);
 
   const handleDownload = (url: string) => {
-    fetch(url, { mode: 'no-cors' })
+    fetch(url, { mode: "no-cors" })
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = url.split('/').pop()!;
-        a.style.display = 'none';
+        a.download = url.split("/").pop()!;
+        a.style.display = "none";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -109,16 +109,16 @@ const UpdateLesson = (props: MyUpload) => {
             <div className={styles.outlineCardContent}>
               <div
                 style={{
-                  display: resoursBOList.length === 0 ? 'inline' : 'none',
-                  marginLeft: '20px',
-                  fontSize: '16px',
+                  display: resoursBOList.length === 0 ? "inline" : "none",
+                  marginLeft: "20px",
+                  fontSize: "16px",
                 }}
               >
                 暂无资源
               </div>
               <div className={styles.resoursList}>
                 {resoursBOList.map((item, index) => (
-                  <div style={{ display: 'flex', padding: '5px' }}>
+                  <div style={{ display: "flex", padding: "5px" }}>
                     <a
                       href={item.url}
                       download={item.name}
@@ -134,7 +134,7 @@ const UpdateLesson = (props: MyUpload) => {
                     <Button
                       onClick={() => handleDownload(item.url)}
                       size="small"
-                      style={{ marginLeft: '20px' }}
+                      style={{ marginLeft: "20px" }}
                     >
                       下载
                     </Button>

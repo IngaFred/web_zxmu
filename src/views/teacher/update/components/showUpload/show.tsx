@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import type { UploadFile } from 'antd';
-import { Button, message, Upload } from 'antd';
-import { uploadResource } from '../../../../../service/course';
+import React, { useState } from "react";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import type { UploadFile } from "antd";
+import { Button, message, Upload } from "antd";
+import { uploadResource } from "../../../../../service/course";
 
 // 定义一个MyUploadProps接口，用来描述props的类型
 interface MyUploadProps {
@@ -15,19 +15,19 @@ const MyUpload = (props: MyUploadProps) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleChange = (info: { file: UploadFile; fileList: UploadFile[] }) => {
-    console.log('info', info);
+    //console.log('info', info);
     if (fileList.find((item) => info.file.name === item.name)) {
-      message.error('文件名不能重复');
+      message.error("文件名不能重复");
       return;
     }
     // 组件内部格式
     setFileList(info.fileList);
     info.fileList.forEach((file) => {
-      file.status = 'success';
+      file.status = "success";
     });
   };
   const handleRemove = (file: UploadFile) => {
-    console.log('delete info', file);
+    //console.log('delete info', file);
     // 组件内部格式
     setFileList(fileList.filter((f) => f.uid !== file.uid));
 
@@ -52,7 +52,7 @@ const MyUpload = (props: MyUploadProps) => {
         message.success(errorMsg);
       } else {
         // 通知上传失败
-        message.error('上传失败');
+        message.error("上传失败");
       }
     });
   };
