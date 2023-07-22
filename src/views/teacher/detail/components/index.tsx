@@ -1,17 +1,10 @@
-import { ContainerTwoTone } from '@ant-design/icons';
-import {
-  Layout,
-  message,
-  Card,
-} from 'antd';
-import styles from './index.module.scss';
-import {
-  getLessonInfo,
-  getModel,
-} from '../../../../service/myUpload';
-import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import MyUpload from './form-upload';
+import { ContainerTwoTone } from "@ant-design/icons";
+import { Layout, message, Card } from "antd";
+import styles from "./index.module.scss";
+import { getLessonInfo, getModel } from "../../../../service/myUpload";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import MyUpload from "./form-upload";
 
 const { Content } = Layout;
 interface LessonId {
@@ -27,17 +20,16 @@ const UpdateLesson = () => {
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log('newResourceList', newResourceList);
+    //console.log('newResourceList', newResourceList);
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
-    console.log('newResourceListIds', newResourceListIds);
+    //console.log('newResourceListIds', newResourceListIds);
   }, [newResourceList]);
 
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
   const [modelData, setModelData] = useState<any[]>([]);
-  const [modelId, setModelId] = useState('');
+  const [modelId, setModelId] = useState("");
   const handleGetModelId = (modelId: string) => [setModelId(modelId)];
-
 
   useEffect(() => {
     getModel().then((res) => {
@@ -48,7 +40,7 @@ const UpdateLesson = () => {
           message.warning(res.data.errorMsg);
         }
       } else {
-        message.error('请求数据失败！');
+        message.error("请求数据失败！");
       }
     });
   }, []);
@@ -62,9 +54,8 @@ const UpdateLesson = () => {
         };
       })
     );
-    setModelId(modelList?.[0]?.modelId || '');
+    setModelId(modelList?.[0]?.modelId || "");
   }, [modelList]);
-
 
   const fetchLessonInfo = useCallback(() => {
     getLessonInfo(lessonId).then((res) => {
@@ -75,7 +66,7 @@ const UpdateLesson = () => {
           message.warning(res.data.errorMsg);
         }
       } else {
-        message.warning('请求失败!');
+        message.warning("请求失败!");
       }
     });
   }, [lessonId]);
@@ -90,21 +81,20 @@ const UpdateLesson = () => {
   return (
     <Layout className={styles.courseAll}>
       <>
-          <div className={styles.outline}>
-            <div>
-
-              <div className={styles.outlineCardContent}>    
-                <Card className={styles.outlineCard}>
-                  <div className={styles.outlineCardContent}>
-                    <MyUpload
-                      resourceList={newResourceList}
-                      setNewResourceList={setNewResourceList}
-                    ></MyUpload>
-                  </div>
-                </Card>
-              </div>
+        <div className={styles.outline}>
+          <div>
+            <div className={styles.outlineCardContent}>
+              <Card className={styles.outlineCard}>
+                <div className={styles.outlineCardContent}>
+                  <MyUpload
+                    resourceList={newResourceList}
+                    setNewResourceList={setNewResourceList}
+                  ></MyUpload>
+                </div>
+              </Card>
             </div>
           </div>
+        </div>
       </>
     </Layout>
   );

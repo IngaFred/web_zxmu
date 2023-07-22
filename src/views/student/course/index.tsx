@@ -1,6 +1,6 @@
 // 课程详情（课程封面，课程信息，课程章节，下载资源，讨论区，作业列表）
 // 鄢浩其
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Layout,
   Image,
@@ -10,12 +10,12 @@ import {
   Button,
   Empty,
   Row,
-} from 'antd';
-import { ContainerTwoTone } from '@ant-design/icons';
-import styles from './index.module.scss';
-import Discussion from '../../teacher/course/discussion';
-import { getLessonInfo } from '../../../service/course';
-import { useLocation } from 'react-router-dom';
+} from "antd";
+import { ContainerTwoTone } from "@ant-design/icons";
+import styles from "./index.module.scss";
+import Discussion from "../../teacher/course/discussion";
+import { getLessonInfo } from "../../../service/course";
+import { useLocation } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
 //请求课程Id接口
@@ -36,7 +36,7 @@ export default function Course() {
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log('我是学生端');
+    //console.log('我是学生端');
     if (lessonId) {
       getLessonInfo(lessonId).then((res) => {
         if (res.data.success) {
@@ -52,14 +52,14 @@ export default function Course() {
     }
   }, [lessonId]);
   const handleDownload = (url: string) => {
-    fetch(url, { mode: 'no-cors' })
+    fetch(url, { mode: "no-cors" })
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = url.split('/').pop()!;
-        a.style.display = 'none';
+        a.download = url.split("/").pop()!;
+        a.style.display = "none";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -77,7 +77,7 @@ export default function Course() {
                 <div>
                   <div className={styles.titleTeacher}>
                     任课教师：
-                    {lessonInfo.creater ? lessonInfo.creater.userName : ''}
+                    {lessonInfo.creater ? lessonInfo.creater.userName : ""}
                   </div>
                 </div>
               </div>
@@ -85,9 +85,9 @@ export default function Course() {
                 <Image
                   preview={false}
                   style={{
-                    width: '560px',
-                    height: '320px',
-                    borderRadius: '5px',
+                    width: "560px",
+                    height: "320px",
+                    borderRadius: "5px",
                   }}
                   src={lessonInfo.picUrl}
                 />
@@ -110,7 +110,7 @@ export default function Course() {
             <div className={styles.outlineCardContent}>
               <div
                 style={{
-                  display: resoursBOList.length === 0 ? 'inline' : 'none',
+                  display: resoursBOList.length === 0 ? "inline" : "none",
                 }}
                 className={styles.outlineCardContent_info}
               >
@@ -119,7 +119,7 @@ export default function Course() {
               <div className={styles.resoursList}>
                 {resoursBOList.map((item: Link, index) => (
                   <>
-                    <div style={{ display: 'flex', padding: '5px' }}>
+                    <div style={{ display: "flex", padding: "5px" }}>
                       <a
                         href={item.url}
                         download={item.name}
@@ -135,7 +135,7 @@ export default function Course() {
                       <Button
                         onClick={() => handleDownload(item.url)}
                         size="small"
-                        style={{ marginLeft: '20px' }}
+                        style={{ marginLeft: "20px" }}
                       >
                         下载
                       </Button>

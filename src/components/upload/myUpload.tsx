@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import type { UploadFile } from 'antd';
-import { Button, message, Upload } from 'antd';
-import { uploadResource } from '../../service/myUpload';
-import styles from './index.module.scss';
+import React, { useState } from "react";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import type { UploadFile } from "antd";
+import { Button, message, Upload } from "antd";
+import { uploadResource } from "../../service/myUpload";
+import styles from "./index.module.scss";
 // 定义一个MyUploadProps接口，用来描述props的类型
 interface MyUploadProps {
 	resourceList: any[];
@@ -86,7 +86,7 @@ const MyUpload = (props: MyUploadProps) => {
 				{fileList.length === 0 && (
 					<>
 						<p>
-							<b>暂无上传文件</b>
+							<b>暂无作业上传</b>
 						</p>
 						<br />
 					</>

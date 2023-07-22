@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Row,
   Space,
@@ -8,12 +8,12 @@ import {
   message,
   DatePicker,
   Upload,
-} from 'antd';
-import styles from './index.module.scss';
-import { setHomework } from '../../../service/teacherdetail';
-import 'dayjs/locale/zh-cn';
-import locale from 'antd/es/date-picker/locale/zh_CN';
-import MyUpload from './components';
+} from "antd";
+import styles from "./index.module.scss";
+import { setHomework } from "../../../service/teacherdetail";
+import "dayjs/locale/zh-cn";
+import locale from "antd/es/date-picker/locale/zh_CN";
+import MyUpload from "./components";
 
 export default function Detail() {
   const [form] = Form.useForm();
@@ -22,7 +22,7 @@ export default function Detail() {
 
   const [resourceList, setResourceList] = useState([]);
   // const [fileList, setFileList] = useState([]);
-  // console.log('fileList', fileList);
+  // //console.log('fileList', fileList);
   // useEffect(() => {
   // 	setFileList(fileList);
   // }, [fileList]);
@@ -50,7 +50,7 @@ export default function Detail() {
                 end: new Date(values.RangePicker[1]).getTime(),
                 resourceList: resourceList,
               };
-              console.log('newObj--->', newHomework);
+              //console.log('newObj--->', newHomework);
               setHomework(newHomework);
             }}
           >
@@ -80,7 +80,7 @@ export default function Detail() {
           </Form.Item>
 
           <Form.Item name="Info" label="作业内容">
-            <TextArea className={styles.text} style={{ width: '1000px' }} />
+            <TextArea className={styles.text} style={{ width: "1000px" }} />
           </Form.Item>
         </div>
 

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Avatar, Button, Input, message, Tooltip } from 'antd';
-import { CommentOutlined } from '@ant-design/icons';
-import styles from './index.module.scss';
+import React, { useState, useEffect, useCallback } from "react";
+import { Avatar, Button, Input, message, Tooltip } from "antd";
+import { CommentOutlined } from "@ant-design/icons";
+import styles from "./index.module.scss";
 import {
   getCommentByTermIdAndLessonId,
   postCommentByTermIdAndLessonId,
-} from '../../../../service/course';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../../../store';
-import TermsSelect from '../../../../components/terms-select';
+} from "../../../../service/course";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../store";
+import TermsSelect from "../../../../components/terms-select";
 type LessonId = {
   lessonId: string;
   termId?: string;
@@ -23,10 +23,10 @@ const Discussion = (props: LessonId) => {
   const _termId = props.termId || termId;
 
   // 定义回复内柔，默认为空
-  const [replyContent, setReplyContent] = useState('');
+  const [replyContent, setReplyContent] = useState("");
   //取消回复时操作：输入框消失、回复内容为空
   const handleCancelReply = () => {
-    setReplyContent('');
+    setReplyContent("");
   };
   const handleMoreComments = () => {
     setDisplayedComments(displayedComments + DISPLAY_COUNT);
@@ -41,26 +41,26 @@ const Discussion = (props: LessonId) => {
     postCommentByTermIdAndLessonId({
       lessonId: props.lessonId,
       termId: _termId,
-      clientType: 'web_client',
+      clientType: "web_client",
       content: replyContent,
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
-          message.success('回复成功');
+          message.success("回复成功");
           getCommentInfo();
         } else {
           message.error(res.data.errorMsg);
         }
       } else {
-        message.error('请求失败');
+        message.error("请求失败");
       }
     });
-    setReplyContent('');
+    setReplyContent("");
   };
 
   const getCommentInfo = () => {
     //获取评论
-    if (_termId !== '') {
+    if (_termId !== "") {
       getCommentByTermIdAndLessonId(props.lessonId, _termId).then((res) => {
         if (res.status === 200) {
           if (res.data.success) {
@@ -69,7 +69,7 @@ const Discussion = (props: LessonId) => {
             message.error(res.data.errorMsg);
           }
         } else {
-          message.error('请求失败');
+          message.error("请求失败");
         }
       });
     } else {
@@ -78,7 +78,7 @@ const Discussion = (props: LessonId) => {
   };
 
   useEffect(() => {
-    console.log('getCommentInfo();');
+    //console.log('getCommentInfo();');
     getCommentInfo();
   }, [_termId]);
 
@@ -127,12 +127,12 @@ const Discussion = (props: LessonId) => {
           value={replyContent}
           onChange={handleReplyContentChange}
           rows={4}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
         <div className={styles.cancelBt}>
           <Button onClick={handleCancelReply}>取消</Button>
           <Button
-            style={{ marginLeft: '10px' }}
+            style={{ marginLeft: "10px" }}
             type="primary"
             onClick={() => {
               reply();
@@ -163,14 +163,14 @@ export const DiscussionItem = (props: {
   };
 
   // 定义回复内柔，默认为空
-  const [replyContent, setReplyContent] = useState('');
+  const [replyContent, setReplyContent] = useState("");
   // 是否展开其它评论？
   const [showOthers, setShowOthers] = useState(false);
 
   //取消回复时操作：输入框消失、回复内容为空
   const handleCancelReply = () => {
     setReplyInputVisible(false);
-    setReplyContent('');
+    setReplyContent("");
   };
   // 修改回复内容时调用
   const handleReplyContentChange = (
@@ -182,24 +182,24 @@ export const DiscussionItem = (props: {
     postCommentByTermIdAndLessonId({
       lessonId: lessonId,
       termId: termId,
-      clientType: 'web_client',
+      clientType: "web_client",
       content: replyContent,
       previousCommentId: commentId,
-      masterId: masterId === 'null' ? commentId : masterId,
+      masterId: masterId === "null" ? commentId : masterId,
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
-          message.success('回复成功');
+          message.success("回复成功");
           getCommentInfo();
         } else {
           message.error(res.data.errorMsg);
         }
       } else {
-        message.error('请求失败');
+        message.error("请求失败");
       }
     });
     setReplyInputVisible(false);
-    setReplyContent('');
+    setReplyContent("");
   };
   return (
     <div className={styles.commentCard}>
@@ -233,7 +233,7 @@ export const DiscussionItem = (props: {
             <div className={styles.cancelBt}>
               <Button onClick={handleCancelReply}>取消</Button>
               <Button
-                style={{ marginLeft: '10px' }}
+                style={{ marginLeft: "10px" }}
                 type="primary"
                 onClick={() => {
                   reply(comment.commentId, comment.masterId);

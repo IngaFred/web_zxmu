@@ -1,9 +1,9 @@
 // @ts-nocheck
-import styles from './index.module.scss';
-import React, { useEffect, useState } from 'react';
-import { Card, Row, message, Col, Button, Select } from 'antd';
-import { getCourseList } from '../../../service/courseList';
-import { useNavigate } from 'react-router-dom';
+import styles from "./index.module.scss";
+import React, { useEffect, useState } from "react";
+import { Card, Row, message, Col, Button, Select } from "antd";
+import { getCourseList } from "../../../service/courseList";
+import { useNavigate } from "react-router-dom";
 
 // 我的课程列表
 // 洪浩然
@@ -17,39 +17,39 @@ export default function List() {
         message.success(ret.data.errorMsg);
         setLesson(ret.data.data);
         //显示回参
-        //console.log(Courses);
+        ////console.log(Courses);
       } else {
-        message.error('获取课程失败');
+        message.error("获取课程失败");
       }
     });
   }, []);
 
   const navigate = useNavigate();
   const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
-    navigate('/courseTeacher', { state: { lessonId: { e } } });
+    navigate("/courseTeacher", { state: { lessonId: { e } } });
   };
 
   return (
-    <div className={styles['big']}>
-      <div className={styles['header-xxx']}>
-        <div style={{ fontSize: '24px', fontWeight: 'bold' }}>我的教学课程</div>
+    <div className={styles["big"]}>
+      <div className={styles["header-xxx"]}>
+        <div style={{ fontSize: "24px", fontWeight: "bold" }}>我的教学课程</div>
         <Button
           type="primary"
           onClick={() => {
-            navigate('/createLesson');
+            navigate("/createLesson");
           }}
         >
           新建教学课程
         </Button>
       </div>
-      <Row gutter={[8, 16]} className={styles['row-big']}>
+      <Row gutter={[8, 16]} className={styles["row-big"]}>
         {lesson.map((item, index) => (
           <Col span={8} key={index}>
             <Card
               size="small"
               className={styles.card}
               actions={[
-                <Row justify={'space-between'} style={{ padding: '0 10px' }}>
+                <Row justify={"space-between"} style={{ padding: "0 10px" }}>
                   <Button
                     className={styles.rowBtn}
                     onClick={(e) => handleMyCourse(item.lessonId, e)}

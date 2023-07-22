@@ -41,7 +41,7 @@ const LocalizedModal = () => {
       postUploadPsd({
         password: psd,
       }).then((res) => {
-        console.log(res);
+        //console.log(res);
         message.success(res.data.errorMsg);
       });
       setOpen(false);
@@ -50,7 +50,7 @@ const LocalizedModal = () => {
 
   //密码输入框
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+    //console.log("Received values of form: ", values);
   };
 
   return (
