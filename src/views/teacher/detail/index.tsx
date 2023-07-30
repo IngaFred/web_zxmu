@@ -8,12 +8,14 @@ import {
   message,
   DatePicker,
   Upload,
+  TreeSelect,
 } from "antd";
 import styles from "./index.module.scss";
 import { setHomework } from "../../../service/teacherdetail";
 import "dayjs/locale/zh-cn";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import MyUpload from "./components";
+import { getCourseList } from "../../../service/courseList";
 
 export default function Detail() {
   const [form] = Form.useForm();
@@ -21,27 +23,46 @@ export default function Detail() {
   const { TextArea } = Input;
 
   const [resourceList, setResourceList] = useState([]);
-  // const [fileList, setFileList] = useState([]);
-  // //console.log('fileList', fileList);
-  // useEffect(() => {
-  // 	setFileList(fileList);
-  // }, [fileList]);
+  const [lesson, setLesson] = useState([]);
 
+  useEffect(() => {
+    getCourseList().then((ret) => {
+      if (ret.data.success) {
+        message.success(ret.data.errorMsg);
+        setLesson(ret.data.data);
+        const lessonList = ret.data.data;
+
+        // 将 lessonList 映射为 treeData 数组
+        const treeDataArray = lessonList.map((lesson: any) => {
+          return {
+            title: lesson.lessonName,
+            value: lesson.lessonId.toString(),
+          };
+        });
+
+        setTreeDataArg(treeDataArray);
+        //显示回参
+      } else {
+        message.error("获取课程失败");
+      }
+    });
+  }, []);
+  interface treeData {
+    title: string;
+    value: string;
+  }
+  const [treeDataArg, setTreeDataArg] = useState<treeData[]>([]);
+  // console.log(treeDataArg);
   return (
     <div className={styles.detailALL}>
       <div className={styles.detailHeader}>
         <div className={styles.title}>新建作业</div>
         <div>
-          {/* <Button className={styles.btn} onClick={saveBtn}>保存</Button> */}
           <Button
             className={styles.btn}
             type="primary"
             onClick={() => {
               const values = form?.getFieldsValue();
-              // const resourceList = fileList.map((item) => {
-              // 	// @ts-ignore
-              // 	return item?.resourceId;
-              // });
               const newHomework = {
                 lessonId: values.LessonId,
                 name: values.Name,
@@ -50,7 +71,6 @@ export default function Detail() {
                 end: new Date(values.RangePicker[1]).getTime(),
                 resourceList: resourceList,
               };
-              //console.log('newObj--->', newHomework);
               setHomework(newHomework);
             }}
           >
@@ -68,7 +88,15 @@ export default function Detail() {
       >
         <div>
           <Form.Item name="LessonId" label="所属课程">
-            <Input />
+            <TreeSelect
+              style={{ width: "100%" }}
+              // value={value}
+              // dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              treeData={treeDataArg}
+              placeholder="请选择所属课程！"
+              treeDefaultExpandAll
+              // onChange={onChange}
+            />
           </Form.Item>
 
           <Form.Item name="Name" label="作业名称">
