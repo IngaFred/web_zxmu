@@ -1,7 +1,6 @@
 import http from "../utils/http";
 //新建作业
 export const setHomework = async (values: any) => {
-  console.log(JSON.stringify(values));
   const ret = await http.post(
     "/homework/create",
     {
