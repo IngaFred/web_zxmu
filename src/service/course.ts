@@ -190,3 +190,15 @@ export const postCommentByTermIdAndLessonId = async (
   });
   return res;
 };
+//修改评论方法
+// type changeReply = {
+//   comment: string;
+//   content: string;
+// };
+export const putChangeReply = async (commentId: string, content: string) => {
+  const res = await http.put("/comment/content", {
+    commentId: commentId,
+    content: content,
+  });
+  return res;
+};

@@ -28,7 +28,7 @@ export default function List() {
   const handleMyCourse = (e: React.MouseEvent<HTMLButtonElement>) => {
     navigate("/courseTeacher", { state: { lessonId: { e } } });
   };
-
+  console.log("ss", lesson);
   return (
     <div className={styles["big"]}>
       <div className={styles["header-xxx"]}>
