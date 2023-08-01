@@ -42,6 +42,13 @@ export default function Course() {
       state: { lessonInfo: lessonInfo },
     });
   };
+  //新增
+  const handleChangeWork = () => {
+    // console.log("lessonId", lessonId);
+    navigate("/changeWork", {
+      state: { lessonId: lessonId },
+    });
+  };
   useEffect(() => {
     //console.log('我是教师端');
     if (lessonId) {
@@ -105,6 +112,13 @@ export default function Course() {
                       className={styles.teaBtn}
                     >
                       新建作业
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={handleChangeWork}
+                      className={styles.teaBtn}
+                    >
+                      修改作业
                     </Button>
                     <Button
                       type="primary"
