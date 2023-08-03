@@ -10,26 +10,28 @@ import {
   Space,
   Tooltip,
   UploadFile,
+  Descriptions,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getDetails } from "../../../service/detail";
+import { getDetails, getHomeworkInfo, getSubmitHomework, getAllSubmitHomework } from "../../../service/detail";
 import styles from "./index.module.scss";
 import { putCourse } from "../../../service/scoring";
 import { InfoRow } from "../../student/detail";
 // 作业批改（查看作业，提交作业，成果展示列表，批改作业）
 // 娄竞楷
-interface Homework {
+interface HomeworkInfo {
   homeworkId: string;
   lessonId: string;
   lessonName: string;
-  creatorName: string;
   info: string;
   name: string;
   start: string;
   end: string;
   status: string;
-  resoursBOList: Resource[];
+  resoursBOList: any[];
+  //额外的属性检查
+  [propName: string]: any
 }
 interface Resource {
   resourceId: string;
@@ -41,13 +43,31 @@ interface Resource {
 
 export default function Detail() {
   const location = useLocation();
-  const { lessonId: lessonId, submitId: submitId } = location?.state || {}; // 解构赋值
+  // 解构赋值
+  const { lessonId, submitId, homeworkId } = location.state;
+  //作业信息
+  const [homeworkInfo, setHomeworkInfo] = useState<HomeworkInfo>();
+  //学生提交的作业内容
+  const [submitHomework, setSubmitHomework] = useState();
+  const [infoResoursBOList, setInfoResoursBOList] = useState([]);
 
-  const [homeworkBOList, setHomeworkBOList] = useState<Homework | null>();
-  const [myResoursBOList, setMyResoursBOList] = useState([]);
+  useEffect(() => {
+    getHomeworkInfo(homeworkId).then((res) => {
+      console.log(res);
+      setHomeworkInfo(res.data.data)
+      setInfoResoursBOList(res.data.data.resoursBOList)
+    })
+    getSubmitHomework(submitId).then((res) => {
+      console.log(res);
+      setSubmitHomework(res.data.data)
+    })
+  }, [])
+  // console.log(homeworkInfo);
+  // console.log(submitHomework);
 
-  // const location = useLocation();
-  // const lessonId: LessonId = location.state?.lessonId;
+  // 使用es6的解构赋值，来简化你对homeworkInfo对象的访问
+  const { lessonName, name, start, end, info, resoursBOList } = homeworkInfo || {};
+
   type scoreParams = {
     submitHomeworkId: string;
     score: string;
@@ -57,7 +77,7 @@ export default function Detail() {
   const handleSend = (scores: string) => {
     //console.log('location?.state', location?.state);
     if (!scores) {
-      message.warning("所打数不能为空");
+      message.warning("所打分数不能为空");
       return null;
     }
     const score: scoreParams = {
@@ -97,11 +117,8 @@ export default function Detail() {
   };
   const [fen, setFen] = useState("");
 
-  // 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
-  const { lessonName, name, creatorName, start, end, info } =
-    homeworkBOList || {};
   const handleDownload = (url: string) => {
-    fetch(url, { mode: "no-cors" })
+    fetch(url, { mode: "cors" })
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -118,53 +135,110 @@ export default function Detail() {
 
   return (
     <div className={styles["show-all"]}>
+
       <Row justify={"start"} className={styles.detailHeader}>
         <div className={styles.detailTitle}>作业打分</div>
       </Row>
 
       <Row gutter={24}>
-        <Col span={20}>
-          <Row className={styles.head}>
-            <h1>{name}</h1>
-          </Row>
-          <br />
-          {/* InfoRow 封装组件 */}
-          <InfoRow
-            label="发布日期："
-            value={new Date(homeworkBOList?.start || "").toLocaleString(
-              "zh-CN",
-              {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              }
-            )}
-          />
-          <InfoRow
-            label="截止日期："
-            value={new Date(homeworkBOList?.end || "").toLocaleString("zh-CN", {
+        <Descriptions title={name} className={styles.head} column={1}>
+          <Descriptions.Item label="作业内容" className={styles["info-p"]}>{info}</Descriptions.Item>
+          <Descriptions.Item label="附件资源" >
+            {infoResoursBOList.map((item, index) => (
+              <div style={{ display: "flex", padding: "5px" }}>
+                {/* <a
+                  href={item.url}
+                  download={item.name}
+                  className={styles.download}
+                  key={index}
+                >
+                  <ContainerTwoTone className={styles.downloadIcon} />
+                  {item.name}
+                </a> */}
+                <Button
+                  // onClick={() => handleDownload(item.url)}
+                  size="small"
+                  style={{ marginLeft: "20px" }}
+                >
+                  下载
+                </Button>
+              </div>
+            ))}
+          </Descriptions.Item>
+        </Descriptions>
+        {/* <Row>
+          <div className={styles.outline}>
+            <div>
+              <div className={styles.resoursListTitle}>
+                <h1>附件资源</h1>
+              </div>
+              <div className={styles.outlineCardContent}>
+                <div
+                  style={{
+                    display: infoResoursBOList.length === 0 ? "inline" : "none",
+                  }}
+                >
+                  暂无资源
+                </div>
+                <div className={styles.resoursList}>
+                  {infoResoursBOList.map((item, index) => (
+                      <div style={{ display: "flex", padding: "5px" }}>
+                        <a
+                          href={item.url}
+                          download={item.name}
+                          className={styles.download}
+                          key={index}
+                        >
+                          <ContainerTwoTone className={styles.downloadIcon} />
+                          {item.name}
+                        </a>
+                        <Button
+                          onClick={() => handleDownload(item.url)}
+                          size="small"
+                          style={{ marginLeft: "20px" }}
+                        >
+                          下载
+                        </Button>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Row> */}
+        {/* InfoRow 封装组件 */}
+        {/* <InfoRow
+          label="发布日期："
+          value={new Date(homeworkInfo?.start || "").toLocaleString(
+            "zh-CN",
+            {
               year: "numeric",
               month: "2-digit",
               day: "2-digit",
               hour: "2-digit",
               minute: "2-digit",
-            })}
-          />
-          <Row className={styles.info}>
-            <p className={styles["info-p"]}>{info}</p>
-          </Row>
-          <br />
-          <div className={styles.detailALL}>
-            <Space.Compact style={{ width: "10%", marginLeft: "20px" }}>
-              <Input value={fen} onChange={(e) => handleInput(e)} />
-              <Button type="primary" onClick={() => handleSend(scores)}>
-                打分
-              </Button>
-            </Space.Compact>
-          </div>
-        </Col>
+            }
+          )}
+        />
+        <InfoRow
+          label="截止日期："
+          value={new Date(homeworkInfo?.end || "").toLocaleString("zh-CN", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        /> */}
+
+        <div className={styles.detailALL}>
+          <Space.Compact style={{ width: "10%", marginLeft: "20px" }}>
+            <Input value={fen} onChange={(e) => handleInput(e)} />
+            <Button type="primary" onClick={() => handleSend(scores)}>
+              打分
+            </Button>
+          </Space.Compact>
+        </div>
       </Row>
       <br></br>
     </div>

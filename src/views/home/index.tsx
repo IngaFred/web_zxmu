@@ -33,12 +33,18 @@ const contentStyle: React.CSSProperties = {
  * 模块组件
  * @returns
  */
+//  interface ModelCardProps {
+//   data: any[];
+//   modelLessons: any[];
+//   chooseLessonFlag: (flage: boolean) => void;
+// }
 const ModelCard = (props: any) => {
+
   const myPrem = useSelector((state: RootState) => state.user.myPrem);
   const termId = useSelector((state: RootState) => state.user.termId);
   //console.log("myPrem :>> ", myPrem);
   const isStu = myPrem === "学生权限";
-  const { data, modelLessons } = props;
+  const { data, modelLessons, chooseLessonFlag } = props;
   const navigate = useNavigate();
 
   const handleMyCourse = (e: string, termId?: string) => {
@@ -51,6 +57,7 @@ const ModelCard = (props: any) => {
   const handleMyDetail = (id: React.MouseEvent<HTMLButtonElement>) => {
     navigate("/detail", { state: { lessonId: { id } } });
   };
+
   if (!modelLessons) {
     return null;
   }
@@ -96,6 +103,7 @@ const ModelCard = (props: any) => {
                               chooseLesson(item.lessonId).then((res) => {
                                 if (res.data.success) {
                                   message.success(res.data.errorMsg);
+                                  chooseLessonFlag(true);
                                 }
                               });
                             }}
@@ -164,12 +172,15 @@ export default function Home() {
     modelLessons6,
   ];
   const { Meta } = Card;
+  const [chooseLessonFlag, setchooseLessonFlag] = useState(false);
 
+  //每次model值更新时，React都会调用useEffect，从而useEffect钩子调用setModel，从而再次更新model
+  //所以这里将依赖项model改为chooseLessonFlag，并传入子组件ModelCard
   useEffect(() => {
     getModel().then((ret) => {
       if (ret.data.success) {
         // message.success(ret.data.errorMsg);
-        //console.log("model", ret.data);
+        // console.log("model", ret.data);
         setModel(ret.data.data);
         for (let i = 0; i < ret.data.data.length; i++) {
           const modelId = ret.data.data[i].modelId;
@@ -224,7 +235,7 @@ export default function Home() {
         message.error("获取model失败");
       }
     });
-  }, [model]);
+  }, [chooseLessonFlag]);
 
   return (
     <div className={styles.home_wrap}>
@@ -359,6 +370,7 @@ export default function Home() {
               <ModelCard
                 data={item}
                 modelLessons={modelLessons[index]}
+                chooseLessonFlag={setchooseLessonFlag}
                 key={index}
               />
             ))}

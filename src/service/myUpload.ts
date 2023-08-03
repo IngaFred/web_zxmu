@@ -19,12 +19,27 @@ export const getModel = async () => {
 //用户上传资源
 export const uploadResource = async (file: File) => {
 	const ret = await http.post(
-	  '/resource/upload',
-	  {
-		resourceFile: file,
-	  },
-	  {},
-	  'upload'
+		'/resource/upload',
+		{
+			resourceFile: file,
+		},
+		{},
+		'upload'
 	);
 	return ret;
-  };
+};
+//用户删除资源
+export const deleteResource = async (deleteResourceId: string) => {
+	const ret = await http.delete(
+		'/resource',
+		{
+			resourceId: deleteResourceId,
+		},
+		{
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			}
+		}
+	);
+	return ret;
+};

@@ -11,10 +11,15 @@ interface LessonId {
   //课程id
   e: string;
 }
+interface MyUpload {
+  setResourceIdList: (data: any[]) => void;
+}
 
-const UpdateLesson = () => {
+const UpdateLesson = (props: MyUpload) => {
+  const { setResourceIdList } = props
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
+  //新增资源文件数组
   const [newResourceList, setNewResourceList] = useState<any[]>([]);
 
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
@@ -22,7 +27,8 @@ const UpdateLesson = () => {
   useEffect(() => {
     //console.log('newResourceList', newResourceList);
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
-    //console.log('newResourceListIds', newResourceListIds);
+    setResourceIdList(newResourceListIds)
+    // console.log('newResourceListIds', newResourceListIds);
   }, [newResourceList]);
 
   //模块

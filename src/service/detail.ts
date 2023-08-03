@@ -5,8 +5,14 @@ import http from "../utils/http";
 type Lesson = {
   id: string;
 };
-type Homework = {
+type termId = {
+  tid: string;
+};
+type HomeworkId = {
   hid: string;
+};
+type submitHomework = {
+  shid: string;
 };
 type HomeworkList = {
   homeworkId: string;
@@ -18,15 +24,25 @@ type HomeworkList = {
 // 获取课程作业详情
 export const getDetails = async (myLesson: Lesson) => {
   const ret = await http.get("/homework/lesson?lessonId=" + myLesson.id);
-  // //console.log('作业', ret);
-
+  // console.log('作业', ret);
   return ret;
 };
-// 获取简易作业信息
-export const getLessons = async (myHomework: Homework) => {
-  const ret = await http.get("/homework/id?homeworkId=" + myHomework.hid);
-  // //console.log('作业', ret);
-
+// 通过作业id查询作业信息(简易版)
+export const getHomeworkInfo = async (hid: HomeworkId) => {
+  const ret = await http.get("/homework/id?homeworkId=" + hid);
+  // console.log('作业', ret);
+  return ret;
+};
+// 通过提交作业id获取提交的作业
+export const getSubmitHomework = async (shid: submitHomework) => {
+  const ret = await http.get("/homework/sub/id?submitHomeworkId=" + shid);
+  // console.log('提交的作业', ret);
+  return ret;
+};
+// 教师查看该作业下所有提交的作业
+export const getAllSubmitHomework = async (hid: HomeworkId, tid: termId) => {
+  const ret = await http.get("/homework/submit?homeworkId=" + hid + "&termId=" + tid);
+  // console.log('所有提交的作业', ret);
   return ret;
 };
 // 上传文件

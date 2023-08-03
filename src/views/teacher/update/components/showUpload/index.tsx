@@ -15,12 +15,8 @@ import {
   Space,
 } from "antd";
 import styles from "./index.module.scss";
-import {
-  getLessonInfo,
-  getModel,
-  postCreateLesson,
-  postUpdateLesson,
-} from "../../../../../service/course";
+import { getLessonInfo, getModel, postCreateLesson, postUpdateLesson, } from "../../../../../service/course";
+import { deleteResource } from "../../../../../service/myUpload"
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import defaultClassCover from "../../../../../assets/images/course/defaultClassCover.jpg";
@@ -33,6 +29,11 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
 };
 
 const { Header, Content } = Layout;
+//父组件传递过来的新增资源id数组和删除资源id数组
+interface resourceIdListsProps {
+  resourceIdLists: string[];
+  deleteResoursIdList: string[];
+}
 interface LessonId {
   //课程id
   e: string;
@@ -42,7 +43,7 @@ type updateCover = {
   lessonId: string;
 };
 
-const UpdateLesson = () => {
+const UpdateLesson = (props: resourceIdListsProps) => {
   const { TextArea } = Input;
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
@@ -60,17 +61,14 @@ const UpdateLesson = () => {
   }, [picFile]);
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
 
-  useEffect(() => {
-    //console.log('newResourceList', newResourceList);
-    const newResourceListIds = newResourceList.map((item) => item.resourceId);
-    //console.log('newResourceListIds', newResourceListIds);
-  }, [newResourceList]);
-
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
   const [modelData, setModelData] = useState<any[]>([]);
   const [modelId, setModelId] = useState("");
-  const handleGetModelId = (modelId: string) => [setModelId(modelId)];
+  const handleGetModelId = (modelId: string) => {
+    // console.log(modelId);
+    setModelId(modelId)
+  };
 
   const handleUploadCover = (cover: File) => {
     const formData: updateCover = {
@@ -138,15 +136,21 @@ const UpdateLesson = () => {
   }, [lessonId]);
 
   const submitCreateLesson = () => {
-    const newResourceListIds = newResourceList.map((item) => item.resourceId);
     if (lessonId) {
+      if (props.deleteResoursIdList) {
+        console.log(1);
+        props.deleteResoursIdList.map((item) => {
+          console.log(item)
+          deleteResource(item).then((res) => console.log(res))
+        })
+      }
       postUpdateLesson({
         lessonId: lessonId.e,
         modelId: modelId,
         picFile: picFile,
         name: lessonName,
         info: lessonInfo,
-        resourceList: newResourceListIds,
+        resourceList: props.resourceIdLists,
       }).then((res) => {
         if (res?.data?.success) {
           message.success(res?.data?.errorMsg);
@@ -165,7 +169,7 @@ const UpdateLesson = () => {
       picFile: picFile,
       name: lessonName,
       info: lessonInfo,
-      resourceList: newResourceListIds,
+      resourceList: props.resourceIdLists,
     }).then((res) => {
       if (res.data.success) {
         message.success(res?.data?.errorMsg);

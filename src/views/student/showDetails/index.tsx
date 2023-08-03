@@ -16,7 +16,7 @@ export default function ShowDetails() {
   const { myGoodHomework, showHomework } = location?.state || {};
   //console.log('myGoodHomework :>> ', myGoodHomework.resoursBOList);
   const handleDownload = (url: string) => {
-    fetch(url, { mode: "no-cors" })
+    fetch(url, { mode: "cors" })
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);

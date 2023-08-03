@@ -52,7 +52,7 @@ export default function Course() {
     }
   }, [lessonId]);
   const handleDownload = (url: string) => {
-    fetch(url, { mode: "no-cors" })
+    fetch(url, { mode: "cors" })
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);

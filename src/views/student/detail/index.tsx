@@ -13,7 +13,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getDetails, getLessons, postSubmit } from "../../../service/detail";
+import { getDetails, getHomeworkInfo, postSubmit } from "../../../service/detail";
 import MyEditor from "./components/myEditor";
 import MyUpload from "../../../components/upload";
 import styles from "./index.module.scss";
@@ -188,6 +188,7 @@ export default function Detail(props: any) {
       const { success, data, errorMsg } = ret?.data || null;
       if (success) {
         //console.log(errorMsg);
+        message.success(errorMsg)
       } else {
         //console.log(errorMsg);
       }
@@ -287,9 +288,12 @@ export default function Detail(props: any) {
 
       <Row gutter={24}>
         <MyUpload
-          getResourceLists={(resourceLists) => {
-            setResourceLists(resourceLists);
-          }}
+          // getResourceLists={(resourceLists) => {
+          //   setResourceLists(resourceLists);
+          // }}
+          getResourceLists={()=>{}}
+          deleteResoursIdList={[]}
+          setDeleteResoursIdList={()=>{}}
         />
       </Row>
     </div>

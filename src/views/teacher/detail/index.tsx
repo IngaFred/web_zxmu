@@ -8,19 +8,23 @@ import {
   message,
   DatePicker,
   Upload,
+  Descriptions,
 } from "antd";
 import styles from "./index.module.scss";
 import { setHomework } from "../../../service/teacherdetail";
 import "dayjs/locale/zh-cn";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import MyUpload from "./components";
+import { useLocation, useNavigate } from "react-router-dom"
 
 export default function Detail() {
   const [form] = Form.useForm();
   const { RangePicker } = DatePicker;
   const { TextArea } = Input;
-
-  const [resourceList, setResourceList] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation()
+  const { lessonId, lessonName } = location.state.lessonInfo
+  const [resourceIdList, setResourceIdList] = useState<string[]>([]);
   // const [fileList, setFileList] = useState([]);
   // //console.log('fileList', fileList);
   // useEffect(() => {
@@ -43,15 +47,20 @@ export default function Detail() {
               // 	return item?.resourceId;
               // });
               const newHomework = {
-                lessonId: values.LessonId,
+                lessonId: lessonId,
                 name: values.Name,
                 info: values.Info,
-                start: new Date(values.RangePicker[0]).getTime(),
-                end: new Date(values.RangePicker[1]).getTime(),
-                resourceList: resourceList,
+                // start: new Date(values.RangePicker[0]).getTime(),
+                // end: new Date(values.RangePicker[1]).getTime(),
+                resourceList: resourceIdList,
               };
-              //console.log('newObj--->', newHomework);
-              setHomework(newHomework);
+              // console.log('newObj--->', newHomework);
+              setHomework(newHomework).then((res) => {
+                // console.log(res);
+                if (res.data.success === true) {
+                  message.success(res.data.errorMsg);
+                }
+              });
             }}
           >
             作业发布
@@ -65,19 +74,20 @@ export default function Detail() {
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         className={styles.form}
+        encType="multipart/form-data"
       >
         <div>
           <Form.Item name="LessonId" label="所属课程">
-            <Input />
+            <span>{lessonName}</span>
           </Form.Item>
 
           <Form.Item name="Name" label="作业名称">
             <Input />
           </Form.Item>
 
-          <Form.Item name="RangePicker" label="时间设置">
+          {/* <Form.Item name="RangePicker" label="时间设置">
             <RangePicker showTime locale={locale} />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item name="Info" label="作业内容">
             <TextArea className={styles.text} style={{ width: "1000px" }} />
@@ -86,7 +96,9 @@ export default function Detail() {
 
         <Form.Item label="上传资料" valuePropName="fileList">
           <div>
-            <MyUpload />
+            <MyUpload
+              setResourceIdList={setResourceIdList}
+            />
           </div>
         </Form.Item>
       </Form>

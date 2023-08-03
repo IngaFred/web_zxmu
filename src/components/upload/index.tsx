@@ -1,5 +1,5 @@
-import { ContainerTwoTone } from "@ant-design/icons";
-import { Layout, message, Card, Button } from "antd";
+import { ContainerTwoTone, CloseCircleOutlined } from "@ant-design/icons";
+import { Layout, message, Card, Button, Tag } from "antd";
 import styles from "./index.module.scss";
 import { getLessonInfo, getModel } from "../../service/myUpload";
 import { useCallback, useEffect, useState } from "react";
@@ -11,25 +11,28 @@ interface LessonId {
   //课程id
   e: string;
 }
- 
+
 interface MyUpload {
-  getResourceLists: (resourceLists: string[]) => void;
+  getResourceLists: (data: any[]) => void;
+  deleteResoursIdList: string[]
+  setDeleteResoursIdList: (data: any[]) => void;
 }
 
 const UpdateLesson = (props: MyUpload) => {
+  const { getResourceLists, deleteResoursIdList, setDeleteResoursIdList } = props
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
+  //拖拽上传文件子组件传递过来的资源id列表
   const [newResourceList, setNewResourceList] = useState<any[]>([]);
   const [resoursBOList, setresoursBOList] = useState<any[]>([]);
   const [resourceLists, setResoursLists] = useState<string[]>();
 
+  //遍历子组件传来的资源上传成功接口的对象数组，获取资源id列表数组并向父组件传递
   useEffect(() => {
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
-    // props.getResourceLists = (resourceLists) => {
-    //   resourceLists = newResourceListIds;
-    // };
-    console.log('newResourceListIds', resourceLists);
-  }, [resourceLists]);
+    // console.log(newResourceListIds);
+    getResourceLists(newResourceListIds)
+  }, [newResourceList]);
 
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
@@ -86,7 +89,7 @@ const UpdateLesson = (props: MyUpload) => {
 
   //资源文件下载
   const handleDownload = (url: string) => {
-    fetch(url, { mode: "no-cors" })
+    fetch(url, { mode: "cors" })
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -100,6 +103,12 @@ const UpdateLesson = (props: MyUpload) => {
         URL.revokeObjectURL(url);
       });
   };
+
+  const handleClose = (id: number) => {
+    //往删除资源id数组里添加id，
+    // console.log(resoursBOList[id].resourceId);
+    setDeleteResoursIdList([...deleteResoursIdList, resoursBOList[id].resourceId])
+  }
 
   return (
     <Layout className={styles.courseAll}>
@@ -119,26 +128,49 @@ const UpdateLesson = (props: MyUpload) => {
               </div>
               <div className={styles.resoursList}>
                 {resoursBOList.map((item, index) => (
-                  <div style={{ display: "flex", padding: "5px" }}>
-                    <a
-                      href={item.url}
-                      download={item.name}
-                      className={styles.download}
-                      key={index}
-                      target="_blank"
-                      rel="noreferrer"
-                      // onClick={() => handleDownload(item.url)}
+                  // <div style={{ display: "flex", padding: "5px" }}>
+                  //   <a
+                  //     href={item.url}
+                  //     download={item.name}
+                  //     className={styles.download}
+                  //     key={index}
+                  //     target="_blank"
+                  //     rel="noreferrer"
+                  //   // onClick={() => handleDownload(item.url)}
+                  //   >
+                  //     <ContainerTwoTone className={styles.downloadIcon} />
+                  //     {item.name}
+                  //   </a>
+                  //   {/* <Button
+                  //     onClick={() => handleDownload(item.url)}
+                  //     size="small"
+                  //     style={{ marginLeft: "20px" }}
+                  //   >
+                  //     下载
+                  //   </Button> */}
+                  //   <Button
+                  //     onClick={() => handleDownload(item.url)}
+                  //     size="small"
+                  //     style={{ marginLeft: "20px" }}
+                  //   >
+
+                  //   </Button>
+                  // </div>
+                  <div
+                    style={{ margin: "5px 0" }}
+                  >
+                    <Tag
+                      // color="processing"
+                      closable
+                      closeIcon={<CloseCircleOutlined />}
+                      // key={tag}
+                      onClose={() => handleClose(index)}
+                      style={{ fontSize: "1rem", padding: "4px 7px" }}
                     >
-                      <ContainerTwoTone className={styles.downloadIcon} />
-                      {item.name}
-                    </a>
-                    <Button
-                      onClick={() => handleDownload(item.url)}
-                      size="small"
-                      style={{ marginLeft: "20px" }}
-                    >
-                      下载
-                    </Button>
+                      <span>
+                        {item.name}
+                      </span>
+                    </Tag>
                   </div>
                 ))}
               </div>

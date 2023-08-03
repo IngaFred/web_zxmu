@@ -23,6 +23,7 @@ import type { RootState } from "../../../store";
 export default function DetailList() {
   const location = useLocation();
   const lessonInfo = location.state?.lessonInfo;
+  console.log(lessonInfo);
 
   const [unSubimtStudent, setUnSubimtStudent] = useState<any[]>([]);
   const [SubimtStudent1, setSubimtStudent1] = useState<any[]>([]);
@@ -127,12 +128,15 @@ export default function DetailList() {
 
 const HomeworkCard = (props: any) => {
   const { item, type } = props;
+  console.log(item);
+
   const navigate = useNavigate();
   const goScoringTeacher = (
     e: React.MouseEvent<HTMLButtonElement>,
-    id: React.MouseEvent<HTMLButtonElement>
+    id: React.MouseEvent<HTMLButtonElement>,
+    hid: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    navigate("/scoringTeacher", { state: { lessonId: e, submitId: id } });
+    navigate("/scoringTeacher", { state: { lessonId: e, submitId: id, homeworkId: hid } });
   };
   return (
     <Col span={4}>
@@ -146,7 +150,7 @@ const HomeworkCard = (props: any) => {
         {type === "已批改" && (
           <Button
             style={{ alignSelf: "flex-end" }}
-            onClick={() => goScoringTeacher(item.lessonId, item.submitId)}
+            onClick={() => goScoringTeacher(item.lessonId, item.submitId, item.homeworkId)}
           >
             修改
           </Button>
@@ -154,7 +158,7 @@ const HomeworkCard = (props: any) => {
         {type === "未批改" && (
           <Button
             style={{ alignSelf: "flex-end" }}
-            onClick={() => goScoringTeacher(item.lessonId, item.submitId)}
+            onClick={() => goScoringTeacher(item.lessonId, item.submitId, item.homeworkId)}
           >
             批改
           </Button>
