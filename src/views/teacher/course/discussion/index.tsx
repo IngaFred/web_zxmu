@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Avatar, Button, Input, message, Tooltip } from "antd";
-import { CommentOutlined } from "@ant-design/icons";
+import { CommentOutlined, EditOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import {
   getCommentByTermIdAndLessonId,
   postCommentByTermIdAndLessonId,
+  putChangeReply,
 } from "../../../../service/course";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../store";
@@ -46,7 +47,7 @@ const Discussion = (props: LessonId) => {
     }).then((res) => {
       if (res.status === 200) {
         if (res.data.success) {
-          message.success("回复成功");
+          message.success("成功");
           getCommentInfo();
         } else {
           message.error(res.data.errorMsg);
@@ -155,6 +156,36 @@ export const DiscussionItem = (props: {
   const { comment, lessonId, termId, getCommentInfo } = props;
   // //定义回复框是否可见，默认不可见
   const [replyInputVisible, setReplyInputVisible] = useState(false);
+  //定义回复框内容
+  const [changeReply, setChangeReply] = useState(false);
+  const [changeReplyComment, setChangeReplyComment] = useState("");
+  const handleChangeReply = (content: any) => {
+    setChangeReply(true);
+    setChangeReplyComment(content);
+  };
+  const handleReplyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setChangeReplyComment(e.target.value);
+  };
+  const handleCancelChangeReply = () => {
+    setChangeReply(false);
+    setChangeReplyComment("");
+  };
+  const change = (commentId: string, comment: string) => {
+    console.log(commentId, comment);
+    putChangeReply(commentId, comment).then((res) => {
+      if (res.status === 200) {
+        if (res.data.success) {
+          message.success("修改成功");
+          getCommentInfo();
+        } else {
+          message.error(res.data.errorMsg);
+        }
+      } else {
+        message.error("请求失败");
+      }
+    });
+    setChangeReply(false);
+  };
   //显示回复输入框
   const handleReply = () => {
     setReplyInputVisible((data) => {
@@ -220,6 +251,13 @@ export const DiscussionItem = (props: {
                 onClick={handleReply}
               />
             </Tooltip>
+            <Tooltip title="修改回复">
+              <Button
+                type="text"
+                icon={<EditOutlined />}
+                onClick={() => handleChangeReply(comment.content)}
+              />
+            </Tooltip>
           </div>
         </div>
         {/* 回复框 */}
@@ -240,6 +278,28 @@ export const DiscussionItem = (props: {
                 }}
               >
                 发送
+              </Button>
+            </div>
+          </div>
+        )}
+        {/* 修改评论*/}
+        {changeReply && (
+          <div>
+            <Input.TextArea
+              value={changeReplyComment}
+              onChange={handleReplyChange}
+              rows={4}
+            />
+            <div className={styles.cancelBt}>
+              <Button onClick={handleCancelChangeReply}>取消</Button>
+              <Button
+                style={{ marginLeft: "10px" }}
+                type="primary"
+                onClick={() => {
+                  change(comment.commentId, changeReplyComment);
+                }}
+              >
+                修改
               </Button>
             </div>
           </div>

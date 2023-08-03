@@ -1,0 +1,29 @@
+.detailALL {
+  margin: 20px 150px;
+}
+.detailHeader {
+  display: flex;
+  // margin: 30px;
+  justify-content: space-between;
+  .title {
+    display: flex;
+    line-height: 32px;
+  }
+  .btn {
+    margin-left: 20px;
+  }
+}
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.form {
+  max-width: 2000px;
+  margin: 20px;
+  font-size: 16px;
+  margin-left: 30px;
+}
+.text {
+  margin-right: 20px;
+  height: 250px !important;
+}
