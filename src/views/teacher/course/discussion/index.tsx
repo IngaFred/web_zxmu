@@ -30,7 +30,11 @@ const Discussion = (props: LessonId) => {
     setReplyContent("");
   };
   const handleMoreComments = () => {
-    setDisplayedComments(displayedComments + DISPLAY_COUNT);
+    if (displayedComments < commentList.length) {
+      setDisplayedComments(displayedComments + DISPLAY_COUNT);
+    } else {
+      message.info("没有更多评论了！");
+    }
   };
   //评论业务
   const handleReplyContentChange = (
