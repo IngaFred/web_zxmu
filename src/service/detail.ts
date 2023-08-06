@@ -1,3 +1,4 @@
+import { putChangeReply } from "./course";
 import { UploadFile } from "antd";
 import http from "../utils/http";
 // 引入AxiosRequestConfig类型
@@ -34,14 +35,16 @@ export const getHomeworkInfo = async (hid: HomeworkId) => {
   return ret;
 };
 // 通过提交作业id获取提交的作业
-export const getSubmitHomework = async (shid: submitHomework) => {
+export const getSubmitHomework = async (shid: string) => {
   const ret = await http.get("/homework/sub/id?submitHomeworkId=" + shid);
   // console.log('提交的作业', ret);
   return ret;
 };
 // 教师查看该作业下所有提交的作业
 export const getAllSubmitHomework = async (hid: HomeworkId, tid: termId) => {
-  const ret = await http.get("/homework/submit?homeworkId=" + hid + "&termId=" + tid);
+  const ret = await http.get(
+    "/homework/submit?homeworkId=" + hid + "&termId=" + tid
+  );
   // console.log('所有提交的作业', ret);
   return ret;
 };
@@ -60,13 +63,14 @@ export const postUploadFile = async (file: File) => {
 // 学生不用删除文件，是修改文件
 // 提交作业
 export const postSubmit = async (payload: HomeworkList) => {
+  console.log("提交作业", payload);
   const ret = await http.post("/homework/submit", {
     homeworkId: payload.homeworkId,
     content: payload.content,
     resourceList: payload.resourceListIds,
     termId: payload.termId,
   });
-
+  console.log("返回结果", ret);
   return ret;
 };
 // 自定义上传Image. 并得到图片 url alt href
@@ -92,4 +96,20 @@ export const postUploadVideo = async (file: File) => {
     "upload"
   );
   return ret;
+};
+
+export const getMyHomeWork = async () => {
+  const res = await http.get(`/homework`);
+  return res;
+};
+
+export const putChangeHomeWork = async (
+  submitHomeworkId: string,
+  content: any
+) => {
+  const res = await http.put(`/homework/sub/content`, {
+    submitHomeworkId: submitHomeworkId,
+    content: content,
+  });
+  return res;
 };

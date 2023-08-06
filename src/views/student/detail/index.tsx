@@ -13,7 +13,6 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getDetails, getHomeworkInfo, postSubmit } from "../../../service/detail";
 import MyEditor from "./components/myEditor";
 import MyUpload from "../../../components/upload";
 import styles from "./index.module.scss";
@@ -22,7 +21,16 @@ import "@wangeditor/editor/dist/css/style.css";
 import { Editor, Toolbar } from "@wangeditor/editor-for-react";
 import { DomEditor } from "@wangeditor/editor";
 import { IDomEditor, IEditorConfig, IToolbarConfig } from "@wangeditor/editor";
-import { postUploadImage, postUploadVideo } from "../../../service/detail";
+import {
+  postUploadImage,
+  postUploadVideo,
+  getDetails,
+  getHomeworkInfo,
+  postSubmit,
+  getMyHomeWork,
+  getSubmitHomework,
+  putChangeHomeWork,
+} from "../../../service/detail";
 
 // 作业详情（查看作业，修改作业，提交作业，成果展示列表）
 // 邱致彬
@@ -129,27 +137,51 @@ export default function Detail(props: any) {
     };
   }, [editor]);
 
+  const [isSubmitted, setSubmit] = useState(false);
+  const [myHomeworkId, setMyHomeworkId] = useState("");
   useEffect(() => {
-    //console.log('getLessonDetail :>> ');
+    getMyHomeWork().then((res) => {
+      console.log("我的作业", res.data.data);
+      if (res.data.data) {
+        // console.log("我执行了");
+        for (var i = 0; i < res.data.data.length; i++) {
+          if (res.data.data[i].lessonId === myLesson.id) {
+            setSubmit(true);
+            // console.log("需要的", res.data.data[i]);
+            setMyHomeworkId(res.data.data[i].subHomework.submitId);
+            break; // 找到一个对象的 lessonId 值相等后，可以立即结束循环
+          }
+        }
+      }
+    });
+
     getDetails(myLesson).then((ret) => {
-      // 使用可选链操作符来访问可能为undefined的属性
       const { success, data, errorMsg } = ret?.data || {};
       if (success) {
         message.success(errorMsg);
-        //console.log(data);
+        // console.log("已有作业", data);
         setHomeworkBOList(data);
         setMyResoursBOList(data?.resoursBOList);
-        // 使用find方法 得到特定的homeworkId的作业
-        // const myHomeworkBOList = data.homeworkBOList.find(
-        //   (v: Homework) => v.homeworkId === myHomework.hId
-        // );
       } else {
         message.error("获取详细作业失败");
       }
     });
     return () => {};
   }, []);
-
+  useEffect(() => {
+    if (myHomeworkId !== "") {
+      getSubmitHomework(myHomeworkId).then((res) => {
+        if (res.data.success) {
+          const str = res.data.data.content;
+          const extractedString = str.slice(
+            1,
+            res.data.data.content.length - 2
+          );
+          setHtml(extractedString);
+        }
+      });
+    }
+  }, [myHomeworkId]);
   // 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
   const { lessonName, name, info, start, end } = homeworkBOList || {};
   const showHomework: ShowHomework = {
@@ -188,7 +220,7 @@ export default function Detail(props: any) {
       const { success, data, errorMsg } = ret?.data || null;
       if (success) {
         //console.log(errorMsg);
-        message.success(errorMsg)
+        message.success(errorMsg);
       } else {
         //console.log(errorMsg);
       }
@@ -212,90 +244,212 @@ export default function Detail(props: any) {
 
   return (
     <div className={styles.detailALL}>
-      <Row justify={"space-between"} className={styles.detailHeader}>
-        <div className={styles.detailTitle}>作业作答</div>
-        <Space size={40}>
-          <Button
-            onClick={() => {
-              handleGoodHomework(termId, myHomework?.homeworkId, showHomework);
-            }}
-          >
-            优秀作业查看
-          </Button>
-          <Button type="primary" onClick={SubmitEvent}>
-            提交
-          </Button>
-        </Space>
-      </Row>
+      {isSubmitted ? (
+        <>
+          <Row justify={"space-between"} className={styles.detailHeader}>
+            <div className={styles.detailTitle}>作业作答</div>
+            <Space size={40}>
+              <Button
+                onClick={() => {
+                  handleGoodHomework(
+                    termId,
+                    myHomework?.homeworkId,
+                    showHomework
+                  );
+                }}
+              >
+                优秀作业查看
+              </Button>
+              <Button
+                type="primary"
+                onClick={() =>
+                  putChangeHomeWork(myHomeworkId, html).then((res) => {
+                    if (res.data.success) {
+                      message.success(res.data.errorMsg);
+                    }
+                  })
+                }
+              >
+                提交
+              </Button>
+            </Space>
+          </Row>
 
-      <Row gutter={24}>
-        <Col span={24}>
-          <Row className={styles.head}>
-            {lessonName} | {name}
-          </Row>
-          {/* InfoRow 封装组件 */}
-          <InfoRow label="发布人：" value={userName} />
-          <InfoRow
-            label="发布日期："
-            value={new Date(homeworkBOList?.start || "").toLocaleString(
-              "zh-CN",
-              {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              }
-            )}
-          />
-          <InfoRow
-            label="截止日期："
-            value={new Date(homeworkBOList?.end || "").toLocaleString("zh-CN", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          />
-          <Divider />
-          <Row className={styles.info}>
-            <p className={styles["info-p"]}>题目：{info}</p>
-          </Row>
-          {/* 富文本控件 */}
-          <Row>
-            <div
-              style={{ border: "1px solid #ccc", zIndex: 100, width: "100%" }}
-            >
-              <Toolbar
-                editor={editor}
-                defaultConfig={toolbarConfig}
-                mode="default"
-                style={{ borderBottom: "1px solid #ccc" }}
+          <Row gutter={24}>
+            <Col span={24}>
+              <Row className={styles.head}>
+                {lessonName} | {name}
+              </Row>
+              {/* InfoRow 封装组件 */}
+              <InfoRow label="发布人：" value={userName} />
+              <InfoRow
+                label="发布日期："
+                value={new Date(homeworkBOList?.start || "").toLocaleString(
+                  "zh-CN",
+                  {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
               />
-              <Editor
-                defaultConfig={editorConfig}
-                value={html}
-                onCreated={setEditor}
-                onChange={(editor) => setHtml(editor.getHtml())}
-                mode="default"
-                style={{ height: "400px", overflowY: "hidden" }}
+              <InfoRow
+                label="截止日期："
+                value={new Date(homeworkBOList?.end || "").toLocaleString(
+                  "zh-CN",
+                  {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
               />
-            </div>
+              <Divider />
+              <Row className={styles.info}>
+                <p className={styles["info-p"]}>题目：{info}</p>
+              </Row>
+              {/* 富文本控件 */}
+              <Row>
+                <div
+                  style={{
+                    border: "1px solid #ccc",
+                    zIndex: 100,
+                    width: "100%",
+                  }}
+                >
+                  <Toolbar
+                    editor={editor}
+                    defaultConfig={toolbarConfig}
+                    mode="default"
+                    style={{ borderBottom: "1px solid #ccc" }}
+                  />
+                  <Editor
+                    defaultConfig={editorConfig}
+                    value={html}
+                    onCreated={setEditor}
+                    onChange={(editor) => setHtml(editor.getHtml())}
+                    mode="default"
+                    style={{ height: "400px", overflowY: "hidden" }}
+                  />
+                </div>
+              </Row>
+            </Col>
           </Row>
-        </Col>
-      </Row>
 
-      <Row gutter={24}>
-        <MyUpload
-          // getResourceLists={(resourceLists) => {
-          //   setResourceLists(resourceLists);
-          // }}
-          getResourceLists={()=>{}}
-          deleteResoursIdList={[]}
-          setDeleteResoursIdList={()=>{}}
-        />
-      </Row>
+          <Row gutter={24}>
+            <MyUpload
+              // getResourceLists={(resourceLists) => {
+              //   setResourceLists(resourceLists);
+              // }}
+              getResourceLists={() => {}}
+              deleteResoursIdList={[]}
+              setDeleteResoursIdList={() => {}}
+            />
+          </Row>
+        </>
+      ) : (
+        <>
+          <Row justify={"space-between"} className={styles.detailHeader}>
+            <div className={styles.detailTitle}>作业作答</div>
+            <Space size={40}>
+              <Button
+                onClick={() => {
+                  handleGoodHomework(
+                    termId,
+                    myHomework?.homeworkId,
+                    showHomework
+                  );
+                }}
+              >
+                优秀作业查看
+              </Button>
+              <Button type="primary" onClick={SubmitEvent}>
+                提交
+              </Button>
+            </Space>
+          </Row>
+
+          <Row gutter={24}>
+            <Col span={24}>
+              <Row className={styles.head}>
+                {lessonName} | {name}
+              </Row>
+              {/* InfoRow 封装组件 */}
+              <InfoRow label="发布人：" value={userName} />
+              <InfoRow
+                label="发布日期："
+                value={new Date(homeworkBOList?.start || "").toLocaleString(
+                  "zh-CN",
+                  {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+              />
+              <InfoRow
+                label="截止日期："
+                value={new Date(homeworkBOList?.end || "").toLocaleString(
+                  "zh-CN",
+                  {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+              />
+              <Divider />
+              <Row className={styles.info}>
+                <p className={styles["info-p"]}>题目：{info}</p>
+              </Row>
+              {/* 富文本控件 */}
+              <Row>
+                <div
+                  style={{
+                    border: "1px solid #ccc",
+                    zIndex: 100,
+                    width: "100%",
+                  }}
+                >
+                  <Toolbar
+                    editor={editor}
+                    defaultConfig={toolbarConfig}
+                    mode="default"
+                    style={{ borderBottom: "1px solid #ccc" }}
+                  />
+                  <Editor
+                    defaultConfig={editorConfig}
+                    value={html}
+                    onCreated={setEditor}
+                    onChange={(editor) => setHtml(editor.getHtml())}
+                    mode="default"
+                    style={{ height: "400px", overflowY: "hidden" }}
+                  />
+                </div>
+              </Row>
+            </Col>
+          </Row>
+
+          <Row gutter={24}>
+            <MyUpload
+              // getResourceLists={(resourceLists) => {
+              //   setResourceLists(resourceLists);
+              // }}
+              getResourceLists={() => {}}
+              deleteResoursIdList={[]}
+              setDeleteResoursIdList={() => {}}
+            />
+          </Row>
+        </>
+      )}
     </div>
   );
 }
