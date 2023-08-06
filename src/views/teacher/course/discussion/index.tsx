@@ -22,7 +22,6 @@ const Discussion = (props: LessonId) => {
   const [displayCommentList, setDisplayCommentList] = useState<any[]>([]);
   const termId = useSelector((state: RootState) => state.user.termId);
   const _termId = props.termId || termId;
-
   // 定义回复内柔，默认为空
   const [replyContent, setReplyContent] = useState("");
   //取消回复时操作：输入框消失、回复内容为空
@@ -30,7 +29,11 @@ const Discussion = (props: LessonId) => {
     setReplyContent("");
   };
   const handleMoreComments = () => {
-    setDisplayedComments(displayedComments + DISPLAY_COUNT);
+    if (displayedComments < commentList.length) {
+      setDisplayedComments(displayedComments + DISPLAY_COUNT);
+    } else {
+      message.info("没有更多评论了！");
+    }
   };
   //评论业务
   const handleReplyContentChange = (
