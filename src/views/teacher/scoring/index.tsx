@@ -33,6 +33,24 @@ interface HomeworkInfo {
   //额外的属性检查
   [propName: string]: any
 }
+interface submitHomework {
+  content: string;
+  homeworkId: string;
+  resoursBOList: any[];
+  score: string;
+  user: User
+  submitId: string;
+  status: string;
+  //额外的属性检查
+  [propName: string]: any
+}
+interface User {
+  userName: string
+  picUrl: string
+  sex: string
+  stuId: string
+  userId: string
+}
 interface Resource {
   resourceId: string;
   belongId: string;
@@ -47,9 +65,10 @@ export default function Detail() {
   const { lessonId, submitId, homeworkId } = location.state;
   //作业信息
   const [homeworkInfo, setHomeworkInfo] = useState<HomeworkInfo>();
-  //学生提交的作业内容
-  const [submitHomework, setSubmitHomework] = useState();
-  const [infoResoursBOList, setInfoResoursBOList] = useState([]);
+  //学生提交的作业信息
+  const [submitHomework, setSubmitHomework] = useState<submitHomework>();
+  //作业信息资源列表
+  const [infoResoursBOList, setInfoResoursBOList] = useState<any[]>([]);
 
   useEffect(() => {
     getHomeworkInfo(homeworkId).then((res) => {
@@ -67,6 +86,8 @@ export default function Detail() {
 
   // 使用es6的解构赋值，来简化你对homeworkInfo对象的访问
   const { lessonName, name, start, end, info, resoursBOList } = homeworkInfo || {};
+  const { user, content } = submitHomework || {};
+  const { userName } = user || {};
 
   type scoreParams = {
     submitHomeworkId: string;
@@ -133,6 +154,16 @@ export default function Detail() {
       });
   };
 
+  const HTMLDecode = (text: any) => {
+    let temp: any = document.createElement("div");
+    temp.innerHTML = text;
+    let output = temp.innerText || temp.textContent;
+    console.log(output);
+
+    temp = null;
+    return output;
+  };
+
   return (
     <div className={styles["show-all"]}>
 
@@ -142,11 +173,11 @@ export default function Detail() {
 
       <Row gutter={24}>
         <Descriptions title={name} className={styles.head} column={1}>
-          <Descriptions.Item label="作业内容" className={styles["info-p"]}>{info}</Descriptions.Item>
-          <Descriptions.Item label="附件资源" >
+          <Descriptions.Item label="作业内容" >{info}</Descriptions.Item>
+          <Descriptions.Item label="附件资源" contentStyle={{ flexFlow: "column" }} >
             {infoResoursBOList.map((item, index) => (
               <div style={{ display: "flex", padding: "5px" }}>
-                {/* <a
+                <a
                   href={item.url}
                   download={item.name}
                   className={styles.download}
@@ -154,9 +185,9 @@ export default function Detail() {
                 >
                   <ContainerTwoTone className={styles.downloadIcon} />
                   {item.name}
-                </a> */}
+                </a>
                 <Button
-                  // onClick={() => handleDownload(item.url)}
+                  onClick={() => handleDownload(item.url)}
                   size="small"
                   style={{ marginLeft: "20px" }}
                 >
@@ -166,6 +197,43 @@ export default function Detail() {
             ))}
           </Descriptions.Item>
         </Descriptions>
+        <Card title={userName + "提交的作业"} bordered={false} style={{ width: 1000 }}>
+          <Card>
+            <p dangerouslySetInnerHTML={{ __html: content! }}></p>
+            {/* <Input className={styles.text} style={{ width: 900 }} value={content} /> */}
+
+          </Card>
+          <div>
+
+            {infoResoursBOList.map((item, index) => (
+              <div style={{ display: "flex", padding: "5px" }}>
+                <a
+                  href={item.url}
+                  download={item.name}
+                  className={styles.download}
+                  key={index}
+                >
+                  <ContainerTwoTone className={styles.downloadIcon} />
+                  {item.name}
+                </a>
+                <Button
+                  onClick={() => handleDownload(item.url)}
+                  size="small"
+                  style={{ marginLeft: "20px" }}
+                >
+                  下载
+                </Button>
+              </div>
+            ))}
+          </div>
+          <Space.Compact style={{width:"10vh", display: "flex", justifyContent:"end", }}>
+            <Input value={fen} onChange={(e) => handleInput(e)} />
+            <Button type="primary" onClick={() => handleSend(scores)}>
+              打分
+            </Button>
+          </Space.Compact>
+        </Card>
+
         {/* <Row>
           <div className={styles.outline}>
             <div>
@@ -230,15 +298,6 @@ export default function Detail() {
             minute: "2-digit",
           })}
         /> */}
-
-        <div className={styles.detailALL}>
-          <Space.Compact style={{ width: "10%", marginLeft: "20px" }}>
-            <Input value={fen} onChange={(e) => handleInput(e)} />
-            <Button type="primary" onClick={() => handleSend(scores)}>
-              打分
-            </Button>
-          </Space.Compact>
-        </div>
       </Row>
       <br></br>
     </div>
