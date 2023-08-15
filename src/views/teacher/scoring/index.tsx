@@ -58,6 +58,10 @@ interface Resource {
   url: string;
   info: string;
 }
+type scoreParams = {
+  submitHomeworkId: string;
+  score: string;
+};
 
 export default function Detail() {
   const location = useLocation();
@@ -65,38 +69,34 @@ export default function Detail() {
   const { lessonId, submitId, homeworkId } = location.state;
   //作业信息
   const [homeworkInfo, setHomeworkInfo] = useState<HomeworkInfo>();
-  //学生提交的作业信息
-  const [submitHomework, setSubmitHomework] = useState<submitHomework>();
   //作业信息资源列表
   const [infoResoursBOList, setInfoResoursBOList] = useState<any[]>([]);
+  //学生提交的作业内容
+  const [submitHomework, setSubmitHomework] = useState<submitHomework>();
+  //学生提交的作业内容资源列表
+  const [submitResoursBOList, setSubmitResoursBOList] = useState<any[]>([]);
 
+  //获取第一次渲染页面所需的作业信息和学生提交的作业内容
   useEffect(() => {
     getHomeworkInfo(homeworkId).then((res) => {
-      console.log(res);
+      // console.log(res);
       setHomeworkInfo(res.data.data)
       setInfoResoursBOList(res.data.data.resoursBOList)
     })
     getSubmitHomework(submitId).then((res) => {
-      console.log(res);
+      // console.log(res);
       setSubmitHomework(res.data.data)
+      setSubmitResoursBOList(res.data.data.resoursBOList)
     })
   }, [])
-  // console.log(homeworkInfo);
-  // console.log(submitHomework);
 
   // 使用es6的解构赋值，来简化你对homeworkInfo对象的访问
   const { lessonName, name, start, end, info, resoursBOList } = homeworkInfo || {};
   const { user, content } = submitHomework || {};
   const { userName } = user || {};
 
-  type scoreParams = {
-    submitHomeworkId: string;
-    score: string;
-  };
-
-  const [scoreParam, setScoreParam] = useState<scoreParams>();
   const handleSend = (scores: string) => {
-    //console.log('location?.state', location?.state);
+    console.log(scores);
     if (!scores) {
       message.warning("所打分数不能为空");
       return null;
@@ -105,24 +105,20 @@ export default function Detail() {
       submitHomeworkId: submitId,
       score: scores,
     };
-    // //console.log(score);
-
-    setScoreParam(score);
+    console.log(score);
+    // setScoreParam(score);
     handleInputScore(score);
   };
 
   const handleInputScore = (scoreParam: scoreParams) => {
     putCourse(scoreParam).then((ret) => {
       if (ret.status === 200) {
-        //console.log(ret);
-
+        // console.log(ret);
         if (ret.data.success) {
-          //console.log(scoreParam.score);
-
-          message.info(ret.data.errorMsg);
+          // console.log(scoreParam.score);
+          message.success(ret.data.errorMsg);
         } else {
-          //console.log(scoreParam.score);
-
+          // console.log(scoreParam.score);
           message.warning(ret.data.errorMsg);
         }
       } else {
@@ -159,7 +155,6 @@ export default function Detail() {
     temp.innerHTML = text;
     let output = temp.innerText || temp.textContent;
     console.log(output);
-
     temp = null;
     return output;
   };
@@ -175,26 +170,31 @@ export default function Detail() {
         <Descriptions title={name} className={styles.head} column={1}>
           <Descriptions.Item label="作业内容" >{info}</Descriptions.Item>
           <Descriptions.Item label="附件资源" contentStyle={{ flexFlow: "column" }} >
-            {infoResoursBOList.map((item, index) => (
-              <div style={{ display: "flex", padding: "5px" }}>
-                <a
-                  href={item.url}
-                  download={item.name}
-                  className={styles.download}
-                  key={index}
-                >
-                  <ContainerTwoTone className={styles.downloadIcon} />
-                  {item.name}
-                </a>
-                <Button
-                  onClick={() => handleDownload(item.url)}
-                  size="small"
-                  style={{ marginLeft: "20px" }}
-                >
-                  下载
-                </Button>
-              </div>
-            ))}
+            <div style={{ display: infoResoursBOList.length === 0 ? "inline" : "none", }}>
+              暂无资源
+            </div>
+            <div>
+              {infoResoursBOList.map((item, index) => (
+                <div style={{ display: "flex", padding: "5px" }}>
+                  <a
+                    href={item.url}
+                    download={item.name}
+                    className={styles.download}
+                    key={index}
+                  >
+                    <ContainerTwoTone className={styles.downloadIcon} />
+                    {item.name}
+                  </a>
+                  <Button
+                    onClick={() => handleDownload(item.url)}
+                    size="small"
+                    style={{ marginLeft: "20px" }}
+                  >
+                    下载
+                  </Button>
+                </div>
+              ))}
+            </div>
           </Descriptions.Item>
         </Descriptions>
         <Card title={userName + "提交的作业"} bordered={false} style={{ width: 1000 }}>
@@ -203,9 +203,17 @@ export default function Detail() {
             {/* <Input className={styles.text} style={{ width: 900 }} value={content} /> */}
 
           </Card>
+          <div
+            style={{
+              display: submitResoursBOList.length === 0 ? "block" : "none",
+              margin: "10px 0 0 8px",
+              fontSize: "16px",
+            }}
+          >
+            无作业附件资源
+          </div>
           <div>
-
-            {infoResoursBOList.map((item, index) => (
+            {submitResoursBOList.map((item, index) => (
               <div style={{ display: "flex", padding: "5px" }}>
                 <a
                   href={item.url}
@@ -226,7 +234,7 @@ export default function Detail() {
               </div>
             ))}
           </div>
-          <Space.Compact style={{width:"10vh", display: "flex", justifyContent:"end", }}>
+          <Space.Compact style={{ width: "13vh", marginTop: "10px" }}>
             <Input value={fen} onChange={(e) => handleInput(e)} />
             <Button type="primary" onClick={() => handleSend(scores)}>
               打分

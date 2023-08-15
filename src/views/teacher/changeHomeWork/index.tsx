@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, DatePicker } from "antd";
+import { Button, Form, Input, message, DatePicker, Row } from "antd";
 import styles from "./index.module.scss";
-import {
-  getCourseInfo,
-  changeWorkName,
-  changeWorkInfo,
-} from "../../../service/changeWork";
+import { getCourseInfo, changeWorkName, changeWorkInfo, updatePublishedWork } from "../../../service/changeWork";
+import { deleteResource } from "../../../service/myUpload";
 import { useLocation } from "react-router-dom";
+import MyUpload from '../../../components/upload';
+
 export default function Detail() {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const location = useLocation();
   const lessonId: string = location.state?.lessonId.e;
-  const [homeWorkId, setHomeWorkId] = useState("");
+  const [homeworkId, setHomeworkId] = useState("");
   const [preName, setPreName] = useState("");
   const [preInfo, setPreInfo] = useState("");
+  const [updateFlag, setUpdateFlag] = useState(false);
+  //已上传的资源列表
+  const [resoursBOList, setresoursBOList] = useState<any[]>([]);
+  //新增资源id的数组
+  const [resourceIdLists, setResourceIdLists] = useState<string[]>([]);
+  //删除资源id的数组
+  const [deleteResourceIdList, setDeleteResourceIdList] = useState<string[]>([]);
+
   useEffect(() => {
     getCourseInfo(lessonId).then((res) => {
+      // console.log(res);
       if (res.status === 200) {
         if (Object.keys(res.data.data).length !== 0) {
           form.setFieldsValue({
@@ -25,7 +33,8 @@ export default function Detail() {
           });
           setPreName(res.data.data.name);
           setPreInfo(res.data.data.info);
-          setHomeWorkId(res.data.data.homeworkId);
+          setHomeworkId(res.data.data.homeworkId);
+          setresoursBOList(res.data.data.resoursBOList);
         } else {
           message.info("暂无课程信息！");
         }
@@ -34,42 +43,40 @@ export default function Detail() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    setUpdateFlag(true)
+  }, [resourceIdLists, deleteResourceIdList]);
+
+  const updateHomeworkInfo = () => {
+    const values = form?.getFieldsValue();
+    // console.log(values);
+    console.log(homeworkId);
+    console.log(values.Name);
+    console.log(values.Info);
+    console.log(resourceIdLists);
+    console.log(deleteResourceIdList);
+    updatePublishedWork(
+      homeworkId,
+      values.Name,
+      values.Info,
+      resourceIdLists,
+      deleteResourceIdList
+    ).then((res) => {
+      console.log(res);
+    })
+  }
+
+
   return (
     <div className={styles.detailALL}>
       <div className={styles.detailHeader}>
-        <div className={styles.title}>新建作业</div>
+        <div className={styles.title}>修改作业</div>
         <div>
           <Button
             className={styles.btn}
             type="primary"
-            onClick={() => {
-              const values = form?.getFieldsValue();
-              if (values.Name === preName && values.Info === preInfo) {
-                return;
-              }
-              if (values.Name === preName && values.Info !== preInfo) {
-                changeWorkInfo(homeWorkId, values.Info).then((res: any) => {
-                  message.success(res.data.errorMsg);
-                });
-                setPreInfo(values.Info);
-              }
-              if (values.Name !== preName && values.Info === preInfo) {
-                changeWorkName(homeWorkId, values.Name).then((res: any) => {
-                  message.success(res.data.errorMsg);
-                });
-                setPreName(values.Name);
-              }
-              if (values.Name !== preName && values.Info !== preInfo) {
-                changeWorkName(homeWorkId, values.Name).then((res: any) => {
-                  message.success(res.data.errorMsg);
-                });
-                changeWorkInfo(homeWorkId, values.Info).then((res: any) => {
-                  message.success(res.data.errorMsg);
-                });
-                setPreInfo(values.Info);
-                setPreName(values.Name);
-              }
-            }}
+            onClick={updateHomeworkInfo}
           >
             作业发布
           </Button>
@@ -90,6 +97,13 @@ export default function Detail() {
           <Form.Item name="Info" label="作业内容">
             <TextArea className={styles.text} style={{ width: "1000px" }} />
           </Form.Item>
+          <Row gutter={24}>
+            <MyUpload
+              resoursBOList={resoursBOList}
+              getNewResourceIdLists={setResourceIdLists}
+              getDeleteResoursIdList={setDeleteResourceIdList}
+            />
+          </Row>
         </div>
       </Form>
     </div>

@@ -124,7 +124,7 @@ export default function Login() {
 					</Form.Item>
 				</Form>
 
-				<div className={styles['test-users']}>
+				{/* <div className={styles['test-users']}>
 					<Row gutter={20}>
 						{testUsers.map((v) => (
 							<Col key={v.account} span={12} push={5}>
@@ -144,7 +144,7 @@ export default function Login() {
 							</Col>
 						))}
 					</Row>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

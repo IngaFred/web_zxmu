@@ -55,7 +55,7 @@ const ModelCard = (props: any) => {
     }
   };
   const handleMyDetail = (id: React.MouseEvent<HTMLButtonElement>) => {
-    navigate("/detail", { state: { lessonId: { id } } });
+    navigate("/detail", { state: { lessonId: id } });
   };
 
   if (!modelLessons) {
@@ -326,7 +326,7 @@ export default function Home() {
               <Col span={4}>
                 <Card
                   hoverable
-                  cover={<img alt="example" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/d196416f-af2e-48b3-8cee-eac01895d006.png" />}
+                  cover={<img alt="红色引领绿色发展探寻乡村振兴共富之路2.mp4" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/d196416f-af2e-48b3-8cee-eac01895d006.png" />}
                 >
                   <a
                     href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/c186a19b-b11a-4211-afce-e331a33763e8.mp4"
@@ -339,7 +339,7 @@ export default function Home() {
               <Col span={4}>
                 <Card
                   hoverable
-                  cover={<img alt="example" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/85414126-6f25-4499-a8eb-1b02280811df.png" />}
+                  cover={<img alt="坚定初心永不忘最美护理守健康高航.mp4" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/85414126-6f25-4499-a8eb-1b02280811df.png" />}
                 >
                   <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/f49712e8-abf8-43b3-bfaa-f6eb32b69b87.mp4"
                     target="_blank">
@@ -350,11 +350,33 @@ export default function Home() {
               <Col span={4}>
                 <Card
                   hoverable
-                  cover={<img alt="example" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/1044e1db-1f0a-421d-baf5-fedee06ec869.png" />}
+                  cover={<img alt="“最美护理”社会实践课程.mp4" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/1044e1db-1f0a-421d-baf5-fedee06ec869.png" />}
                 >
                   <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/af577955-53c6-433b-b868-9522bbf78078.mp4"
                     target="_blank">
                     <Meta title="“最美护理”社会实践课程.mp4" />
+                  </a>
+                </Card>
+              </Col>
+              <Col span={4}>
+                <Card
+                  hoverable
+                  cover={<img alt="[5.3] 最美护理劳动教育实践.1080p.x264.aac.m4v" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/5259faca-bb86-4bd5-9689-0d7c5ee37a8b.png" />}
+                >
+                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/54d1662a-1d6e-4636-b502-e7581df8f881.m4v"
+                    target="_blank">
+                    <Meta title="[5.3] 最美护理劳动教育实践.1080p.x264.aac.m4v" />
+                  </a>
+                </Card>
+              </Col>
+              <Col span={3}>
+                <Card
+                  hoverable
+                  cover={<img alt="“寻访护理前辈，传承护理精神”暑期社会实践(5).pptx" height={150} src="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/2b5e7b25-e56c-475e-85a1-c4877b824bd6.png" />}
+                >
+                  <a href="https://zcmu-resours-1305805121.cos.ap-shanghai.myqcloud.com/dev/zcmu/default/c14cbede-d6db-4686-bd5a-106ae657bd71.pptx"
+                    target="_blank">
+                    <Meta title="“寻访护理前辈，传承护理精神”暑期社会实践(5).pptx" />
                   </a>
                 </Card>
               </Col>
@@ -381,12 +403,11 @@ export default function Home() {
             <div className={styles.model_title_big} ref={myRef5}>
               四、教师团队
             </div>
-
             <InformationGun showTitle={false} />
           </div>
         </Row>
         {/* 课程主题 */}
-        <Row gutter={24}></Row>
+        {/* <Row gutter={24}></Row> */}
         {/* <Information /> */}
         <div className={styles.fixed_pop}>
           {/* 跳转到一、课程介绍 */}

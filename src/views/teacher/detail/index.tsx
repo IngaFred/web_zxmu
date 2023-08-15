@@ -8,6 +8,7 @@ import {
   message,
   DatePicker,
   Upload,
+  Descriptions
 } from "antd";
 import styles from "./index.module.scss";
 import { setHomework } from "../../../service/teacherdetail";
@@ -49,7 +50,12 @@ export default function Detail() {
                 resourceList: resourceIdList,
               };
               //console.log('newObj--->', newHomework);
-              setHomework(newHomework);
+              setHomework(newHomework).then((res) => {
+                // console.log(res);
+                if (res.data.success === true) {
+                  message.success(res.data.errorMsg);
+                }
+              });
             }}
           >
             作业发布
@@ -67,7 +73,7 @@ export default function Detail() {
       >
         <div>
           <Form.Item name="LessonId" label="所属课程">
-            <Input />
+            <span>{lessonName}</span>
           </Form.Item>
 
           <Form.Item name="Name" label="作业名称">

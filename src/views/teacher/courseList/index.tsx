@@ -49,7 +49,7 @@ export default function List() {
               size="small"
               className={styles.card}
               actions={[
-                <Row justify={"space-between"} style={{ padding: "0 10px" }}>
+                <Row justify={"space-between"} style={{ padding: "0 10px", }}>
                   <Button
                     className={styles.rowBtn}
                     onClick={(e) => handleMyCourse(item.lessonId, e)}
@@ -69,7 +69,11 @@ export default function List() {
               <div className={styles.lesson_top}>
                 <div className={styles.lesson_name}> {item.lessonName} </div>
               </div>
-              <div className={styles.lesson_description}>{item.info}</div>
+              <div className={styles.lesson_description} style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }} >{item.info}</div>
             </Card>
           </Col>
         ))}

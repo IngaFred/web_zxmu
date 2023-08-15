@@ -29,23 +29,25 @@ import {
   postSubmit,
   getMyHomeWork,
   getSubmitHomework,
-  putChangeHomeWork,
+  updateContent,
+  updateResource
 } from "../../../service/detail";
+import Item from "antd/es/list/Item";
 
 // 作业详情（查看作业，修改作业，提交作业，成果展示列表）
 // 邱致彬
-interface Homework {
+interface HomeworkInfo {
   homeworkId: string;
   lessonId: string;
   lessonName: string;
-  info: string;
   name: string;
+  info: string;
   start: string;
   end: string;
-  status: string;
   creator: any;
   term: any;
   resoursBOList: Resource[];
+  subHomework: any
 }
 export interface ShowHomework {
   lessonName: string;
@@ -53,11 +55,12 @@ export interface ShowHomework {
   name: string;
 }
 interface Resource {
-  resourceId: string;
-  belongId: string;
-  userId: string;
-  url: string;
+  name: string
   info: string;
+  resourceId: string;
+  url: string;
+  userId: string;
+  belongId: string;
 }
 interface HomeworkList {
   homeworkId: string;
@@ -66,22 +69,38 @@ interface HomeworkList {
   resourceListIds: string[];
 }
 export default function Detail(props: any) {
+  const navigate = useNavigate();
   const location = useLocation();
-  // const { lessonId: myLesson, homeworkId: myHomework } = location?.state || {};
-  const { lessonId: myLesson } = location?.state || {}; // 解构赋值
-  const [homeworkBOList, setHomeworkBOList] = useState<Homework | null>();
-  const [myResoursBOList, setMyResoursBOList] = useState([]);
-  // 使用useState创建一个本地状态fileList，用来存放文件列表
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  // 定义一个handleChange函数，用来更新fileList状态
-  const handleChange = (info: { fileList: UploadFile[] }) => {
-    setFileList(info.fileList);
-  };
-  // 定义一个handleRemove函数，用来从fileList中移除文件
-  const handleRemove = (file: UploadFile) => {
-    setFileList(fileList.filter((f) => f.uid !== file.uid));
-  };
+  // console.log(location.state);
+  // 解构赋值
 
+  const initHomeworkInfo = {
+    homeworkId: "",
+    lessonId: "",
+    lessonName: "",
+    name: "",
+    info: "",
+    start: "",
+    end: "",
+    creator: "",
+    term: "",
+    resoursBOList: [],
+    subHomework: "",
+  }
+  //
+  const [homeworkInfo, setHomeworkInfo] = useState<HomeworkInfo>(initHomeworkInfo);
+  //判断作业是否提交的标识
+  const [isSubmitted, setSubmit] = useState(false);
+  //教师发布作业详情的资源数组
+  const [infoResoursBOList, setInfoResoursBOList] = useState<Resource[]>([]);
+  //学生已提交的作业内容资源附件
+  const [subResoursBOList, setSubResoursBOList] = useState<any[]>([]);
+  //新增资源id的数组
+  const [resourceIdList, setResourceIdList] = useState<string[]>([]);
+  //删除资源id的数组
+  const [deleteResourceIdList, setDeleteResourceIdList] = useState<string[]>([]);
+
+  //富文本编辑器有关配置
   const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
   const [html, setHtml] = useState("");
   const toolbarConfig: Partial<IToolbarConfig> = {
@@ -91,6 +110,7 @@ export default function Detail(props: any) {
   const toolbar = editor ? DomEditor.getToolbar(editor) : null;
   const curToolbarConfig = toolbar?.getConfig();
   // //console.log(curToolbarConfig?.toolbarKeys ?? 'noEditor');
+  //编辑器配置
   const editorConfig: Partial<IEditorConfig> = {
     MENU_CONF: {
       uploadImage: {
@@ -126,9 +146,9 @@ export default function Detail(props: any) {
         },
       },
     },
+    placeholder: "请输入内容..."
   };
-  editorConfig.placeholder = "请输入内容...";
-  editorConfig.onCreated = (editor: IDomEditor) => {};
+  editorConfig.onCreated = (editor: IDomEditor) => { };
   useEffect(() => {
     return () => {
       if (editor == null) return;
@@ -137,96 +157,81 @@ export default function Detail(props: any) {
     };
   }, [editor]);
 
-  const [isSubmitted, setSubmit] = useState(false);
-  const [myHomeworkId, setMyHomeworkId] = useState("");
+  const { homeworkId, lessonId, lessonName, name, info, start, end, resoursBOList, creator, term, subHomework
+  } = homeworkInfo;
+  //页面首次渲染
   useEffect(() => {
-    getMyHomeWork().then((res) => {
-      console.log("我的作业", res.data.data);
-      if (res.data.data) {
-        // console.log("我执行了");
-        for (var i = 0; i < res.data.data.length; i++) {
-          if (res.data.data[i].lessonId === myLesson.id) {
-            setSubmit(true);
-            // console.log("需要的", res.data.data[i]);
-            setMyHomeworkId(res.data.data[i].subHomework.submitId);
-            break; // 找到一个对象的 lessonId 值相等后，可以立即结束循环
-          }
-        }
+    getDetails(location.state.lessonId).then((res) => {
+      console.log(res);
+      if (res.data.code == "200") {
+        message.success("作业获取成功")
+        setHomeworkInfo(res.data.data)
       }
-    });
-
-    getDetails(myLesson).then((ret) => {
-      const { success, data, errorMsg } = ret?.data || {};
-      if (success) {
-        message.success(errorMsg);
-        // console.log("已有作业", data);
-        setHomeworkBOList(data);
-        setMyResoursBOList(data?.resoursBOList);
-      } else {
-        message.error("获取详细作业失败");
-      }
-    });
-    return () => {};
+    })
   }, []);
   useEffect(() => {
-    if (myHomeworkId !== "") {
-      getSubmitHomework(myHomeworkId).then((res) => {
-        if (res.data.success) {
-          const str = res.data.data.content;
-          const extractedString = str.slice(
-            1,
-            res.data.data.content.length - 2
-          );
-          setHtml(extractedString);
-        }
-      });
+    setInfoResoursBOList(resoursBOList)
+    if (subHomework) {
+      setSubResoursBOList(subHomework.resoursBOList)
+      setSubmit(true)
+      setTimeout(() => {
+        setHtml(subHomework.content)
+      }, 100)
     }
-  }, [myHomeworkId]);
-  // 使用es6的解构赋值，来简化你对homeworkBOList对象的访问
-  const { lessonName, name, info, start, end } = homeworkBOList || {};
+  }, [homeworkInfo]);
+
   const showHomework: ShowHomework = {
     lessonName: lessonName as string,
     name: name as string,
     info: info as string,
   };
-  const userName = homeworkBOList?.creator?.userName;
-  const termId = homeworkBOList?.term?.termId;
 
-  const [resourceLists, setResourceLists] = useState<string[]>();
-
-  // 全体作业存储
-  const myHomework: HomeworkList = {
-    homeworkId: homeworkBOList?.homeworkId || "",
-    content: html,
-    termId: termId as string,
-    resourceListIds: resourceLists as string[],
-  };
-  let subHomework: HomeworkList;
-  useEffect(() => {
-    subHomework = {
-      homeworkId: homeworkBOList?.homeworkId || "",
+  //学生首次提交作业
+  const SubmitHomework = () => {
+    let subHomework: HomeworkList = {
+      homeworkId: homeworkId || "",
       content: html,
-      termId: termId as string,
-      resourceListIds: resourceLists as string[],
+      termId: term.termId as string,
+      resourceListIds: resourceIdList as string[],
     };
-    // //console.log('newResourceList-- :>> ', newResourceList);
-    // //console.log('newResourceListIds-- :>> ', newResourceListIds);
-    // //console.log('subHomework---- :>> ', subHomework);
-  }, [html, resourceLists]);
-
-  const SubmitEvent = () => {
-    //console.log('subHomework---- :>> ', subHomework);
-    postSubmit(subHomework).then((ret) => {
-      const { success, data, errorMsg } = ret?.data || null;
-      if (success) {
-        //console.log(errorMsg);
-        message.success(errorMsg);
-      } else {
-        //console.log(errorMsg);
+    console.log(subHomework);
+    postSubmit(subHomework).then((res) => {
+      // console.log(res);
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
       }
     });
   };
-  const navigate = useNavigate();
+  //学生修改已提交的作业
+  const updateHomework = () => {
+    console.log(
+      subHomework.submitId,
+      html,
+      resourceIdList,
+      deleteResourceIdList
+    );
+
+    updateContent(
+      subHomework.submitId,
+      html
+    ).then((res) => {
+      console.log(res);
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+      }
+    })
+    updateResource(
+      subHomework.submitId,
+      resourceIdList,
+      deleteResourceIdList
+    ).then((res) => {
+      console.log(res);
+      if (res.data.success) {
+        message.success(res.data.errorMsg);
+      }
+    })
+  }
+  //优秀作业查看
   const handleGoodHomework = (
     termId: string,
     myHomeworkId: string,
@@ -241,10 +246,27 @@ export default function Detail(props: any) {
       },
     });
   };
+  //资源文件下载
+  const handleDownload = (url: string) => {
+    fetch(url, { mode: "cors" })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = url.split("/").pop()!;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+  };
 
   return (
     <div className={styles.detailALL}>
       {isSubmitted ? (
+        //修改提交作业
         <>
           <Row justify={"space-between"} className={styles.detailHeader}>
             <div className={styles.detailTitle}>作业作答</div>
@@ -252,8 +274,8 @@ export default function Detail(props: any) {
               <Button
                 onClick={() => {
                   handleGoodHomework(
-                    termId,
-                    myHomework?.homeworkId,
+                    term.termId,
+                    homeworkId,
                     showHomework
                   );
                 }}
@@ -262,13 +284,7 @@ export default function Detail(props: any) {
               </Button>
               <Button
                 type="primary"
-                onClick={() =>
-                  putChangeHomeWork(myHomeworkId, html).then((res) => {
-                    if (res.data.success) {
-                      message.success(res.data.errorMsg);
-                    }
-                  })
-                }
+                onClick={updateHomework}
               >
                 提交
               </Button>
@@ -281,10 +297,10 @@ export default function Detail(props: any) {
                 {lessonName} | {name}
               </Row>
               {/* InfoRow 封装组件 */}
-              <InfoRow label="发布人：" value={userName} />
+              <InfoRow label="发布人：" value={creator.userName} />
               <InfoRow
                 label="发布日期："
-                value={new Date(homeworkBOList?.start || "").toLocaleString(
+                value={new Date(start || "").toLocaleString(
                   "zh-CN",
                   {
                     year: "numeric",
@@ -297,7 +313,7 @@ export default function Detail(props: any) {
               />
               <InfoRow
                 label="截止日期："
-                value={new Date(homeworkBOList?.end || "").toLocaleString(
+                value={new Date(end || "").toLocaleString(
                   "zh-CN",
                   {
                     year: "numeric",
@@ -309,9 +325,47 @@ export default function Detail(props: any) {
                 )}
               />
               <Divider />
+
               <Row className={styles.info}>
                 <p className={styles["info-p"]}>题目：{info}</p>
               </Row>
+              <div className={styles.resoursListTitle}>作业资源附件</div>
+              <div
+                style={{
+                  display: infoResoursBOList.length === 0 ? "block" : "none",
+                  margin: " 7px 0 25px 40px",
+                  fontSize: "14px",
+                }}
+              >
+                暂无资源
+              </div>
+              <div className={styles.resoursList}>
+                {infoResoursBOList.map((item, index) => (
+                  <div style={{ display: "flex", margin: "7px 0 7px 40px" }}>
+                    <a
+                      href={item.url}
+                      download={item.name}
+                      className={styles.download}
+                      key={index}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <ContainerTwoTone className={styles.downloadIcon} />
+                      {item.name}
+                    </a>
+                    <Button
+                      onClick={() => handleDownload(item.url)}
+                      size="small"
+                      style={{ marginLeft: "20px" }}
+                    >
+                      下载
+                    </Button>
+
+                  </div>
+
+                ))}
+              </div>
+
               {/* 富文本控件 */}
               <Row>
                 <div
@@ -342,16 +396,14 @@ export default function Detail(props: any) {
 
           <Row gutter={24}>
             <MyUpload
-              // getResourceLists={(resourceLists) => {
-              //   setResourceLists(resourceLists);
-              // }}
-              getResourceLists={() => {}}
-              deleteResoursIdList={[]}
-              setDeleteResoursIdList={() => {}}
+              resoursBOList={subResoursBOList}
+              getNewResourceIdLists={setResourceIdList}
+              getDeleteResoursIdList={setDeleteResourceIdList}
             />
           </Row>
         </>
       ) : (
+        //首次提交作业
         <>
           <Row justify={"space-between"} className={styles.detailHeader}>
             <div className={styles.detailTitle}>作业作答</div>
@@ -359,15 +411,15 @@ export default function Detail(props: any) {
               <Button
                 onClick={() => {
                   handleGoodHomework(
-                    termId,
-                    myHomework?.homeworkId,
+                    term.termId,
+                    homeworkId,
                     showHomework
                   );
                 }}
               >
                 优秀作业查看
               </Button>
-              <Button type="primary" onClick={SubmitEvent}>
+              <Button type="primary" onClick={SubmitHomework}>
                 提交
               </Button>
             </Space>
@@ -379,10 +431,10 @@ export default function Detail(props: any) {
                 {lessonName} | {name}
               </Row>
               {/* InfoRow 封装组件 */}
-              <InfoRow label="发布人：" value={userName} />
+              <InfoRow label="发布人：" value={creator?.userName} />
               <InfoRow
                 label="发布日期："
-                value={new Date(homeworkBOList?.start || "").toLocaleString(
+                value={new Date(start || "").toLocaleString(
                   "zh-CN",
                   {
                     year: "numeric",
@@ -395,7 +447,7 @@ export default function Detail(props: any) {
               />
               <InfoRow
                 label="截止日期："
-                value={new Date(homeworkBOList?.end || "").toLocaleString(
+                value={new Date(end || "").toLocaleString(
                   "zh-CN",
                   {
                     year: "numeric",
@@ -407,9 +459,47 @@ export default function Detail(props: any) {
                 )}
               />
               <Divider />
+
               <Row className={styles.info}>
                 <p className={styles["info-p"]}>题目：{info}</p>
               </Row>
+              <div className={styles.resoursListTitle}>作业资源附件</div>
+              <div
+                style={{
+                  display: infoResoursBOList.length === 0 ? "block" : "none",
+                  margin: " 7px 0 25px 40px",
+                  fontSize: "14px",
+                }}
+              >
+                暂无资源
+              </div>
+              <div className={styles.resoursList}>
+                {infoResoursBOList.map((item, index) => (
+                  <div style={{ display: "flex", margin: "7px 0 7px 40px" }}>
+                    <a
+                      href={item.url}
+                      download={item.name}
+                      className={styles.download}
+                      key={index}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <ContainerTwoTone className={styles.downloadIcon} />
+                      {item.name}
+                    </a>
+                    <Button
+                      onClick={() => handleDownload(item.url)}
+                      size="small"
+                      style={{ marginLeft: "20px" }}
+                    >
+                      下载
+                    </Button>
+
+                  </div>
+
+                ))}
+              </div>
+
               {/* 富文本控件 */}
               <Row>
                 <div
@@ -440,12 +530,9 @@ export default function Detail(props: any) {
 
           <Row gutter={24}>
             <MyUpload
-              // getResourceLists={(resourceLists) => {
-              //   setResourceLists(resourceLists);
-              // }}
-              getResourceLists={() => {}}
-              deleteResoursIdList={[]}
-              setDeleteResoursIdList={() => {}}
+              resoursBOList={[]}
+              getNewResourceIdLists={setResourceIdList}
+              getDeleteResoursIdList={setDeleteResourceIdList}
             />
           </Row>
         </>

@@ -8,8 +8,8 @@ import { clearToken } from "../store/modules/user";
 
 // 创建实例
 const instance = axios.create({
-  // baseURL: 'https://zmhlsjk.zcmu.edu.cn',
-  baseURL: 'https://zcmu.vxpage.top',
+  baseURL: 'https://zmhlsjk.zcmu.edu.cn/api',
+  // baseURL: 'https://zcmu.vxpage.top:443',
   timeout: 20000,
 });
 
@@ -43,7 +43,7 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    return Promise.reject(error);
+    return Promise.reject(error).catch(err => { console.log(err) });
   }
 );
 

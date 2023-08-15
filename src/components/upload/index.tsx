@@ -6,33 +6,40 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Upload from "./myUpload";
 
-const { Content } = Layout;
 interface LessonId {
   //课程id
   e: string;
 }
 
 interface MyUpload {
-  getResourceLists: (data: any[]) => void;
-  deleteResoursIdList: string[]
-  setDeleteResoursIdList: (data: any[]) => void;
+  //父组件传递的资源数组（通常是修改时所需的已上传资源列表）
+  resoursBOList: any[]
+  //子传父的调用函数，用于向父组件传递新增资源id数组
+  getNewResourceIdLists: (data: any[]) => void;
+  //子传父的调用函数，用于向父组件传递删除资源id数组
+  getDeleteResoursIdList: (data: any[]) => void;
 }
 
 const UpdateLesson = (props: MyUpload) => {
-  const { getResourceLists, deleteResoursIdList, setDeleteResoursIdList } = props
+  const { resoursBOList, getNewResourceIdLists, getDeleteResoursIdList } = props
   const location = useLocation();
   const lessonId: LessonId = location.state?.lessonId;
-  //拖拽上传文件子组件传递过来的资源id列表
+  //拖拽上传文件子组件传递过来的新增资源对象数组
   const [newResourceList, setNewResourceList] = useState<any[]>([]);
-  const [resoursBOList, setresoursBOList] = useState<any[]>([]);
-  const [resourceLists, setResoursLists] = useState<string[]>();
+  //删除资源id数组
+  const [deleteResourceIdList, setDeleteResourceIdList] = useState<string[]>([]);
 
-  //遍历子组件传来的资源上传成功接口的对象数组，获取资源id列表数组并向父组件传递
+  //监听新增资源id数组，遍历子组件传来的资源上传成功接口的对象数组，获取资源id列表数组并向父组件传递
   useEffect(() => {
     const newResourceListIds = newResourceList.map((item) => item.resourceId);
     // console.log(newResourceListIds);
-    getResourceLists(newResourceListIds)
+    getNewResourceIdLists(newResourceListIds)
   }, [newResourceList]);
+  //监听删除资源id数组
+  useEffect(() => {
+    // console.log(deleteResourceIdList);
+    getDeleteResoursIdList(deleteResourceIdList)
+  }, [deleteResourceIdList]);
 
   //模块
   const [modelList, setModelList] = useState<any[]>([]);
@@ -66,26 +73,26 @@ const UpdateLesson = (props: MyUpload) => {
     setModelId(modelList?.[0]?.modelId || "");
   }, [modelList]);
 
-  const fetchLessonInfo = useCallback(() => {
-    // //console.log('getLessonUpload :>> ');
-    getLessonInfo(lessonId).then((res) => {
-      if (res.status === 200) {
-        if (res.data.success) {
-          setresoursBOList(res.data.data.resoursBOList);
-        }
-      } else {
-        message.warning("请求失败!");
-      }
-    });
-  }, [lessonId]);
+  // const fetchLessonInfo = useCallback(() => {
+  //   // //console.log('getLessonUpload :>> ');
+  //   getLessonInfo(lessonId).then((res) => {
+  //     if (res.status === 200) {
+  //       if (res.data.success) {
+  //         // setresoursBOList(res.data.data.resoursBOList);
+  //       }
+  //     } else {
+  //       message.warning("请求失败!");
+  //     }
+  //   });
+  // }, [lessonId]);
 
-  useEffect(() => {
-    if (lessonId) {
-      fetchLessonInfo();
-    } else {
-      return;
-    }
-  }, [lessonId]);
+  // useEffect(() => {
+  //   if (lessonId) {
+  //     fetchLessonInfo();
+  //   } else {
+  //     return;
+  //   }
+  // }, [lessonId]);
 
   //资源文件下载
   const handleDownload = (url: string) => {
@@ -105,9 +112,9 @@ const UpdateLesson = (props: MyUpload) => {
   };
 
   const handleClose = (id: number) => {
-    //往删除资源id数组里添加id，
     // console.log(resoursBOList[id].resourceId);
-    setDeleteResoursIdList([...deleteResoursIdList, resoursBOList[id].resourceId])
+    //往删除资源id数组里添加id，
+    setDeleteResourceIdList([...deleteResourceIdList, resoursBOList[id].resourceId])
   }
 
   return (
@@ -115,7 +122,7 @@ const UpdateLesson = (props: MyUpload) => {
       <>
         <div className={styles.outline}>
           <div>
-            <div className={styles.resoursListTitle}>资源下载</div>
+            <div className={styles.resoursListTitle}>已上传资源</div>
             <div className={styles.outlineCardContent}>
               <div
                 style={{
@@ -156,20 +163,16 @@ const UpdateLesson = (props: MyUpload) => {
 
                   //   </Button>
                   // </div>
-                  <div
-                    style={{ margin: "5px 0" }}
-                  >
+                  <div style={{ margin: "5px 0" }}>
                     <Tag
                       // color="processing"
                       closable
                       closeIcon={<CloseCircleOutlined />}
-                      // key={tag}
-                      onClose={() => handleClose(index)}
+                      key={index}
                       style={{ fontSize: "1rem", padding: "4px 7px" }}
+                      onClose={() => handleClose(index)}
                     >
-                      <span>
-                        {item.name}
-                      </span>
+                      <span>{item?.name}</span>
                     </Tag>
                   </div>
                 ))}

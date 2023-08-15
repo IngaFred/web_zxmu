@@ -21,3 +21,20 @@ export const changeWorkInfo = async (homeworkId: string, info: string) => {
   });
   return res;
 };
+//教师完整更新作业
+export const updatePublishedWork = async (
+  homeworkId: string,
+  name: string,
+  info: string,
+  resourceList: string[],
+  deletedResourceList: string[],
+) => {
+  const res = await http.put("/homework/homework", {
+    homeworkId: homeworkId,
+    name: name,
+    info: info,
+    resourceList: resourceList,
+    deletedResourceList: deletedResourceList,
+  });
+  return res;
+};
